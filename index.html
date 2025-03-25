@@ -418,37 +418,90 @@
                 margin-right: 1rem;
             }
             
-            /* Updated: Make portfolio items maintain vertical 9:16 aspect ratio on mobile */
-            .portfolio-item {
-                height: auto;
-                aspect-ratio: 9/16;
+            /* MAJOR MOBILE FIX: Force portfolio items to be 16:9 landscape */
+            .portfolio-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 3rem;
             }
             
-            /* Updated: Adjust overlay text size for mobile */
+            .portfolio-item {
+                width: 100%;
+                height: 0;
+                padding-bottom: 56.25%; /* This creates a 16:9 aspect ratio */
+                position: relative;
+            }
+            
+            .portfolio-item img,
+            .portfolio-item video {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            
+            /* Make text smaller on mobile */
             .portfolio-overlay h3 {
-                font-size: 2.2rem;
-                margin-bottom: -0.3rem;
+                font-size: 2rem;
+                margin-bottom: -0.2rem;
             }
             
             .portfolio-overlay p {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
             
-            /* Updated: Make each snippet take its own row on mobile while preserving original aspect ratios */
+            /* MAJOR MOBILE FIX: Force snippets to each take their own row */
             .snippets-grid {
-                grid-template-columns: 1fr;
-                gap: 30px;
+                display: block;
+                margin-bottom: 3rem;
             }
             
-            /* Ensure each snippet takes full width while maintaining original aspect ratio */
+            .snippet-item {
+                width: 100%;
+                margin-bottom: 3rem;
+            }
+            
+            /* Keep original aspect ratios but make each snippet take full width */
             .snippet-item.ratio-4-5,
             .snippet-item.ratio-9-16,
             .snippet-item.ratio-16-9-1,
             .snippet-item.ratio-16-9,
             .snippet-item.ratio-1-1 {
-                grid-column: 1 / -1;
                 width: 100%;
-                /* Preserve original aspect ratios */
+                display: block;
+            }
+            
+            /* Maintain aspect ratios using padding technique */
+            .snippet-item.ratio-4-5 {
+                padding-bottom: 125%; /* 5:4 aspect ratio */
+                position: relative;
+            }
+            
+            .snippet-item.ratio-9-16 {
+                padding-bottom: 177.77%; /* 9:16 aspect ratio */
+                position: relative;
+                margin-bottom: 3rem; /* Add extra space between 9:16 items */
+            }
+            
+            .snippet-item.ratio-16-9-1 {
+                padding-bottom: 56.25%; /* 16:9 aspect ratio */
+                position: relative;
+            }
+            
+            .snippet-item.ratio-1-1 {
+                padding-bottom: 100%; /* 1:1 aspect ratio */
+                position: relative;
+            }
+            
+            .snippet-item video {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
             }
             
             .dropdown-content {
