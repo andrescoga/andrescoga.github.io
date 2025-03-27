@@ -580,7 +580,7 @@
             
             /* Mobile portfolio styles */
             .portfolio-grid {
-                gap: 1rem;
+                gap: 3rem;
             }
             
             .portfolio-item {
@@ -962,7 +962,7 @@
                     link.addEventListener('click', () => {
                         hamburger.classList.remove('open');
                         mobileNav.classList.remove('open');
-                        document.body.classList.remove('no-scroll');
+                        document.body.style.overflow = ''; // Reset body overflow
                     });
                 }
             });
@@ -1016,9 +1016,14 @@
                         item.style.display = display;
                     });
                     
-                    // Close dropdowns
+                    // Close dropdowns and mobile menu
                     dropdownContent.classList.remove('show');
                     mobileDropdownContent.classList.remove('show');
+                    
+                    // Ensure body scrolling is enabled
+                    hamburger.classList.remove('open');
+                    mobileNav.classList.remove('open');
+                    document.body.style.overflow = '';
                 });
             });
             
@@ -1050,16 +1055,14 @@
                 lastScrollTop = currentScrollTop;
             });
             
-            // Prevent scrolling when mobile menu is open
-            function setNoScroll() {
+            // Toggle body scroll lock when mobile menu opens/closes
+            mobileNavToggle.addEventListener('click', () => {
                 if (mobileNav.classList.contains('open')) {
                     document.body.style.overflow = 'hidden';
                 } else {
                     document.body.style.overflow = '';
                 }
-            }
-            
-            mobileNavToggle.addEventListener('click', setNoScroll);
+            });
             
             // Handle window resize
             window.addEventListener('resize', () => {
