@@ -135,7 +135,7 @@
         .hamburger span {
             display: block;
             position: absolute;
-            height: 3px;
+            height: 2px;
             width: 100%;
             background: var(--text-color);
             border-radius: 9px;
@@ -1058,7 +1058,7 @@
             // Toggle body scroll lock when mobile menu opens/closes
             mobileNavToggle.addEventListener('click', () => {
                 if (mobileNav.classList.contains('open')) {
-                    document.body.style.overflow = 'hidden';
+                    document.body.style.overflow = '';
                 } else {
                     document.body.style.overflow = '';
                 }
