@@ -17,7 +17,7 @@
             --spacing: 2rem;
             --font-family: 'Roboto', sans-serif;
             --transition: all 0.3s ease;
-            --header-height: 80px; /* Define header height for calculations */
+            --header-height: 80px;
         }
         
         * {
@@ -92,16 +92,21 @@
             transition: var(--transition);
         }
         
-        nav ul {
+        /* Desktop Navigation */
+        .desktop-nav {
+            display: flex;
+        }
+        
+        .desktop-nav ul {
             display: flex;
             list-style: none;
         }
         
-        nav ul li {
+        .desktop-nav ul li {
             margin-left: 2.5rem;
         }
         
-        nav ul li a {
+        .desktop-nav ul li a {
             font-size: 1.35rem;
             font-weight: 400;
             letter-spacing: 0.1em;
@@ -109,19 +114,143 @@
             transition: var(--transition);
         }
         
+        /* Mobile Navigation Toggle */
+        .mobile-nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            z-index: 110;
+        }
+        
+        .hamburger {
+            width: 30px;
+            height: 20px;
+            position: relative;
+            transform: rotate(0deg);
+            transition: .5s ease-in-out;
+        }
+        
+        .hamburger span {
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: var(--text-color);
+            border-radius: 9px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+        
+        .hamburger span:nth-child(1) {
+            top: 0px;
+        }
+        
+        .hamburger span:nth-child(2), .hamburger span:nth-child(3) {
+            top: 10px;
+        }
+        
+        .hamburger span:nth-child(4) {
+            top: 20px;
+        }
+        
+        .hamburger.open span:nth-child(1) {
+            top: 10px;
+            width: 0%;
+            left: 50%;
+        }
+        
+        .hamburger.open span:nth-child(2) {
+            transform: rotate(45deg);
+        }
+        
+        .hamburger.open span:nth-child(3) {
+            transform: rotate(-45deg);
+        }
+        
+        .hamburger.open span:nth-child(4) {
+            top: 10px;
+            width: 0%;
+            left: 50%;
+        }
+        
+        /* Mobile Navigation Menu */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 105;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: translateY(-100%);
+            transition: transform 0.4s ease;
+        }
+        
+        .mobile-nav.open {
+            transform: translateY(0);
+        }
+        
+        .mobile-nav ul {
+            list-style: none;
+            text-align: center;
+        }
+        
+        .mobile-nav ul li {
+            margin: 2rem 0;
+        }
+        
+        .mobile-nav ul li a {
+            font-size: 2rem;
+            color: white;
+            transition: var(--transition);
+        }
+        
+        .mobile-nav ul li a:hover {
+            color: #e6e6e6;
+        }
+        
+        /* Mobile work dropdown */
+        .mobile-dropdown-content {
+            display: none;
+            margin-top: 1rem;
+        }
+        
+        .mobile-dropdown-content.show {
+            display: block;
+        }
+        
+        .mobile-dropdown-content a {
+            font-size: 1.5rem !important;
+            padding: 0.5rem 0;
+            display: block;
+            color: #e6e6e6 !important;
+        }
+        
         /* Text-specific background blur for scrolled header */
         header.scrolled .logo,
-        header.scrolled nav ul li a {
+        header.scrolled .desktop-nav ul li a {
             color: white;
             text-shadow: 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.6);
             position: relative;
             z-index: 2;
         }
         
-        /* Added: Header scroll behavior */
+        header.scrolled .hamburger span {
+            background: white;
+        }
+        
+        /* Header scroll behavior */
         @media (max-width: 768px) {
             header {
-                transform: translateY(1);
+                transform: translateY(0);
                 transition: transform 0.4s ease-in-out, background-color 0.3s ease;
             }
             
@@ -173,7 +302,7 @@
             display: block;
         }
         
-        .dropbtn .arrow {
+        .dropbtn .arrow, .mobile-dropbtn .arrow {
             font-size: 0.6rem;
             margin-left: 5px;
             display: inline-block;
@@ -405,6 +534,15 @@
         }
         
         @media (max-width: 768px) {
+            /* Show mobile menu toggle, hide desktop nav */
+            .mobile-nav-toggle {
+                display: block;
+            }
+            
+            .desktop-nav {
+                display: none;
+            }
+            
             .portfolio-item {
                 height: 450px;
             }
@@ -433,27 +571,16 @@
         
         @media (max-width: 480px) {
             .logo {
-            font-size: 1.33rem;
-            font-weight: 400;
-            color: var(--text-color);
-            transition: var(--transition);
-            text-align: left;
-            }    
-            .header-content {
-                flex-direction: column;
-            }
-            
-            nav ul {
-                margin-top: 1rem;
-            }
-            
-            nav ul li {
-                margin: 0 1rem;
+                font-size: 1.33rem;
+                font-weight: 400;
+                color: var(--text-color);
+                transition: var(--transition);
+                text-align: left;
             }
             
             /* Mobile portfolio styles */
             .portfolio-grid {
-                gap: 3rem;
+                gap: 1rem;
             }
             
             .portfolio-item {
@@ -490,15 +617,6 @@
                 width: 100%;
             }
             
-            /* Mobile dropdown styles */
-            .dropdown-content {
-                position: fixed;
-                width: 100%;
-                left: 0;
-                top: 60px;
-                text-align: center;
-            }
-            
             /* Mobile about section styles */
             .hello-title {
                 font-size: 2.625rem;
@@ -523,7 +641,9 @@
     <header>
         <div class="container header-content">
             <div class="logo">Andrés Escobar</div>
-            <nav>
+            
+            <!-- Desktop Navigation -->
+            <nav class="desktop-nav">
                 <ul>
                     <li class="dropdown">
                         <a href="#portfolio" class="dropbtn" data-filter="all">Work <span class="arrow">▼</span></a>
@@ -537,8 +657,34 @@
                     <li><a href="#about">About</a></li>
                 </ul>
             </nav>
+            
+            <!-- Mobile Navigation Toggle -->
+            <button class="mobile-nav-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
         </div>
     </header>
+    
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-nav">
+        <ul>
+            <li>
+                <a href="#" class="mobile-dropbtn">Work <span class="arrow">▼</span></a>
+                <div class="mobile-dropdown-content">
+                    <a href="#portfolio" data-filter="all">All Work</a>
+                    <a href="#portfolio" data-filter="edit">Editing</a>
+                    <a href="#portfolio" data-filter="motion">Motion Design</a>
+                </div>
+            </li>
+            <li><a href="#snippets">Snippets</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </div>
     
     <!-- Portfolio Section -->
     <section id="portfolio" class="portfolio-section">
@@ -788,16 +934,40 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Cache DOM elements
             const header = document.querySelector('header');
+            const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+            const hamburger = document.querySelector('.hamburger');
+            const mobileNav = document.querySelector('.mobile-nav');
             const workBtn = document.querySelector('.dropbtn');
             const dropdownContent = document.querySelector('.dropdown-content');
-            const filterLinks = document.querySelectorAll('.dropdown-content a');
+            const mobileWorkBtn = document.querySelector('.mobile-dropbtn');
+            const mobileDropdownContent = document.querySelector('.mobile-dropdown-content');
+            const filterLinks = document.querySelectorAll('.dropdown-content a, .mobile-dropdown-content a');
             const portfolioItems = document.querySelectorAll('.portfolio-item');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav a');
             
             // Variables for scroll handling
             let lastScrollTop = 0;
-            let scrollThreshold = 50; // Minimum scroll amount before triggering header hide
+            let scrollThreshold = 50;
             
-            // Toggle dropdown when clicking on Work button
+            // Toggle mobile menu
+            mobileNavToggle.addEventListener('click', () => {
+                hamburger.classList.toggle('open');
+                mobileNav.classList.toggle('open');
+                document.body.classList.toggle('no-scroll');
+            });
+            
+            // Close mobile menu when clicking on a link
+            mobileNavLinks.forEach(link => {
+                if (!link.classList.contains('mobile-dropbtn')) {
+                    link.addEventListener('click', () => {
+                        hamburger.classList.remove('open');
+                        mobileNav.classList.remove('open');
+                        document.body.classList.remove('no-scroll');
+                    });
+                }
+            });
+            
+            // Toggle dropdown when clicking on Work button (desktop)
             workBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 dropdownContent.classList.toggle('show');
@@ -811,17 +981,33 @@
                 });
             });
             
+            // Toggle dropdown in mobile menu
+            mobileWorkBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                mobileDropdownContent.classList.toggle('show');
+            });
+            
             // Filter portfolio items
             filterLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const filterValue = this.getAttribute('data-filter');
                     
-                    // Update button text
-                    const arrowSpan = workBtn.querySelector('.arrow');
-                    workBtn.textContent = filterValue === 'all' ? 'Work ' : 
-                                         filterValue === 'edit' ? 'Editing ' : 'Motion Design ';
-                    workBtn.appendChild(arrowSpan);
+                    // Update button text for desktop
+                    if (workBtn) {
+                        const arrowSpan = workBtn.querySelector('.arrow');
+                        workBtn.textContent = filterValue === 'all' ? 'Work ' : 
+                                            filterValue === 'edit' ? 'Editing ' : 'Motion Design ';
+                        workBtn.appendChild(arrowSpan);
+                    }
+                    
+                    // Update button text for mobile
+                    if (mobileWorkBtn) {
+                        const arrowSpan = mobileWorkBtn.querySelector('.arrow');
+                        mobileWorkBtn.textContent = filterValue === 'all' ? 'Work ' : 
+                                                 filterValue === 'edit' ? 'Editing ' : 'Motion Design ';
+                        mobileWorkBtn.appendChild(arrowSpan);
+                    }
                     
                     // Filter items
                     portfolioItems.forEach(item => {
@@ -830,8 +1016,9 @@
                         item.style.display = display;
                     });
                     
-                    // Close dropdown
+                    // Close dropdowns
                     dropdownContent.classList.remove('show');
+                    mobileDropdownContent.classList.remove('show');
                 });
             });
             
@@ -842,10 +1029,11 @@
                 // Toggle scrolled class for styling
                 header.classList.toggle('scrolled', currentScrollTop > 10);
                 
-                // Check if we're on mobile view
+                // Check if we're on mobile view and menu is not open
                 const isMobile = window.innerWidth <= 768;
+                const isMenuOpen = mobileNav.classList.contains('open');
                 
-                if (isMobile) {
+                if (isMobile && !isMenuOpen) {
                     // If scrolling down and beyond threshold, hide header
                     if (currentScrollTop > lastScrollTop && currentScrollTop > scrollThreshold) {
                         header.classList.add('hide');
@@ -855,17 +1043,32 @@
                         header.classList.remove('hide');
                     }
                 } else {
-                    // On desktop, ensure header is always visible
+                    // On desktop or when menu is open, ensure header is always visible
                     header.classList.remove('hide');
                 }
                 
                 lastScrollTop = currentScrollTop;
             });
             
-            // Handle window resize to ensure proper header behavior
+            // Prevent scrolling when mobile menu is open
+            function setNoScroll() {
+                if (mobileNav.classList.contains('open')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
+            }
+            
+            mobileNavToggle.addEventListener('click', setNoScroll);
+            
+            // Handle window resize
             window.addEventListener('resize', () => {
                 if (window.innerWidth > 768) {
                     header.classList.remove('hide');
+                    // Reset mobile menu if window is resized
+                    hamburger.classList.remove('open');
+                    mobileNav.classList.remove('open');
+                    document.body.style.overflow = '';
                 }
             });
         });
