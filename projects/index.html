@@ -113,6 +113,8 @@
             color: var(--text-color);
             transition: var(--transition);
         }
+
+        
         
         /* Mobile Navigation Toggle */
         .mobile-nav-toggle {
@@ -237,15 +239,48 @@
         /* Text-specific background blur for scrolled header */
         header.scrolled .logo,
         header.scrolled .desktop-nav ul li a {
-            color: white;
-            text-shadow: 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.6);
-            position: relative;
+            
             z-index: 2;
         }
-        
+        header.scrolled .logo {
+            
+            position: relative;
+            transform: translateX(-50px);
+
+        }
+        header.scrolled .desktop-nav ul li a {
+            
+            position: relative;
+            transform: translateX(50px); 
+            
+        }
+
+        header.scrolled nav ul {
+            flex-direction: column;
+            transform: translateX(150px);
+        }
+
+       
+       /* header.scrolled nav {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            padding-right: 20px;
+        }
+
+
+
+        header.scrolled nav ul li {
+            margin: 10px 0;
+        }
+            */
+
+
         header.scrolled .hamburger span {
             background: white;
         }
+        
         
         /* Header scroll behavior */
         @media (max-width: 768px) {
@@ -309,13 +344,14 @@
             vertical-align: middle;
         }
         
+
         /* Scrolled dropdown styles */
         header.scrolled .dropdown-content {
             background-color: rgba(0,0,0,0.8);
         }
         
         header.scrolled .dropdown-content a {
-            color: white;
+            color: black;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
@@ -659,6 +695,8 @@
                     <li><a href="#about">About</a></li>
                 </ul>
             </nav>
+
+            
             
             <!-- Mobile Navigation Toggle -->
             <button class="mobile-nav-toggle">
@@ -934,8 +972,8 @@
                 <p>&copy; 2025 Andrés Escobar</p>
             </div>
             <div class="social-links">
-                <a href="images/AndresEscobar_Resume_2023.pdf" target="_blank">Resume</a>
-                <a href="https://www.linkedin.com/in/andrescoga/" target="_blank">LinkedIn</a>
+                <a href="#">Resume</a>
+                <a href="#">LinkedIn</a>
             </div>
         </div>
     </footer>
@@ -976,6 +1014,7 @@
                     });
                 }
             });
+            
             
             // Toggle dropdown when clicking on Work button (desktop)
             workBtn.addEventListener('click', (e) => {
