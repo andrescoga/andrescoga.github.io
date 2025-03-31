@@ -3,164 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lay Lady Lay | Andrés Escobar</title>
+    <title>Does The Grim Reaper Exist | Andrés Escobar</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400;450;475;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/main-project-styles.css">
     <style>
-        /* Base Styles (Same as main page) */
+        /* Project-specific styles */
         :root {
-            --primary-color: #161616;
-            --secondary-color: #ffffff;
-            --text-color: #333;
-            --light-gray: #f5f5f5;
-            --spacing: 2rem;
-            
-            /* Font families */
             --header-font: 'Roboto', Georgia, serif;
             --body-font: 'Roboto', Arial, sans-serif;
         }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: var(--body-font);
-            font-weight: 400;
-            font-size: 16px;
-            line-height: 1.5;
-            color: var(--text-color);
-            background-color: var(--secondary-color);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        
-        h1, h2, h3 {
-            font-family: var(--header-font);
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-        
-        h1 {
-            font-size: 48px;
-        }
-        
-        h2 {
-            font-size: 32px;
-        }
-        
-        h3 {
-            font-size: 24px;
-        }
-        
-        p {
-            margin-bottom: 1rem;
-            line-height: 1.5;
-        }
-        
-        a {
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s ease;
-        }
-        
-        /* Layout */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 var(--spacing);
-        }
-        
-        section {
-            padding: 4rem 0;
-        }
-        
-        /* Header (Same as main page) */
-        header {
-            padding: 4rem 0 3rem;
-            background-color: var(--secondary-color);
-            margin-bottom: 2rem;
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-family: var(--header-font);
-            font-size: 2rem;
-            font-weight: 400;
-            letter-spacing: normal;
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-        
-        nav ul li {
-            margin-left: 2.5rem;
-        }
-        
-        nav ul li a {
-            position: relative;
-            font-family: var(--body-font);
-            font-size: 1.5rem;
-            font-weight: 380;
-            letter-spacing: 0.1em;
-        }
-        
-        /* Dropdown styles (Same as main page) */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: white;
-            min-width: 180px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
-            z-index: 10;
-            border-radius: 4px;
-            top: calc(100% + 10px);
-            left: 0;
-        }
-        
-        .dropdown-content a {
-            padding: 12px 16px;
-            display: block;
-            text-align: left;
-            font-size: 1.1rem;
-            border-bottom: 1px solid #f5f5f5;
-        }
-        
-        .dropdown-content a:last-child {
-            border-bottom: none;
-        }
-        
-        .dropdown-content a:hover {
-            background-color: #f5f5f5;
-        }
-        
-        .dropdown-content.show {
-            display: block;
-        }
-        
-        .dropbtn .arrow {
-            font-size: 0.6rem;
-            margin-left: 5px;
-            display: inline-block;
-            vertical-align: middle;
-        }
-        
-        /* Project Detail Styles (New) */
+        /* Project Detail Styles */
         .project-detail {
             padding: 2rem 0 6rem;
         }
@@ -198,14 +53,17 @@
         }
         
         .project-info {
-            display: grid;
-            grid-template-columns: 1fr 1.4fr;
-            gap: 5rem;
-            margin-bottom: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin: 0 auto 4rem;
+            max-width: 100%;
         }
         
         .project-title-area {
-            text-align: left;
+            text-align: center;
+            margin-bottom: 2rem;
         }
         
         .project-title {
@@ -222,43 +80,74 @@
         .project-description {
             font-size: 1.5rem;
             line-height: 1.6;
+            max-width: 100%;
+            margin: 0 auto;
         }
         
         .project-meta {
-            margin-top: 10rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            margin: 4rem auto;
+            display: flex;
+            justify-content: space-between;
             width: 100%;
+            max-width: 100%;
         }
         
         .meta-item {
-            width: 100%;
+            text-align: center;
         }
         
         .meta-item h4 {
-            font-size: 2rem;
-            margin-bottom: 0.2rem;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
             color: #777;
         }
         
         .meta-item p {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: 400;
-            margin-bottom: 0;
+            margin-bottom: 0.5rem;
         }
-
-        .meta-item:last-child {
-            border-right: none;
+        
+        .project-videos {
+            margin: 5rem auto;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+        
+        .video-item {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+        
+        .video-container-secondary {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            background-color: #000;
+            border-radius: 12px;
+        }
+        
+        .video-container-secondary video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            object-fit: cover;
         }
         
         .back-link {
-            display: inline-block;
-            margin-top: 10rem;
-            font-size: 1.5rem;
+            display: block;
+            margin: 3rem auto;
+            font-size: 1.0rem;
             font-weight: 350;
             color: #333;
             position: relative;
             padding-left: 1.5rem;
+            width: fit-content;
         }
         
         .back-link:before {
@@ -274,36 +163,6 @@
             transform: translateY(-50%) translateX(-5px);
         }
         
-        /* Footer (Same as main page) */
-        footer {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 2rem 0;
-        }
-        
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        footer p {
-            font-size: 14px;
-            font-weight: 400;
-            margin: 0;
-        }
-        
-        .social-links a {
-            margin-left: 1.5rem;
-            font-size: 16px;
-            font-weight: 700;
-            transition: all 0.3s ease;
-        }
-        
-        .social-links a:hover {
-            text-decoration: underline;
-        }
-        
         /* Responsive styles */
         @media (max-width: 992px) {
             .project-title {
@@ -312,10 +171,6 @@
         }
         
         @media (max-width: 768px) {
-            .project-info {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
             
             .project-title {
                 font-size: 2.5rem;
@@ -326,33 +181,39 @@
             }
             
             .project-meta {
-                grid-template-columns: 1fr 1fr 1fr
-                flex-direction: column;
-                width: 100%
-                gap: 1rem;
+                gap: 2rem;
             }
             
-            .header-content {
-                flex-direction: column;
+            /* Ensure mobile navigation toggle is visible */
+            .mobile-nav-toggle {
+                display: block;
             }
             
-            nav ul {
-                margin-top: 1rem;
-            }
-            
-            nav ul li {
-                margin-left: 1rem;
-                margin-right: 1rem;
+            /* Ensure desktop nav is hidden */
+            .desktop-nav {
+                display: none;
             }
         }
         
         @media (max-width: 576px) {
+            .project-videos {
+                gap: 0rem;
+            }
+            
             .project-title {
                 font-size: 2rem;
             }
             
-            .project-meta {
-                grid-template-columns: 1fr;
+            .project-detail {
+                padding-top: 6rem;
+            }
+            
+            .project-description {
+                font-size: 1.15rem;
+            }
+            
+            .meta-item p {
+                font-size: 1rem;
             }
         }
     </style>
@@ -361,23 +222,37 @@
     <!-- Header -->
     <header>
         <div class="container header-content">
-            <a href="../index.html" class="logo">Andrés Escobar</a>
-            <nav>
+            <div class="logo">Andrés Escobar</div>
+            
+            <!-- Desktop Navigation -->
+            <nav class="desktop-nav">
                 <ul>
-                    <li class="dropdown">
-                        <a href="../index.html#portfolio" class="dropbtn">Work <span class="arrow">▼</span></a>
-                        <div class="dropdown-content">
-                            <a href="../index.html#portfolio" data-filter="all">All Work</a>
-                            <a href="../index.html#portfolio" data-filter="edit">Editing</a>
-                            <a href="../index.html#portfolio" data-filter="motion">Motion Design</a>
-                        </div>
-                    </li>
+                    <li><a href="../index.html">Work</a></li>
                     <li><a href="../index.html#snippets">Snippets</a></li>
                     <li><a href="../index.html#about">About</a></li>
                 </ul>
             </nav>
+            
+            <!-- Mobile Navigation Toggle -->
+            <button class="mobile-nav-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
         </div>
     </header>
+
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-nav">
+        <ul>
+            <li><a href="../index.html">Work</a></li>
+            <li><a href="../index.html#snippets">Snippets</a></li>
+            <li><a href="../index.html#about">About</a></li>
+        </ul>
+    </div>
     
     <!-- Project Detail Section -->
     <section class="project-detail">
@@ -392,15 +267,14 @@
                 </div>
             </div>
 
-            <!-- Two-column layout for title and description -->
             <div class="project-info">
                 <div class="project-title-area">
-                    <h1 class="project-title">Lotetta's History</h1>
+                    <h1 class="project-title">Loretta's History</h1>
                     <p class="project-subtitle">Loretta Lynn</p>
                 </div>
                 
                 <div class="project-description">
-                    <p>We decided to create a short explainer of Loretta Lynn's iconinc career commemorating the 50th anniversary of Coal Miner's Daughter. Collaborated with Legacy's A&R and maketing team to create a piece that highlighted the influence of Loretta in Country Music.</p>
+                    <p>Worker internally with Lynn's camp to create a short explainer of Loretta Lynn's iconinc career commemorating the 50th anniversary of Coal Miner's Daughter.</p>
 
                 </div>
             </div>
@@ -422,6 +296,32 @@
                 </div>
             </div>
             
+            <div class="project-videos">
+                <div class="video-item">
+                    <div class="video-container-secondary">
+                        <video autoplay muted loop playsinline>
+                            <source src="lynn/lynn-1.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                
+                <div class="video-item">
+                    <div class="video-container-secondary">
+                        <video autoplay muted loop playsinline>
+                            <source src="lynn/lynn-2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                
+                <div class="video-item">
+                    <div class="video-container-secondary">
+                        <video autoplay muted loop playsinline>
+                            <source src="lynn/lynn-3.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+            
             <a href="../index.html#portfolio" class="back-link">Back to all projects</a>
         </div>
     </section>
@@ -433,31 +333,93 @@
                 <p>&copy; 2025 Andrés Escobar</p>
             </div>
             <div class="social-links">
-                <a href="#">Resume</a>
-                <a href="#">LinkedIn</a>
+                <a href="../images/AndresEscobar_Resume_2023.pdf" target="_blank">Resume</a>
+                <a href="https://www.linkedin.com/in/andrescoga/" target="_blank">LinkedIn</a>
             </div>
         </div>
     </footer>
     
     <script>
-        // Toggle dropdown when clicking on Work button
-        document.addEventListener('DOMContentLoaded', function() {
-            const workBtn = document.querySelector('.dropbtn');
-            const dropdownContent = document.querySelector('.dropdown-content');
-            
-            workBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                dropdownContent.classList.toggle('show');
-                
-                // Close dropdown when clicking outside
-                document.addEventListener('click', function closeDropdown(event) {
-                    if (!event.target.closest('.dropdown')) {
-                        dropdownContent.classList.remove('show');
-                        document.removeEventListener('click', closeDropdown);
-                    }
-                });
+document.addEventListener('DOMContentLoaded', () => {
+    // Cache DOM elements
+    const header = document.querySelector('header');
+    const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+    const hamburger = document.querySelector('.hamburger');
+    const mobileNav = document.querySelector('.mobile-nav');
+    const mobileWorkBtn = document.querySelector('.mobile-dropbtn');
+    const mobileDropdownContent = document.querySelector('.mobile-dropdown-content');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav a');
+    
+    // Variables for scroll handling
+    let lastScrollTop = 0;
+    let scrollThreshold = 50;
+    
+    // Toggle mobile menu
+    mobileNavToggle.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        mobileNav.classList.toggle('open');
+        document.body.classList.toggle('no-scroll');
+        console.log('Mobile menu toggled');
+    });
+    
+    // Close mobile menu when clicking on a link
+    mobileNavLinks.forEach(link => {
+        if (!link.classList.contains('mobile-dropbtn')) {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('open');
+                mobileNav.classList.remove('open');
+                document.body.style.overflow = ''; // Reset body overflow
             });
+        }
+    });
+    
+    // Toggle dropdown in mobile menu
+    if (mobileWorkBtn) {
+        mobileWorkBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileDropdownContent.classList.toggle('show');
         });
-    </script>
+    }
+    
+    // Add scroll event to handle header visibility
+    window.addEventListener('scroll', () => {
+        const currentScrollTop = window.scrollY;
+        
+        // Toggle scrolled class for styling
+        header.classList.toggle('scrolled', currentScrollTop > 10);
+        
+        // Check if we're on mobile view and menu is not open
+        const isMobile = window.innerWidth <= 768;
+        const isMenuOpen = mobileNav.classList.contains('open');
+        
+        if (isMobile && !isMenuOpen) {
+            // If scrolling down and beyond threshold, hide header
+            if (currentScrollTop > lastScrollTop && currentScrollTop > scrollThreshold) {
+                header.classList.add('hide');
+            } 
+            // If scrolling up, show header
+            else if (currentScrollTop < lastScrollTop) {
+                header.classList.remove('hide');
+            }
+        } else {
+            // On desktop or when menu is open, ensure header is always visible
+            header.classList.remove('hide');
+        }
+        
+        lastScrollTop = currentScrollTop;
+    });
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            header.classList.remove('hide');
+            // Reset mobile menu if window is resized
+            hamburger.classList.remove('open');
+            mobileNav.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+    });
+});
+</script>
 </body>
 </html>
