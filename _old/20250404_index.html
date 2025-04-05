@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andres Escobar | Video Editor & Motion Designer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/header-styles.css">
+
+    <style>
+        /* Base Styles */
+        :root {
+            --primary-color: #161616;
+            --secondary-color: #ffffff;
+            --text-color: #333;
+            --light-gray: #f5f5f5;
+            --spacing: 2rem;
+            --font-family: 'Roboto', sans-serif;
+            --transition: all 0.3s ease;
+            --header-height: 80px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-family);
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 1.5;
+            color: var(--text-color);
+            background-color: var(--secondary-color);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        h1, h2, h3 {
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        h1 { font-size: 3rem; }
+        h2 { font-size: 2rem; }
+        h3 { font-size: 1.5rem; }
+        
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--spacing);
+        }
+        
+        section {
+            padding: 4rem 0;
+        }
+        
+        
+        /* Portfolio Section */
+        #portfolio {
+            padding-top: 3rem;
+            background-color: white;
+        }
+        @media (max-width: 480px) {
+            #portfolio {
+                padding-top: 5rem;
+            }
+        }
+
+        /* .portfolio-section .container {
+    max-width: 1100px; /* Adjust this value to control how much space you want on sides *
+    margin: 0 auto; 
+        } */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0px;
+            
+            transition: var(--transition);
+            height: 550px;
+        }
+        
+        .portfolio-item:hover {
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .portfolio-item img,
+        .portfolio-item video {
+            width: 100%; 
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .portfolio-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: #2C362B;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+
+        .portfolio-item:hover::after {
+            opacity: 0.95;
+        }
+        
+        .portfolio-overlay {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px;
+            text-align: right;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
+            color: white;
+            max-width: 80%;
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .portfolio-overlay h3 {
+            margin-bottom: -0.5rem;
+            font-size: 3.5rem;
+            font-weight: 500;
+            color: white;
+        }
+
+        .portfolio-overlay p {
+            font-size: 1.5rem;
+            font-weight: 300;
+        }
+        
+        /* Snippets Section */
+        .snippets-section {
+            background-color: var(--light-gray);
+        }
+        
+        .snippets-section h2 {
+            margin-bottom: 2rem;
+        }
+        
+        .snippets-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 30px;
+        }
+        
+        .snippet-item {
+            overflow: hidden;
+            border-radius: 0px;
+        }
+        
+        .snippet-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+        
+        .snippet-item.ratio-4-5 {
+            grid-column: span 3;
+            aspect-ratio: 4/5;
+        }
+
+        /* Add this to your existing CSS for the new row with 3 videos */
+        .snippet-item.ratio-16-9 {
+            grid-column: span 6;
+            aspect-ratio: 16/9;
+        }
+        
+        .snippet-item.ratio-9-16 {
+            grid-column: span 2;
+            aspect-ratio: 9/16;
+        }
+
+        .snippet-item.ratio-16-9-1 {
+            grid-column: span 2;
+            aspect-ratio: 14/9;
+        }
+        
+        
+        .snippet-item.ratio-1-1 {
+            grid-column: span 3;
+            aspect-ratio: 1/1;
+        }
+        
+        /* About Section */
+        .about-section {
+            background-color: #ffffff;
+            padding: 8rem 0;
+        }
+
+        .hello-title {
+            font-size: 4.5rem;
+            margin-bottom: 2.5rem;
+            letter-spacing: -0.02em;
+            text-align: left;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .about-text-left {
+            font-size: 1.625rem;
+            line-height: 1.4;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .about-text-left p {
+            margin-bottom: 2.5rem;
+        }
+        
+        .get-in-touch {
+            font-size: 1.75rem;
+            margin-top: 3.5rem;
+            margin-bottom: 0.1rem;
+        }
+        
+        .email {
+            font-size: 1.5rem;
+            font-weight: 400;
+            font-style: italic;
+            margin-bottom: 0;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        footer p {
+            font-size: 0.875rem;
+            margin: 0;
+        }
+        
+        .social-links a {
+            margin-left: 1.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        
+        .social-links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 992px) {
+            .portfolio-item {
+                height: 500px;
+            }
+            
+            .about-section {
+                padding: 6rem 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            /* Show mobile menu toggle, hide desktop nav */
+            .mobile-nav-toggle {
+                display: block;
+            }
+            
+            .desktop-nav {
+                display: none;
+            }
+            
+            .portfolio-item {
+                height: 450px;
+            }
+            
+            .hello-title {
+                font-size: 3.375rem;
+                margin-bottom: 2rem;
+            }
+            
+            .about-text-left {
+                font-size: 1.375rem;
+            }
+            
+            .get-in-touch {
+                font-size: 1.625rem;
+            }
+            
+            .email {
+                font-size: 1.375rem;
+            }
+            
+            .snippets-grid {
+                gap: 40px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.33rem;
+                font-weight: 400;
+                
+                color: var(--text-color);
+                transition: var(--transition);
+                text-align: left;
+                
+            }
+            
+            /* Mobile portfolio styles */
+            .portfolio-grid {
+                gap: 0.75rem;
+            }
+            
+            .portfolio-item {
+                aspect-ratio: 16/9;
+                height: auto;
+            }
+            
+            .portfolio-overlay h3 {
+                font-size: 2rem;
+                margin-bottom: -0.2rem;
+            }
+            
+            .portfolio-overlay p {
+                font-size: 1rem;
+            }
+            
+            /* Mobile snippets styles */
+            .snippets-grid {
+                display: flex;
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .snippet-item {
+                width: 100%;
+                margin-bottom: 0;
+            }
+            
+            .snippet-item.ratio-4-5,
+            .snippet-item.ratio-9-16,
+            .snippet-item.ratio-16-9-1,
+            .snippet-item.ratio-16-9,
+            .snippet-item.ratio-1-1 {
+                width: 100%;
+            }
+            
+            /* Mobile about section styles */
+            .hello-title {
+                font-size: 2.625rem;
+            }
+            
+            .about-text-left {
+                font-size: 1rem;
+            }
+            
+            .get-in-touch {
+                font-size: 1.375rem;
+            }
+            
+            .email {
+                font-size: 1.125rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">Andrés Escobar</div>
+            
+            <!-- Desktop Navigation -->
+            <nav class="desktop-nav">
+                <ul>
+                    <li class="dropdown">
+                        <a href="#portfolio" class="dropbtn" data-filter="all">Work <span class="arrow">▼</span></a>
+                        <div class="dropdown-content">
+                            <a href="#portfolio" data-filter="all">All Work</a>
+                            <a href="#portfolio" data-filter="edit">Editing</a>
+                            <a href="#portfolio" data-filter="motion">Motion Design</a>
+                        </div>
+                    </li>
+                    <li><a href="#snippets">Snippets</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </nav>
+            
+            <!-- Mobile Navigation Toggle -->
+            <button class="mobile-nav-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+    
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-nav">
+        <ul>
+            <li>
+                <a href="#" class="mobile-dropbtn">Work <span class="arrow">▼</span></a>
+                <div class="mobile-dropdown-content">
+                    <a href="#portfolio" data-filter="all">All Work</a>
+                    <a href="#portfolio" data-filter="edit">Editing</a>
+                    <a href="#portfolio" data-filter="motion">Motion Design</a>
+                </div>
+            </li>
+            <li><a href="#snippets">Snippets</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </div>
+    
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio-section">
+        <div class="container">
+            <div class="portfolio-grid">
+                <!-- Portfolio Item 2 -->
+                <a href="projects/new-yorker.html" class="portfolio-item" data-category="edit">
+                    <video autoplay loop muted playsinline>
+                        <source src="videos/thumbnails/new-yorker.mp4" type="video/mp4">
+                    </video>
+                    <div class="portfolio-overlay">
+                        <h3>New Yorker</h3>
+                        <p>Why Does the Grim Reaper Exist</p>
+                    </div>
+                </a>
+
+                <!-- Portfolio Item 1 -->
+                <a href="projects/bob.html" class="portfolio-item" data-category="motion">
+                    <video autoplay loop muted playsinline>
+                        <source src="videos/thumbnails/lay.mp4" type="video/mp4">
+                    </video>
+                    <div class="portfolio-overlay">
+                        <h3>Bob Dylan</h3>
+                        <p>Lay Lady Lay (Official Lyric Video)</p>
+                    </div>
+                </a>
+                
+                <!-- Portfolio Item 3 -->
+                <a href="projects/harpers.html" class="portfolio-item" data-category="edit">
+                    <video autoplay loop muted playsinline>
+                        <source src="videos/thumbnails/icons.mp4" type="video/mp4">
+                    </video>
+                    <div class="portfolio-overlay">
+                        <h3>Harper's Bazaar</h3>
+                        <p>ICONS (Wreck The Plaza)</p>
+                    </div>
+                </a>
+
+                <!-- Portfolio Item 4 -->
+                <a href="projects/marco.html" class="portfolio-item" data-category="motion">
+                    <video autoplay loop muted playsinline>
+                        <source src="videos/thumbnails/marco.mp4" type="video/mp4">
+                    </video>
+                    <div class="portfolio-overlay">
+                        <h3>Marco Luka</h3>
+                        <p>Big Talk (Official Lyric Video)</p>
+                    </div>
+                </a>
+
+                <!-- Portfolio Item 5 -->
+                <a href="projects/loretta.html" class="portfolio-item" data-category="motion">
+                    <video autoplay loop muted playsinline>
+                        <source src="videos/thumbnails/loretta.mp4" type="video/mp4">
+                    </video>
+                    <div class="portfolio-overlay">
+                        <h3>Loretta Lynn</h3>
+                        <p>Celebrating Loretta's History</p>
+                    </div>
+                </a>
+
+                <!-- Portfolio Item EXTRA  -->
+                <a href="projects/elvis.html" class="portfolio-item" data-category="motion">
+                    <video autoplay loop muted playsinline>
+                        <source src="videos/thumbnails/elvis.mp4" type="video/mp4">
+                    </video>
+                    <div class="portfolio-overlay">
+                        <h3>Elvis</h3>
+                        <p>30 #1 Hits Lyric Videos</p>
+                    </div>
+                </a>
+
+                <!-- Portfolio Item 6 -->
+                <a href="projects/prince-1.html" class="portfolio-item" data-category="edit">
+                    <video autoplay loop muted playsinline>
+                        <source src="videos/thumbnails/prince.mp4" type="video/mp4">
+                    </video>
+                    <div class="portfolio-overlay">
+                        <h3>Prince</h3>
+                        <p>Musicology: 20th Anniversary</p>
+                    </div>
+                </a>
+                
+                <!-- Portfolio Item 7 -->
+                <a href="projects/meb.html" class="portfolio-item" data-category="edit">
+                    <video autoplay loop muted playsinline>
+                        <source src="videos/thumbnails/meb.mp4" type="video/mp4">
+                    </video>
+                    <div class="portfolio-overlay">
+                        <h3>Miles Davis</h3>
+                        <p>That You Not Dare To Forget</p>
+                    </div>
+                </a>
+                
+                <!-- Portfolio Item 8 -->
+                <a href="projects/shakira.html" class="portfolio-item" data-category="edit">
+                    <video autoplay loop muted playsinline>
+                        <source src="videos/thumbnails/shakira.mp4" type="video/mp4">
+                    </video>
+                    <div class="portfolio-overlay">
+                        <h3>Shakira</h3>
+                        <p>20 Years of Laundry Service</p>
+                    </div>
+                </a>
+                
+                <!-- Portfolio Item 9 -->
+                <a href="projects/prince-2.html" class="portfolio-item" data-category="edit">
+                    <video autoplay loop muted playsinline>
+                        <source src="videos/thumbnails/prince-1.mp4" type="video/mp4">
+                    </video>
+                    <div class="portfolio-overlay">
+                        <h3>Prince</h3>
+                        <p>Prince and The Revolution: Live (Official Trailer)</p>
+                    </div>
+                </a>
+
+                <!-- Portfolio Item 10 -->
+                <a href="projects/johnny.html" class="portfolio-item" data-category="edit">
+                    <img src="images/mathis.png" alt="Johnny Mathis">
+                    <div class="portfolio-overlay">
+                        <h3>Johnny Mathis</h3>
+                        <p>Have Yourself a Merry Little Christmas (Official Video)</p>
+                    </div>
+                </a>
+                
+                <!-- Portfolio Item 11 -->
+                <a href="projects/mabiland.html" class="portfolio-item" data-category="edit">
+                    <video autoplay loop muted playsinline>
+                        <source src="videos/thumbnails/mabiland.mp4" type="video/mp4">
+                    </video>
+                    <div class="portfolio-overlay">
+                        <h3>Mabiland, Juan Pablo Vega</h3>
+                        <p>Retrato</p>
+                    </div>
+                </a>
+                
+                <!-- Portfolio Item 12 -->
+                <a href="projects/tjay.html" class="portfolio-item" data-category="edit">
+                    <video autoplay loop muted playsinline>
+                        <source src="videos/thumbnails/tjay.mp4" type="video/mp4">
+                    </video>
+                    <div class="portfolio-overlay">
+                        <h3>Lil Tjay</h3>
+                        <p>Move On (Official Album Trailer)</p>
+                    </div>
+                </a>
+
+                <!-- Portfolio Item 13 -->
+                <a href="projects/log-1.html" class="portfolio-item" data-category="motion">
+                    <video autoplay loop muted playsinline>
+                        <source src="videos/thumbnails/log-1.mp4" type="video/mp4">
+                    </video>
+                    <div class="portfolio-overlay">
+                        <h3>Lamb Of God</h3>
+                        <p>On The Hook (Official Lyric Video)</p>
+                    </div>
+                </a>
+                
+                <!-- Portfolio Item 14 -->
+                <a href="projects/log-2.html" class="portfolio-item" data-category="motion">
+                    <video autoplay loop muted playsinline>
+                        <source src="videos/thumbnails/log-2.mp4" type="video/mp4">
+                    </video>
+                    <div class="portfolio-overlay">
+                        <h3>Lamb Of God</h3>
+                        <p>Reality Bath (Official Lyric Video)</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Snippets Section -->
+    <section id="snippets" class="snippets-section">
+        <div class="container">
+            <h2>Snippets & Quick Cuts</h2>
+            <div class="snippets-grid">
+                <!-- First row - two 4:5 videos -->
+                <div class="snippet-item ratio-4-5">
+                    <video autoplay muted loop playsinline>
+                        <source src="videos/miles-1.mp4" type="video/mp4">
+                    </video>
+                </div>
+                
+                <div class="snippet-item ratio-4-5">
+                    <video autoplay muted loop playsinline>
+                        <source src="videos/luther-1.mp4" type="video/mp4">
+                    </video>
+                </div>
+
+                <!-- New row - three 16:9 videos -->
+                <div class="snippet-item ratio-16-9-1">
+                    <video autoplay muted loop playsinline>
+                        <source src="videos/matis-1.mp4" type="video/mp4">
+                    </video>
+                </div>
+
+                <div class="snippet-item ratio-16-9-1">
+                    <video autoplay muted loop playsinline>
+                        <source src="videos/matis-2.mp4" type="video/mp4">
+                    </video>
+                </div>
+
+                <div class="snippet-item ratio-16-9-1">
+                    <video autoplay muted loop playsinline>
+                        <source src="videos/matis-3.mp4" type="video/mp4">
+                    </video>
+                </div>
+
+                <!-- Fourth row - two 1:1 videos -->
+                <div class="snippet-item ratio-1-1">
+                    <video autoplay muted loop playsinline>
+                        <source src="videos/tdbq.mp4" type="video/mp4">
+                    </video>
+                </div>
+                
+                <div class="snippet-item ratio-1-1">
+                    <video autoplay muted loop playsinline>
+                        <source src="videos/rosalia.mp4" type="video/mp4">
+                    </video>
+                </div>
+                
+                <!-- Third row - one 16:9 video -->
+                <div class="snippet-item ratio-16-9">
+                    <video autoplay muted loop playsinline>
+                        <source src="videos/bruce.mp4" type="video/mp4">
+                    </video>
+                </div>
+                
+                <!-- Second row - three 9:16 videos -->
+                <div class="snippet-item ratio-9-16">
+                    <video autoplay muted loop playsinline>
+                        <source src="videos/janis-2.mp4" type="video/mp4">
+                    </video>
+                </div>
+                
+                <div class="snippet-item ratio-9-16">
+                    <video autoplay muted loop playsinline>
+                        <source src="videos/snippet5.mp4" type="video/mp4">
+                    </video>
+                </div>
+                
+                <div class="snippet-item ratio-9-16">
+                    <video autoplay muted loop playsinline>
+                        <source src="videos/certified.mp4" type="video/mp4">
+                    </video>
+                </div>
+                
+                <!-- Last video -->
+                <div class="snippet-item ratio-16-9">
+                    <video autoplay muted loop playsinline>
+                        <source src="videos/billy-1.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 class="hello-title">Hello</h2>
+            <div class="about-text-left">
+                <p>I'm Andres Escobar, a video editor and motion designer currently working at Sony Music. I enjoy collaborating with creative directors, artists, and producers to create captivating visuals.</p>
+                
+                <h3 class="get-in-touch">Get in touch</h3>
+                <p class="email">andrescoga2@gmail.com</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container footer-content">
+            <div>
+                <p>&copy; 2025 Andrés Escobar</p>
+            </div>
+            <div class="social-links">
+                <a href="images/AndresEscobar_Resume_2023.pdf" target="_blank">Resume</a>
+                <a href="https://www.linkedin.com/in/andrescoga/" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cache DOM elements
+            const header = document.querySelector('header');
+            const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+            const hamburger = document.querySelector('.hamburger');
+            const mobileNav = document.querySelector('.mobile-nav');
+            const workBtn = document.querySelector('.dropbtn');
+            const dropdownContent = document.querySelector('.dropdown-content');
+            const mobileWorkBtn = document.querySelector('.mobile-dropbtn');
+            const mobileDropdownContent = document.querySelector('.mobile-dropdown-content');
+            const filterLinks = document.querySelectorAll('.dropdown-content a, .mobile-dropdown-content a');
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav a');
+            
+            // Variables for scroll handling
+            let lastScrollTop = 0;
+            let scrollThreshold = 50;
+            
+            // Toggle mobile menu
+            mobileNavToggle.addEventListener('click', () => {
+                hamburger.classList.toggle('open');
+                mobileNav.classList.toggle('open');
+                document.body.classList.toggle('no-scroll');
+            });
+            
+            // Close mobile menu when clicking on a link
+            mobileNavLinks.forEach(link => {
+                if (!link.classList.contains('mobile-dropbtn')) {
+                    link.addEventListener('click', () => {
+                        hamburger.classList.remove('open');
+                        mobileNav.classList.remove('open');
+                        document.body.style.overflow = ''; // Reset body overflow
+                    });
+                }
+            });
+            
+            // Toggle dropdown when clicking on Work button (desktop)
+            workBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                dropdownContent.classList.toggle('show');
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function closeDropdown(event) {
+                    if (!event.target.closest('.dropdown')) {
+                        dropdownContent.classList.remove('show');
+                        document.removeEventListener('click', closeDropdown);
+                    }
+                });
+            });
+            
+            // Toggle dropdown in mobile menu
+            mobileWorkBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                mobileDropdownContent.classList.toggle('show');
+            });
+            
+            // Filter portfolio items
+            filterLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const filterValue = this.getAttribute('data-filter');
+                    
+                    // Update button text for desktop
+                    if (workBtn) {
+                        const arrowSpan = workBtn.querySelector('.arrow');
+                        workBtn.textContent = filterValue === 'all' ? 'Work ' : 
+                                            filterValue === 'edit' ? 'Editing ' : 'Motion Design ';
+                        workBtn.appendChild(arrowSpan);
+                    }
+                    
+                    // Update button text for mobile
+                    if (mobileWorkBtn) {
+                        const arrowSpan = mobileWorkBtn.querySelector('.arrow');
+                        mobileWorkBtn.textContent = filterValue === 'all' ? 'Work ' : 
+                                                 filterValue === 'edit' ? 'Editing ' : 'Motion Design ';
+                        mobileWorkBtn.appendChild(arrowSpan);
+                    }
+                    
+                    // Filter items
+                    portfolioItems.forEach(item => {
+                        const display = (filterValue === 'all' || item.getAttribute('data-category') === filterValue) 
+                            ? 'block' : 'none';
+                        item.style.display = display;
+                    });
+                    
+                    // Close dropdowns and mobile menu
+                    dropdownContent.classList.remove('show');
+                    mobileDropdownContent.classList.remove('show');
+                    
+                    // Ensure body scrolling is enabled
+                    hamburger.classList.remove('open');
+                    mobileNav.classList.remove('open');
+                    document.body.style.overflow = '';
+                });
+            });
+            
+            // Add scroll event to handle header visibility
+            window.addEventListener('scroll', () => {
+                const currentScrollTop = window.scrollY;
+                
+                // Toggle scrolled class for styling
+                header.classList.toggle('scrolled', currentScrollTop > 10);
+                
+                // Check if we're on mobile view and menu is not open
+                const isMobile = window.innerWidth <= 768;
+                const isMenuOpen = mobileNav.classList.contains('open');
+                
+                if (isMobile && !isMenuOpen) {
+                    // If scrolling down and beyond threshold, hide header
+                    if (currentScrollTop > lastScrollTop && currentScrollTop > scrollThreshold) {
+                        header.classList.add('hide');
+                    } 
+                    // If scrolling up, show header
+                    else if (currentScrollTop < lastScrollTop) {
+                        header.classList.remove('hide');
+                    }
+                } else {
+                    // On desktop or when menu is open, ensure header is always visible
+                    header.classList.remove('hide');
+                }
+                
+                lastScrollTop = currentScrollTop;
+            });
+            
+            // Toggle body scroll lock when mobile menu opens/closes
+            mobileNavToggle.addEventListener('click', () => {
+                if (mobileNav.classList.contains('open')) {
+                    document.body.style.overflow = '';
+                } else {
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    header.classList.remove('hide');
+                    // Reset mobile menu if window is resized
+                    hamburger.classList.remove('open');
+                    mobileNav.classList.remove('open');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

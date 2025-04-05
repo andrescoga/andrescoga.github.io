@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Andrés Escobar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <style>
+        /* About page specific styles */
+        .about-container {
+            display: flex;
+            flex-direction: row;
+            gap: 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+        
+        .about-photo {
+            flex: 1;
+            max-width: 40%;
+        }
+        
+        .about-photo img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+        
+        .about-content {
+            flex: 1.5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .about-title {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+        
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        
+        .about-cta {
+            margin-top: 1rem;
+        }
+        
+        .about-cta h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .about-cta p {
+            font-size: 1.2rem;
+            font-weight: 400;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+        
+        .social-about {
+            margin-top: 2rem;
+        }
+        
+        .social-about a {
+            display: inline-block;
+            margin-right: 1.5rem;
+            font-size: 1rem;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+        
+        .social-about a:hover {
+            color: #000;
+            text-decoration: underline;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 992px) {
+            .about-container {
+                padding: 5rem 2rem;
+                gap: 3rem;
+            }
+            
+            .about-title {
+                font-size: 2.5rem;
+                margin-bottom: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .about-container {
+                flex-direction: column;
+                padding: 4rem 2rem;
+                gap: 2rem;
+            }
+            
+            .about-photo {
+                max-width: 100%;
+            }
+            
+            .about-title {
+                font-size: 2.25rem;
+                margin-bottom: 1.25rem;
+            }
+            
+            .about-text {
+                font-size: 1rem;
+            }
+            
+            .about-cta h3 {
+                font-size: 1.375rem;
+            }
+            
+            .about-cta p {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .about-container {
+                padding: 3rem 1.5rem;
+                gap: 1.5rem;
+            }
+            
+            .about-title {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+            
+            .social-about a {
+                margin-right: 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="index.html" class="logo">Andrés Escobar</a>
+            
+            <!-- Desktop Navigation -->
+            <nav class="desktop-nav">
+                <ul>
+                    <li><a href="../index.html">Work</a></li>
+                    <li><a href="snippets.html">Snippets</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+            
+            <!-- Mobile Navigation Toggle -->
+            <button class="mobile-nav-toggle" aria-label="Toggle mobile menu">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Menu -->
+    <nav class="mobile-nav">
+        <button class="mobile-close" aria-label="Close menu"></button>
+        <ul>
+            <li><a href="index.html">Work</a></li>
+            <li><a href="snippets.html">Snippets</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+    </nav>
+    
+    <!-- About Section -->
+    <section class="about-page">
+        <div class="about-container">
+            <div class="about-photo">
+                <!-- Replace with your photo -->
+                <img src="images/profile.jpg" alt="Andrés Escobar">
+            </div>
+            
+            <div class="about-content">
+                <!-- <h1 class="about-title">About Me</h1> -->
+                
+                <div class="about-text">
+                    <p>I'm Andrés Escobar, a video editor and motion designer currently working at Sony Music. With over 10 years of experience in the fashion and music industry, I specialize in creating visual narratives for music videos, promotional content, and documentary pieces.</p>
+                    
+                    <p>I have been fortunate to collaborate with directors, artists, and producers to craft visuals that enhance storytelling and engage audiences. I'm particularly passionate about exploring different mediums that complements the story and brings the artists' visions to life.</p>
+                    
+                </div>
+                
+                <div class="about-cta">
+                    
+                    <p>andrescoga2@gmail.com</p>
+                    
+                    <div class="social-about">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container footer-content">
+            <div>
+                <p>&copy; 2025 Andrés Escobar</p>
+            </div>
+            <div class="social-links">
+                <a href="images/AndresEscobar_Resume_2023.pdf" target="_blank" rel="noopener">Resume</a>
+                <a href="https://www.linkedin.com/in/andrescoga/" target="_blank" rel="noopener">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="js/main.js"></script>
+</body>
+</html>
