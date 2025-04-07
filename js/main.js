@@ -6,6 +6,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileClose = document.querySelector('.mobile-close');
     const mobileNavLinks = document.querySelectorAll('.mobile-nav a');
     
+    // Desktop dropdown elements
+    const dropdown = document.querySelector('.dropdown');
+    const dropbtn = document.querySelector('.dropbtn');
+    const dropdownContent = document.querySelector('.dropdown-content');
+    
+    // Portfolio filtering elements
+    const filterLinks = document.querySelectorAll('.dropdown-content a');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+    
     // Variables for scroll handling
     let lastScrollTop = 0;
     const scrollThreshold = 50;
@@ -35,6 +44,48 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', () => {
             mobileNav.classList.remove('open');
             document.body.classList.remove('no-scroll');
+        });
+    });
+    
+    // Toggle desktop dropdown menu
+    if (dropbtn) {
+        dropbtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            dropdownContent.classList.toggle('show');
+            dropdown.classList.toggle('active');
+            
+            // Close dropdown when clicking outside
+            const closeDropdown = (event) => {
+                if (!event.target.closest('.dropdown')) {
+                    dropdownContent.classList.remove('show');
+                    dropdown.classList.remove('active');
+                    document.removeEventListener('click', closeDropdown);
+                }
+            };
+            
+            document.addEventListener('click', closeDropdown);
+        });
+    }
+    
+    // Filter portfolio items
+    filterLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const filterValue = this.getAttribute('data-filter');
+            
+            // Update active state
+            filterLinks.forEach(item => item.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Filter portfolio items
+            portfolioItems.forEach(item => {
+                const category = item.getAttribute('data-category');
+                item.style.display = (filterValue === 'all' || category === filterValue) ? 'block' : 'none';
+            });
+            
+            // Close dropdown
+            dropdownContent.classList.remove('show');
+            dropdown.classList.remove('active');
         });
     });
     
@@ -86,5 +137,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.classList.remove('no-scroll');
             }
         }, 250);
+    });
+    
+    // Initialize portfolio - show all items by default
+    portfolioItems.forEach(item => {
+        item.style.display = 'block';
     });
 });

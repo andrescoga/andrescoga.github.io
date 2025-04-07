@@ -62,7 +62,7 @@
             width: 100%;
         }
         
-        /* Improved dropdown styles */
+        /* Improved dropdown styles - Desktop only */
         .dropdown {
             position: relative;
             display: inline-block;
@@ -108,23 +108,6 @@
         
         .dropdown.active .arrow {
             transform: rotate(180deg);
-        }
-        
-        /* Mobile dropdown styles */
-        .mobile-dropdown-content {
-            display: none;
-            margin-top: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .mobile-dropdown-content.show {
-            display: block;
-        }
-        
-        .mobile-dropdown-content a {
-            display: block;
-            padding: 10px 20px;
-            font-size: 1.2rem;
         }
         
         /* Additional responsive adjustments */
@@ -174,8 +157,8 @@
                             <a href="#" data-filter="motion">Motion Design</a>
                         </div>
                     </li>
-                    <li><a href="snippets.html">Snippets</a></li>
-                    <li><a href="about.html">About</a></li>
+                    <li><a href="projects/snippets.html">Snippets</a></li>
+                    <li><a href="projects/about.html">About</a></li>
                 </ul>
             </nav>
             
@@ -193,14 +176,7 @@
     <nav class="mobile-nav">
         <button class="mobile-close" aria-label="Close menu"></button>
         <ul>
-            <li class="dropdown-mobile">
-                <a href="#" class="mobile-dropbtn">Work <span class="arrow">▼</span></a>
-                <div class="mobile-dropdown-content">
-                    <a href="#" data-filter="all">All Work</a>
-                    <a href="#" data-filter="edit">Editing</a>
-                    <a href="#" data-filter="motion">Motion Design</a>
-                </div>
-            </li>
+            <li><a href="#portfolio">Work</a></li>
             <li><a href="snippets.html">Snippets</a></li>
             <li><a href="about.html">About</a></li>
         </ul>
@@ -239,9 +215,7 @@
 
                 <!-- Portfolio Item 4 -->
                 <a href="projects/marco.html" class="portfolio-item" data-category="motion">
-                    <video autoplay loop muted playsinline>
-                        <source src="videos/thumbnails/marco.mp4" type="video/mp4">
-                    </video>
+                    <img src="images/marco.jpg" alt="Marco Luka">
                     <div class="portfolio-overlay">
                         <h3>Marco Luka</h3>
                         <p>Big Talk (Official Lyric Video)</p>
@@ -283,7 +257,7 @@
                 </a>
                 
                 <a href="projects/shakira.html" class="portfolio-item" data-category="edit">
-                    <img src="images/shakira.jpg" alt="Prince">
+                    <img src="images/shakira.jpg" alt="Shakira">
                     <div class="portfolio-overlay">
                         <h3>Shakira</h3>
                         <p>20 Years of Laundry Service</p>
@@ -291,9 +265,7 @@
                 </a>
                 
                 <a href="projects/prince-2.html" class="portfolio-item" data-category="edit">
-                    <video autoplay loop muted playsinline>
-                        <source src="videos/thumbnails/prince-1.mp4" type="video/mp4">
-                    </video>
+                    <img src="images/prince-2.jpg" alt="prince-2">
                     <div class="portfolio-overlay">
                         <h3>Prince</h3>
                         <p>Prince and The Revolution: Live (Official Trailer)</p>
@@ -309,9 +281,7 @@
                 </a>
                 
                 <a href="projects/mabiland.html" class="portfolio-item" data-category="edit">
-                    <video autoplay loop muted playsinline>
-                        <source src="videos/thumbnails/mabiland.mp4" type="video/mp4">
-                    </video>
+                    <img src="images/mabiland.jpg" alt="Mabiland">
                     <div class="portfolio-overlay">
                         <h3>Mabiland, Juan Pablo Vega</h3>
                         <p>Retrato</p>
@@ -319,9 +289,7 @@
                 </a>
                 
                 <a href="projects/tjay.html" class="portfolio-item" data-category="edit">
-                    <video autoplay loop muted playsinline>
-                        <source src="videos/thumbnails/tjay.mp4" type="video/mp4">
-                    </video>
+                    <img src="images/tjay.jpg" alt="Tjay">
                     <div class="portfolio-overlay">
                         <h3>Lil Tjay</h3>
                         <p>Move On (Official Album Trailer)</p>
@@ -329,9 +297,7 @@
                 </a>
 
                 <a href="projects/log-1.html" class="portfolio-item" data-category="motion">
-                    <video autoplay loop muted playsinline>
-                        <source src="videos/thumbnails/log-1.mp4" type="video/mp4">
-                    </video>
+                    <img src="images/log-1.jpg" alt="log">
                     <div class="portfolio-overlay">
                         <h3>Lamb Of God</h3>
                         <p>On The Hook (Official Lyric Video)</p>
@@ -339,9 +305,7 @@
                 </a>
                 
                 <a href="projects/log-2.html" class="portfolio-item" data-category="motion">
-                    <video autoplay loop muted playsinline>
-                        <source src="videos/thumbnails/log-2.mp4" type="video/mp4">
-                    </video>
+                    <img src="images/log-2.jpg" alt="log-2">
                     <div class="portfolio-overlay">
                         <h3>Lamb Of God</h3>
                         <p>Reality Bath (Official Lyric Video)</p>
@@ -367,87 +331,5 @@
     </footer>
     
     <script src="js/main.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Cache DOM elements
-            const dropdown = document.querySelector('.dropdown');
-            const dropbtn = document.querySelector('.dropbtn');
-            const dropdownContent = document.querySelector('.dropdown-content');
-            const mobileDropbtn = document.querySelector('.mobile-dropbtn');
-            const mobileDropdownContent = document.querySelector('.mobile-dropdown-content');
-            const filterLinks = document.querySelectorAll('.dropdown-content a, .mobile-dropdown-content a');
-            const portfolioItems = document.querySelectorAll('.portfolio-item');
-            
-            // Toggle dropdown menu when clicking on Work button (desktop)
-            if (dropbtn) {
-                dropbtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    dropdownContent.classList.toggle('show');
-                    dropdown.classList.toggle('active');
-                    
-                    // Close dropdown when clicking outside
-                    document.addEventListener('click', function closeDropdown(event) {
-                        if (!event.target.closest('.dropdown')) {
-                            dropdownContent.classList.remove('show');
-                            dropdown.classList.remove('active');
-                            document.removeEventListener('click', closeDropdown);
-                        }
-                    });
-                });
-            }
-            
-            // Toggle dropdown in mobile menu
-            if (mobileDropbtn) {
-                mobileDropbtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    mobileDropdownContent.classList.toggle('show');
-                });
-            }
-            
-            // Filter portfolio items
-            filterLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const filterValue = this.getAttribute('data-filter');
-                    
-                    // Update active state and close dropdown
-                    filterLinks.forEach(item => item.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Filter portfolio items
-                    portfolioItems.forEach(item => {
-                        const category = item.getAttribute('data-category');
-                        if (filterValue === 'all' || category === filterValue) {
-                            item.style.display = 'block';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
-                    
-                    // Close dropdowns
-                    dropdownContent.classList.remove('show');
-                    dropdown.classList.remove('active');
-                    mobileDropdownContent.classList.remove('show');
-                    
-                    // Close mobile menu if open
-                    const mobileNav = document.querySelector('.mobile-nav');
-                    const hamburger = document.querySelector('.hamburger');
-                    mobileNav.classList.remove('open');
-                    hamburger.classList.remove('open');
-                    document.body.classList.remove('no-scroll');
-                });
-            });
-            
-            // Show all items by default (initial state)
-            const showAllItems = () => {
-                portfolioItems.forEach(item => {
-                    item.style.display = 'block';
-                });
-            };
-            
-            // Initialize the portfolio
-            showAllItems();
-        });
-    </script>
 </body>
 </html>
