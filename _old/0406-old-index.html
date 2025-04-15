@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andres Escobar | Video Editor & Motion Designer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/portfolio-styles.css">
+    
+    <style>
+        /* Custom thumbnail styles */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            margin-bottom: 15rem;
+        }
+        
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 5/1;  /* Slim 5:1 aspect ratio */
+            height: auto;       /* Auto height based on aspect ratio */
+            width: 100%;        /* Full width of container */
+            border-radius: 0px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        
+        .portfolio-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Make sure videos/images fill the container while maintaining aspect ratio */
+        .portfolio-item img,
+        .portfolio-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        
+        /* Adjust overlay for better visibility with slimmer thumbnails */
+        .portfolio-overlay {
+            position: absolute;
+            bottom: 0;          /* Position at bottom */
+            right: 0;           /* Position at right */
+            padding: 2rem;      /* More padding */
+            text-align: right;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
+            color: white;
+            max-width: 90%;     /* Wider overlay for slim thumbnails */
+            background: linear-gradient(to right, transparent, rgba(44, 54, 43, 0.4)); /* Subtle gradient for better text visibility */
+            width: 100%;
+        }
+        
+        /* Improved dropdown styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 160px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            z-index: 200;
+            top: 100%;
+            left: 0;
+            padding: 0.5rem 0;
+            border-radius: 4px;
+        }
+        
+        .dropdown-content.show {
+            display: block;
+        }
+        
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 8px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #f8f8f8;
+        }
+        
+        /* Smaller arrow for dropdown */
+        .arrow {
+            display: inline-block;
+            margin-left: 4px;
+            font-size: 0.6rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .dropdown.active .arrow {
+            transform: rotate(180deg);
+        }
+        
+        /* Mobile dropdown styles */
+        .mobile-dropdown-content {
+            display: none;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .mobile-dropdown-content.show {
+            display: block;
+        }
+        
+        .mobile-dropdown-content a {
+            display: block;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+        }
+        
+        /* Additional responsive adjustments */
+        @media (max-width: 768px) {
+            .portfolio-grid {
+                gap: 2rem;
+            }
+            
+            .portfolio-item {
+                aspect-ratio: 2.5/1;  /* Slightly less wide on smaller screens */
+            }
+            
+            .portfolio-overlay {
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .portfolio-grid {
+                gap: 1.5rem;
+            }
+            
+            .portfolio-item {
+                aspect-ratio: 2/1;  /* Even less wide on mobile */
+            }
+            
+            .portfolio-overlay {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="index.html" class="logo">Andrés Escobar</a>
+            
+            <!-- Desktop Navigation -->
+            <nav class="desktop-nav">
+                <ul>
+                    <li class="dropdown">
+                        <a href="#portfolio" class="dropbtn">Work <span class="arrow">▼</span></a>
+                        <div class="dropdown-content">
+                            <a href="#" data-filter="all">All Work</a>
+                            <a href="#" data-filter="edit">Editing</a>
+                            <a href="#" data-filter="motion">Motion Design</a>
+                        </div>
+                    </li>
+                    <li><a href="projects/snippets.html">Snippets</a></li>
+                    <li><a href="projects/about.html">About</a></li>
+                </ul>
+            </nav>
+            
+            <!-- Mobile Navigation Toggle -->
+            <button class="mobile-nav-toggle" aria-label="Toggle mobile menu">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Menu -->
+    <nav class="mobile-nav">
+        <button class="mobile-close" aria-label="Close menu"></button>
+        <ul>
+            <li class="dropdown-mobile">
+                <a href="#" class="mobile-dropbtn">Work <span class="arrow">▼</span></a>
+                <div class="mobile-dropdown-content">
+                    <a href="#" data-filter="all">All Work</a>
+                    <a href="#" data-filter="edit">Editing</a>
+                    <a href="#" data-filter="motion">Motion Design</a>
+                </div>
+            </li>
+            <li><a href="snippets.html">Snippets</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio-section">
+        <div class="container">
+            <div class="portfolio-grid">
+                <!-- Portfolio Item 1 -->
+                <a href="projects/new-yorker.html" class="portfolio-item" data-category="edit">
+                    <img src="images/new-yorker.jpg" alt="Johnny Mathis">
+                    <div class="portfolio-overlay">
+                        <h3>New Yorker</h3>
+                        <p>Why Does the Grim Reaper Exist</p>
+                    </div>
+                </a>
+
+                <!-- Portfolio Item 2 -->
+                <a href="projects/bob.html" class="portfolio-item" data-category="motion">
+                    <img src="images/bob.jpg" alt="Johnny Mathis">
+                    <div class="portfolio-overlay">
+                        <h3>Bob Dylan</h3>
+                        <p>Lay Lady Lay (Official Lyric Video)</p>
+                    </div>
+                </a>
+                
+                <!-- Portfolio Item 3 -->
+                <a href="projects/harpers.html" class="portfolio-item" data-category="edit">
+                    <img src="images/icons.jpg" alt="Prince">
+                    <div class="portfolio-overlay">
+                        <h3>Harper's Bazaar</h3>
+                        <p>ICONS (Wreck The Plaza)</p>
+                    </div>
+                </a>
+
+                <!-- Portfolio Item 4 -->
+                <a href="projects/marco.html" class="portfolio-item" data-category="motion">
+                    <img src="images/marco.jpg" alt="Marco Luka">
+                    <div class="portfolio-overlay">
+                        <h3>Marco Luka</h3>
+                        <p>Big Talk (Official Lyric Video)</p>
+                    </div>
+                </a>
+
+                <!-- Portfolio Item 5 -->
+                <a href="projects/loretta.html" class="portfolio-item" data-category="motion">
+                    <img src="images/loretta.jpg" alt="Loretta Lynn">
+                    <div class="portfolio-overlay">
+                        <h3>Loretta Lynn</h3>
+                        <p>Celebrating Loretta's History</p>
+                    </div>
+                </a>
+
+                <!-- Additional portfolio items... -->
+                <a href="projects/elvis.html" class="portfolio-item" data-category="motion">
+                    <img src="images/elvis.jpg" alt="Elvis">
+                    <div class="portfolio-overlay">
+                        <h3>Elvis</h3>
+                        <p>30 #1 Hits Lyric Videos</p>
+                    </div>
+                </a>
+
+                <a href="projects/prince-1.html" class="portfolio-item" data-category="edit">
+                    <img src="images/prince.jpg" alt="Prince">
+                    <div class="portfolio-overlay">
+                        <h3>Prince</h3>
+                        <p>Musicology: 20th Anniversary</p>
+                    </div>
+                </a>
+                
+                <a href="projects/meb.html" class="portfolio-item" data-category="edit">
+                    <img src="images/meb.jpg" alt="M.E.B.">
+                    <div class="portfolio-overlay">
+                        <h3>Miles Davis</h3>
+                        <p>That You Not Dare To Forget</p>
+                    </div>
+                </a>
+                
+                <a href="projects/shakira.html" class="portfolio-item" data-category="edit">
+                    <img src="images/shakira.jpg" alt="Shakira">
+                    <div class="portfolio-overlay">
+                        <h3>Shakira</h3>
+                        <p>20 Years of Laundry Service</p>
+                    </div>
+                </a>
+                
+                <a href="projects/prince-2.html" class="portfolio-item" data-category="edit">
+                    <img src="images/prince-2.jpg" alt="prince-2">
+                    <div class="portfolio-overlay">
+                        <h3>Prince</h3>
+                        <p>Prince and The Revolution: Live (Official Trailer)</p>
+                    </div>
+                </a>
+
+                <a href="projects/johnny.html" class="portfolio-item" data-category="edit">
+                    <img src="images/mathis.png" alt="Johnny Mathis">
+                    <div class="portfolio-overlay">
+                        <h3>Johnny Mathis</h3>
+                        <p>Have Yourself a Merry Little Christmas (Official Video)</p>
+                    </div>
+                </a>
+                
+                <a href="projects/mabiland.html" class="portfolio-item" data-category="edit">
+                    <img src="images/mabiland.jpg" alt="Mabiland">
+                    <div class="portfolio-overlay">
+                        <h3>Mabiland, Juan Pablo Vega</h3>
+                        <p>Retrato</p>
+                    </div>
+                </a>
+                
+                <a href="projects/tjay.html" class="portfolio-item" data-category="edit">
+                    <img src="images/tjay.jpg" alt="Tjay">
+                    <div class="portfolio-overlay">
+                        <h3>Lil Tjay</h3>
+                        <p>Move On (Official Album Trailer)</p>
+                    </div>
+                </a>
+
+                <a href="projects/log-1.html" class="portfolio-item" data-category="motion">
+                    <img src="images/log-1.jpg" alt="log">
+                    <div class="portfolio-overlay">
+                        <h3>Lamb Of God</h3>
+                        <p>On The Hook (Official Lyric Video)</p>
+                    </div>
+                </a>
+                
+                <a href="projects/log-2.html" class="portfolio-item" data-category="motion">
+                    <img src="images/log-2.jpg" alt="log-2">
+                    <div class="portfolio-overlay">
+                        <h3>Lamb Of God</h3>
+                        <p>Reality Bath (Official Lyric Video)</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+    
+
+    
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container footer-content">
+            <div>
+                <p>&copy; 2025 Andrés Escobar</p>
+            </div>
+            <div class="social-links">
+                <a href="images/AndresEscobar_Resume_2023.pdf" target="_blank" rel="noopener">Resume</a>
+                <a href="https://www.linkedin.com/in/andrescoga/" target="_blank" rel="noopener">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cache DOM elements
+            const dropdown = document.querySelector('.dropdown');
+            const dropbtn = document.querySelector('.dropbtn');
+            const dropdownContent = document.querySelector('.dropdown-content');
+            const mobileDropbtn = document.querySelector('.mobile-dropbtn');
+            const mobileDropdownContent = document.querySelector('.mobile-dropdown-content');
+            const filterLinks = document.querySelectorAll('.dropdown-content a, .mobile-dropdown-content a');
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+            
+            // Toggle dropdown menu when clicking on Work button (desktop)
+            if (dropbtn) {
+                dropbtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    dropdownContent.classList.toggle('show');
+                    dropdown.classList.toggle('active');
+                    
+                    // Close dropdown when clicking outside
+                    document.addEventListener('click', function closeDropdown(event) {
+                        if (!event.target.closest('.dropdown')) {
+                            dropdownContent.classList.remove('show');
+                            dropdown.classList.remove('active');
+                            document.removeEventListener('click', closeDropdown);
+                        }
+                    });
+                });
+            }
+            
+            // Toggle dropdown in mobile menu
+            if (mobileDropbtn) {
+                mobileDropbtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    mobileDropdownContent.classList.toggle('show');
+                });
+            }
+            
+            // Filter portfolio items
+            filterLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const filterValue = this.getAttribute('data-filter');
+                    
+                    // Update active state and close dropdown
+                    filterLinks.forEach(item => item.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Filter portfolio items
+                    portfolioItems.forEach(item => {
+                        const category = item.getAttribute('data-category');
+                        if (filterValue === 'all' || category === filterValue) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                    
+                    // Close dropdowns
+                    dropdownContent.classList.remove('show');
+                    dropdown.classList.remove('active');
+                    mobileDropdownContent.classList.remove('show');
+                    
+                    // Close mobile menu if open
+                    const mobileNav = document.querySelector('.mobile-nav');
+                    const hamburger = document.querySelector('.hamburger');
+                    mobileNav.classList.remove('open');
+                    hamburger.classList.remove('open');
+                    document.body.classList.remove('no-scroll');
+                });
+            });
+            
+            // Show all items by default (initial state)
+            const showAllItems = () => {
+                portfolioItems.forEach(item => {
+                    item.style.display = 'block';
+                });
+            };
+            
+            // Initialize the portfolio
+            showAllItems();
+        });
+    </script>
+</body>
+</html>
