@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             id: 'snippet-9',
-            videoSrc: 'videos/janis-2.mp4',
+            videoSrc: 'https://snippetsportfolio.b-cdn.net/janis-2.mp4',
             posterSrc: 'images/snippets/motion-09.jpg'
         },
         {
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             id: 'snippet-11',
-            videoSrc: 'videos/elvis.mp4',
+            videoSrc: 'https://snippetsportfolio.b-cdn.net/elvis.mp4',
             posterSrc: 'images/snippets/motion-11.jpg'
         },
         {
