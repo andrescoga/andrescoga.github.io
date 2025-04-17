@@ -3,334 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Andres Escobar | Video Editor & Motion Designer</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <meta name="description" content="Andrés Escobar - Portfolio showcasing editing and motion graphics work">
+    <title>Andrés Escobar</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/portfolio-styles.css">
-    
-    <style>
-        /* Custom thumbnail styles */
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-            max-width: 1000px;
-            margin: 0 auto;
-            margin-bottom: 15rem;
-        }
-        
-        .portfolio-item {
-            position: relative;
-            overflow: hidden;
-            aspect-ratio: 5/1;  /* Slim 5:1 aspect ratio */
-            height: auto;       /* Auto height based on aspect ratio */
-            width: 100%;        /* Full width of container */
-            border-radius: 0px;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-        }
-        
-        .portfolio-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-        
-        /* Make sure videos/images fill the container while maintaining aspect ratio */
-        .portfolio-item img,
-        .portfolio-item video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-        }
-        
-        /* Adjust overlay for better visibility with slimmer thumbnails */
-        .portfolio-overlay {
-            position: absolute;
-            bottom: 0;          /* Position at bottom */
-            right: 0;           /* Position at right */
-            padding: 2rem;      /* More padding */
-            text-align: right;
-            z-index: 2;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.4s ease;
-            color: white;
-            max-width: 90%;     /* Wider overlay for slim thumbnails */
-            background: linear-gradient(to right, transparent, rgba(44, 54, 43, 0.4)); /* Subtle gradient for better text visibility */
-            width: 100%;
-        }
-        
-        /* Improved dropdown styles - Desktop only */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background: white;
-            min-width: 160px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            z-index: 200;
-            top: 100%;
-            left: 0;
-            padding: 0.5rem 0;
-            border-radius: 4px;
-        }
-        
-        .dropdown-content.show {
-            display: block;
-        }
-        
-        .dropdown-content a {
-            color: var(--text-color);
-            padding: 8px 16px;
-            text-decoration: none;
-            display: block;
-            text-align: left;
-            font-size: 0.9rem;
-        }
-        
-        .dropdown-content a:hover {
-            background-color: #f8f8f8;
-        }
-        
-        /* Smaller arrow for dropdown */
-        .arrow {
-            display: inline-block;
-            margin-left: 4px;
-            font-size: 0.6rem;
-            transition: transform 0.3s ease;
-        }
-        
-        .dropdown.active .arrow {
-            transform: rotate(180deg);
-        }
-        
-        /* Additional responsive adjustments */
-        @media (max-width: 768px) {
-            .portfolio-grid {
-                gap: 1rem;
-                margin-top: 2rem;
-            }
-            
-            .portfolio-item {
-                aspect-ratio: 3/1;  /* Slightly less wide on smaller screens */
-            }
-            
-            .portfolio-overlay {
-                padding: 1.5rem;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .portfolio-grid {
-                gap: 1rem;
-            }
-            
-            .portfolio-item {
-                aspect-ratio: 3/1;  /* Even less wide on mobile */
-            }
-            
-            .portfolio-overlay {
-                padding: 1rem;
-            }
-        }
-    </style>
+    <!-- Preload critical assets -->
+    <link rel="preload" href="js/reveal.js" as="script">
+    <link rel="preload" href="https://player.vimeo.com/api/player.js" as="script">
 </head>
 <body>
-    <!-- Header -->
     <header>
-        <div class="container header-content">
+        <div class="container">
             <a href="index.html" class="logo">Andrés Escobar</a>
-            
-            <!-- Desktop Navigation -->
-            <nav class="desktop-nav">
+            <nav>
                 <ul>
-                    <li class="dropdown">
-                        <a href="#portfolio" class="dropbtn">Work <span class="arrow">▼</span></a>
-                        <div class="dropdown-content">
-                            <a href="#" data-filter="all">All Work</a>
-                            <a href="#" data-filter="edit">Editing</a>
-                            <a href="#" data-filter="motion">Motion Design</a>
-                        </div>
-                    </li>
-                    <li><a href="projects/snippets.html">Snippets</a></li>
-                    <li><a href="projects/about.html">About</a></li>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="work.html"><s>Snippets</s></a></li>
+                    <li><a href="information.html">Info</a></li>
                 </ul>
             </nav>
-            
-            <!-- Mobile Navigation Toggle -->
-            <button class="mobile-nav-toggle" aria-label="Toggle mobile menu">
-                <div class="hamburger">
-                    <span></span>
-                    <span></span>
-                </div>
-            </button>
         </div>
     </header>
 
-    <!-- Mobile Navigation Menu -->
-    <nav class="mobile-nav">
-        <button class="mobile-close" aria-label="Close menu"></button>
-        <ul>
-            <li><a href="#portfolio">Work</a></li>
-            <li><a href="projects/snippets.html">Snippets</a></li>
-            <li><a href="projects/about.html">About</a></li>
-        </ul>
-    </nav>
-    
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="portfolio-section">
-        <div class="container">
-            <div class="portfolio-grid">
-                <!-- Portfolio Item 1 -->
-                <a href="projects/new-yorker.html" class="portfolio-item" data-category="edit">
-                    <img src="images/new-yorker.jpg" alt="Johnny Mathis">
-                    <div class="portfolio-overlay">
-                        <h3>New Yorker</h3>
-                        <p>Why Does the Grim Reaper Exist</p>
-                    </div>
-                </a>
-
-                <!-- Portfolio Item 2 -->
-                <a href="projects/bob.html" class="portfolio-item" data-category="motion">
-                    <img src="images/bob.jpg" alt="Johnny Mathis">
-                    <div class="portfolio-overlay">
-                        <h3>Bob Dylan</h3>
-                        <p>Lay Lady Lay (Official Lyric Video)</p>
-                    </div>
-                </a>
+    <main>
+        <div class="portfolio-container">
+            <!-- Preview area (initially empty) -->
+            <div class="preview-area" id="preview-area">
+                <!-- Video will be loaded here on hover -->
+            </div>
+            
+            <!-- Text-only project list -->
+            <div class="project-list">
+                <!-- Filter controls -->
+                <div class="filter-controls">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="edit">Editing</button>
+                    <button class="filter-btn" data-filter="motion">Motion</button>
+                </div>
                 
-                <!-- Portfolio Item 3 -->
-                <a href="projects/harpers.html" class="portfolio-item" data-category="edit">
-                    <img src="images/icons.jpg" alt="Prince">
-                    <div class="portfolio-overlay">
-                        <h3>Harper's Bazaar</h3>
-                        <p>ICONS (Wreck The Plaza)</p>
-                    </div>
-                </a>
+                <!-- Project items -->
+                <div class="projects">
+                    <a href="projects/new-yorker.html" class="project-item" data-category="edit" data-preview="images/new-yorker.jpg" data-color="#4361ee">
+                        <div class="project-info">
+                            <div class="project-title">Why Does the Grim Reaper Exist</div>
+                            <div class="project-subtitle">The New Yorker</div>
+                            <div class="project-role">Edit</div>
+                        </div>
+                    </a>
+                    
+                    <a href="projects/bob.html" class="project-item" data-category="motion" data-preview="images/bob.jpg" data-color="#f72585">
+                        <div class="project-info">
+                            <div class="project-title">Lay Lady Lay</div>
+                            <div class="project-subtitle">Bob Dylan</div>
+                            <div class="project-role">Motion</div>
+                        </div>
+                    </a>
+                    
+                    <a href="projects/harpers.html" class="project-item" data-category="edit" data-preview="images/icons.jpg" data-color="#4cc9f0">
+                        <div class="project-info">
+                            <div class="project-title"><i>ICONS</i></div>
+                            <div class="project-subtitle">Harper's Bazaar</div>
+                            <div class="project-role">Edit</div>
+                        </div>
+                    </a>
 
-                <!-- Portfolio Item 4 -->
-                <a href="projects/marco.html" class="portfolio-item" data-category="motion">
-                    <img src="images/marco.jpg" alt="Marco Luka">
-                    <div class="portfolio-overlay">
-                        <h3>Marco Luka</h3>
-                        <p>Big Talk (Official Lyric Video)</p>
-                    </div>
-                </a>
+                    <a href="projects/marco.html" class="project-item" data-category="motion" data-preview="images/marco.jpg" data-color="#560bad">
+                        <div class="project-info">
+                            <div class="project-title">Big Talk</div>
+                            <div class="project-subtitle">Marco Luka</div>
+                            <div class="project-role">Motion</div>
+                        </div>
+                    </a>
 
-                <!-- Portfolio Item 5 -->
-                <a href="projects/loretta.html" class="portfolio-item" data-category="motion">
-                    <img src="images/loretta.jpg" alt="Loretta Lynn">
-                    <div class="portfolio-overlay">
-                        <h3>Loretta Lynn</h3>
-                        <p>Celebrating Loretta's History</p>
-                    </div>
-                </a>
+                    <a href="projects/shakira.html" class="project-item" data-category="edit" data-preview="images/shakira.jpg" data-color="#fb5607">
+                        <div class="project-info">
+                            <div class="project-title">20 Years of Laundry Service</div>
+                            <div class="project-subtitle">Shakira</div>
+                            <div class="project-role">Edit</div>
+                        </div>
+                    </a>
 
-                <!-- Additional portfolio items... -->
-                <a href="projects/elvis.html" class="portfolio-item" data-category="motion">
-                    <img src="images/elvis.jpg" alt="Elvis">
-                    <div class="portfolio-overlay">
-                        <h3>Elvis</h3>
-                        <p>30 #1 Hits Lyric Videos</p>
-                    </div>
-                </a>
+                    <a href="projects/loretta.html" class="project-item" data-category="motion" data-preview="images/loretta.jpg" data-color="#f15bb5">
+                        <div class="project-info">
+                            <div class="project-title">Celebrating Loretta's History</div>
+                            <div class="project-subtitle">Loretta Lynn</div>
+                            <div class="project-role">Motion</div>
+                        </div>
+                    </a>
 
-                <a href="projects/prince-1.html" class="portfolio-item" data-category="edit">
-                    <img src="images/prince.jpg" alt="Prince">
-                    <div class="portfolio-overlay">
-                        <h3>Prince</h3>
-                        <p>Musicology: 20th Anniversary</p>
-                    </div>
-                </a>
-                
-                <a href="projects/meb.html" class="portfolio-item" data-category="edit">
-                    <img src="images/meb.jpg" alt="M.E.B.">
-                    <div class="portfolio-overlay">
-                        <h3>Miles Davis</h3>
-                        <p>That You Not Dare To Forget</p>
-                    </div>
-                </a>
-                
-                <a href="projects/shakira.html" class="portfolio-item" data-category="edit">
-                    <img src="images/shakira.jpg" alt="Shakira">
-                    <div class="portfolio-overlay">
-                        <h3>Shakira</h3>
-                        <p>20 Years of Laundry Service</p>
-                    </div>
-                </a>
-                
-                <a href="projects/prince-2.html" class="portfolio-item" data-category="edit">
-                    <img src="images/prince-2.jpg" alt="prince-2">
-                    <div class="portfolio-overlay">
-                        <h3>Prince</h3>
-                        <p>Prince and The Revolution: Live (Official Trailer)</p>
-                    </div>
-                </a>
+                    <a href="projects/mabiland.html" class="project-item" data-category="edit" data-preview="images/mabiland.jpg" data-color="#fee440">
+                        <div class="project-info">
+                            <div class="project-title">Retrato</div>
+                            <div class="project-subtitle">Mabiland & Juan Pablo Vega</div>
+                            <div class="project-role">Edit</div>
+                        </div>
+                    </a>
 
-                <a href="projects/johnny.html" class="portfolio-item" data-category="edit">
-                    <img src="images/mathis.png" alt="Johnny Mathis">
-                    <div class="portfolio-overlay">
-                        <h3>Johnny Mathis</h3>
-                        <p>Have Yourself a Merry Little Christmas (Official Video)</p>
-                    </div>
-                </a>
-                
-                <a href="projects/mabiland.html" class="portfolio-item" data-category="edit">
-                    <img src="images/mabiland.jpg" alt="Mabiland">
-                    <div class="portfolio-overlay">
-                        <h3>Mabiland, Juan Pablo Vega</h3>
-                        <p>Retrato</p>
-                    </div>
-                </a>
-                
-                <a href="projects/tjay.html" class="portfolio-item" data-category="edit">
-                    <img src="images/tjay.jpg" alt="Tjay">
-                    <div class="portfolio-overlay">
-                        <h3>Lil Tjay</h3>
-                        <p>Move On (Official Album Trailer)</p>
-                    </div>
-                </a>
-
-                <a href="projects/log-1.html" class="portfolio-item" data-category="motion">
-                    <img src="images/log-1.jpg" alt="log">
-                    <div class="portfolio-overlay">
-                        <h3>Lamb Of God</h3>
-                        <p>On The Hook (Official Lyric Video)</p>
-                    </div>
-                </a>
-                
-                <a href="projects/log-2.html" class="portfolio-item" data-category="motion">
-                    <img src="images/log-2.jpg" alt="log-2">
-                    <div class="portfolio-overlay">
-                        <h3>Lamb Of God</h3>
-                        <p>Reality Bath (Official Lyric Video)</p>
-                    </div>
-                </a>
+                    <a href="projects/elvis.html" class="project-item" data-category="motion" data-preview="images/elvis.jpg" data-color="#fee440">
+                        <div class="project-info">
+                            <div class="project-title"><i>#1 Hits</i> Visualizers</div>
+                            <div class="project-subtitle">Elvis Presley</div>
+                            <div class="project-role">Motion, Production</div>
+                        </div>
+                    </a>
+                    
+                    <a href="projects/prince.html" class="project-item" data-category="edit" data-preview="images/prince.jpg" data-color="#00bbf9">
+                        <div class="project-info">
+                            <div class="project-title">Musicology 20th Anniversary</div>
+                            <div class="project-subtitle">Prince</div>
+                            <div class="project-role">Edit</div>
+                        </div>
+                    </a>
+                    
+                    <a href="projects/meb.html" class="project-item" data-category="edit" data-preview="images/meb.jpg" data-color="#9b5de5">
+                        <div class="project-info">
+                            <div class="project-title">Making of "That You Not Dare To Forget"</div>
+                            <div class="project-subtitle">Miles Electric Band</div>
+                            <div class="project-role">Edit</div>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
-    </section>
-    
+    </main>
 
-    
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="container footer-content">
-            <div>
-                <p>&copy; 2025 Andrés Escobar</p>
-            </div>
-            <div class="social-links">
-                <a href="images/AndresEscobar_Resume_2023.pdf" target="_blank" rel="noopener">Resume</a>
-                <a href="https://www.linkedin.com/in/andrescoga/" target="_blank" rel="noopener">LinkedIn</a>
-            </div>
+    <footer>
+        <div class="container">
+            <p>© 2025</p>
         </div>
     </footer>
-    
-    <script src="js/main.js"></script>
+
+    <!-- Defer non-critical JS -->
+    <script src="js/reveal.js" defer></script>
 </body>
 </html>
