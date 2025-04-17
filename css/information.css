@@ -12,16 +12,12 @@
 }
 
 .info-text {
-    padding-right: 40px;
-    padding-left: 40px;
-    
+    padding: 0 40px;
 }
 
-.info-text h1 {
-    font-size: 2rem;
-    font-weight: 400;
-    margin-bottom: 40px;
-    letter-spacing: -0.02em;
+.text-container {
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .bio-section {
@@ -41,7 +37,7 @@
 .contact-section h2 {
     font-size: 1rem;
     font-weight: 400;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     letter-spacing: -0.02em;
 }
 
@@ -75,29 +71,16 @@
 .photo-container {
     position: relative;
     width: 100%;
-    max-width: 400px; /* Container width limit */
+    max-width: 400px;
     margin: 0 auto;
     overflow: hidden;
 }
 
-/* Static photo styling */
-.static-photo {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: cover;
-    aspect-ratio: 909 / 1280; /* Match the aspect ratio of your image */
-    filter: grayscale(100%); /* Optional: keep the grayscale effect */
-    transition: filter 0.4s ease;
-}
-
-.photo-container:hover .static-photo {
-    filter: grayscale(0%);
-}
-
-/* Hover effect for grid */
-.photo-container:hover .photo-chunk img {
-    filter: grayscale(0%);
+/* Grid chunks styling */
+.grid-chunk {
+    position: absolute;
+    background-repeat: no-repeat;
+    transition: transform 2s cubic-bezier(0.19, 1, 0.22, 1), filter 1s ease;
 }
 
 /* Responsive styles */
@@ -108,7 +91,7 @@
     }
     
     .info-text {
-        padding-right: 0;
+        padding: 0;
         order: 2;
     }
     
@@ -117,6 +100,10 @@
         position: relative;
         top: 0;
         margin-bottom: 20px;
+    }
+    
+    .text-container {
+        max-width: 100%;
     }
 }
 

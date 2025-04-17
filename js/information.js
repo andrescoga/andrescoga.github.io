@@ -7,13 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const photoGrid = photoContainer.querySelector('.photo-grid');
     
     // Configuration
-    const GRID_SIZE = 4; // 4x4 grid
-    const TOTAL_CHUNKS = GRID_SIZE * GRID_SIZE;
-    const IMAGE_PATH = 'images/andres-portrait.jpg';
+    const GRID_SIZE = 4; // 4x4 grid for 16 chunks
+    const IMAGE_PATH = 'images/andres-portrait-large.jpeg'; // Update to your actual image path
     const MAX_DISPLACEMENT = 15; // Maximum pixel displacement on hover
+    const TRANSITION_DURATION = 2; // Duration of transition in seconds
     
     // Initialize the photo grid
     function initPhotoGrid() {
+        // Clear any existing content
+        photoGrid.innerHTML = '';
+        
         // Create the grid of photo chunks
         for (let row = 0; row < GRID_SIZE; row++) {
             for (let col = 0; col < GRID_SIZE; col++) {
@@ -24,9 +27,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Create image element
                 const img = document.createElement('img');
                 img.src = IMAGE_PATH;
+                img.alt = "Andrés Escobar portrait chunk";
                 
                 // Position the image to show the correct portion in this grid cell
-                img.style.transform = `scale(${GRID_SIZE}) translate(${-col * 100 / GRID_SIZE}%, ${-row * 100 / GRID_SIZE}%)`;
+                // Without scaling it up - use percentage positioning instead
+                const xPos = -col * (100);
+                const yPos = -row * (100);
+                img.style.transform = `translate(${xPos}%, ${yPos}%)`;
+                img.style.width = `${GRID_SIZE * 100}%`;
+                img.style.height = `${GRID_SIZE * 100}%`;
+                img.style.objectFit = 'cover';
+                img.style.objectPosition = '0 0';
+                // Set transition duration from configuration
+                chunkDiv.style.transitionDuration = `${TRANSITION_DURATION}s`;
                 
                 // Add image to chunk and chunk to grid
                 chunkDiv.appendChild(img);
@@ -64,15 +77,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const vectorY = chunkCenterY - mouseY;
                 
                 // Magnitude of displacement based on distance (closer = more movement)
-                // Using inverse square to create more dramatic effect near cursor
                 const distance = Math.sqrt(vectorX * vectorX + vectorY * vectorY);
-                const strength = Math.max(0, 1 - distance * 2.5); // Fade effect beyond certain distance
+                const strength = Math.max(0, 1 - distance * 2); // Fade effect beyond certain distance
                 
                 // Calculate displacement in pixels, scaled by MAX_DISPLACEMENT
                 const moveX = vectorX * strength * MAX_DISPLACEMENT;
                 const moveY = vectorY * strength * MAX_DISPLACEMENT;
                 
-                // Apply transform - push chunks away from cursor
+                // Apply transform - push chunks away from cursor with smooth transition
                 chunk.style.transform = `translate(${moveX}px, ${moveY}px)`;
             });
         });
@@ -117,22 +129,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 chunks.forEach(chunk => {
                     chunk.style.transform = 'translate(0, 0)';
                 });
-            }, 800);
+            }, TRANSITION_DURATION * 1000); // Convert seconds to milliseconds
         });
     }
     
-    // Initialize the grid and effects
-    initPhotoGrid();
-    addHoverEffect();
-    
-    // Support for page transitions
-    document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) {
-            // Reset positions when returning to page
-            const chunks = photoGrid.querySelectorAll('.photo-chunk');
-            chunks.forEach(chunk => {
-                chunk.style.transform = 'translate(0, 0)';
-            });
-        }
-    });
+    // Check if the interactive photo container exists before initializing
+    if (photoContainer) {
+        initPhotoGrid();
+        addHoverEffect();
+        
+        // Support for page transitions and window resize
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                // Reset positions when returning to page
+                const chunks = photoGrid.querySelectorAll('.photo-chunk');
+                chunks.forEach(chunk => {
+                    chunk.style.transform = 'translate(0, 0)';
+                });
+            }
+        });
+        
+        // Re-initialize on window resize for better responsiveness
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                initPhotoGrid();
+                addHoverEffect();
+            }, 250);
+        });
+    }
 });
