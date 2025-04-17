@@ -28,40 +28,40 @@ document.addEventListener('DOMContentLoaded', function() {
     const snippetsData = [
         {
             id: 'snippet-1',
-            videoSrc: 'videos/tdbq.mp4'
+            videoSrc: 'https://snippetsportfolio.b-cdn.net/tdbq.mp4'
         },
         {
             id: 'snippet-2',
-            videoSrc: 'videos/miles.mp4'
+            videoSrc: 'https://snippetsportfolio.b-cdn.net/miles.mp4'
         },
         {
             id: 'snippet-3',
-            videoSrc: 'videos/rosalia.mp4',
+            videoSrc: 'https://snippetsportfolio.b-cdn.net/rosalia.mp4',
             posterSrc: 'images/snippets/motion-03.jpg'
         },
         {
             id: 'snippet-4',
-            videoSrc: 'videos/luther.mp4',
+            videoSrc: 'https://snippetsportfolio.b-cdn.net/luther.mp4',
             posterSrc: 'images/snippets/motion-04.jpg'
         },
         {
             id: 'snippet-5',
-            videoSrc: 'videos/shakira.mp4',
+            videoSrc: 'https://snippetsportfolio.b-cdn.net/shakira.mp4',
             posterSrc: 'images/snippets/motion-05.jpg'
         },
         {
             id: 'snippet-6',
-            videoSrc: 'videos/certified.mp4',
+            videoSrc: 'https://snippetsportfolio.b-cdn.net/certified.mp4',
             posterSrc: 'images/snippets/motion-06.jpg'
         },
         {
             id: 'snippet-7',
-            videoSrc: 'videos/bruce.mp4',
+            videoSrc: 'https://snippetsportfolio.b-cdn.net/bruce.mp4',
             posterSrc: 'images/snippets/motion-07.jpg'
         },
         {
             id: 'snippet-8',
-            videoSrc: 'videos/judas.mp4',
+            videoSrc: 'https://snippetsportfolio.b-cdn.net/judas.mp4',
             posterSrc: 'images/snippets/motion-08.jpg'
         },
         {
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             id: 'snippet-10',
-            videoSrc: 'videos/pearl.mp4',
+            videoSrc: 'https://snippetsportfolio.b-cdn.net/pearl.mp4',
             posterSrc: 'images/snippets/motion-10.jpg'
         },
         {
@@ -81,13 +81,13 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             id: 'snippet-12',
-            videoSrc: 'videos/acdc.mp4',
+            videoSrc: 'https://snippetsportfolio.b-cdn.net/acdc.mp4',
             posterSrc: 'images/snippets/motion-12.jpg'
         },
         // Add more snippets as needed
         {
             id: 'snippet-13',
-            videoSrc: 'videos/acdc-2.mp4',
+            videoSrc: 'https://snippetsportfolio.b-cdn.net/acdc-2.mp4',
             posterSrc: 'images/snippets/motion-12.jpg'
         },
     ];

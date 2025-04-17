@@ -54,6 +54,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Create mobile preview container
     function createMobilePreviewContainer() {
+        // Check if container already exists to avoid duplicates
+        if (mobilePreviewContainer) {
+            return mobilePreviewContainer;
+        }
+        
         mobilePreviewContainer = document.createElement('div');
         mobilePreviewContainer.className = 'mobile-preview-container';
         
@@ -62,7 +67,8 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileCloseButton.className = 'mobile-close-button';
         mobileCloseButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
         
-        mobileCloseButton.addEventListener('click', function() {
+        mobileCloseButton.addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent bubbling
             closeMobilePreview();
         });
         
@@ -74,6 +80,8 @@ document.addEventListener('DOMContentLoaded', function() {
         mobilePreviewContainer.appendChild(mobileVimeoContainer);
         
         document.body.appendChild(mobilePreviewContainer);
+        
+        return mobilePreviewContainer;
     }
     
     // Function to check viewport and set mobile state
@@ -87,7 +95,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!isMobileView && activeItem) {
                 resetVimeoPlayer();
                 previewContent.classList.remove('active', 'clicked');
-                activeItem.classList.remove('clicked', 'hovered');
+                if (activeItem) {
+                    activeItem.classList.remove('clicked', 'hovered');
+                }
                 activeItem = null;
             }
             
@@ -95,13 +105,19 @@ document.addEventListener('DOMContentLoaded', function() {
             if (wasMobile && mobilePreviewContainer && mobilePreviewContainer.classList.contains('active')) {
                 closeMobilePreview();
             }
+            
+            // If switching to mobile, ensure mobile container exists
+            if (isMobileView && !mobilePreviewContainer) {
+                createMobilePreviewContainer();
+            }
         }
     }
     
     // Function to handle mobile preview
     function openMobilePreview(projectItem) {
+        // Make sure mobile container exists
         if (!mobilePreviewContainer) {
-            createMobilePreviewContainer();
+            mobilePreviewContainer = createMobilePreviewContainer();
         }
         
         // Get the position of the clicked item
@@ -473,7 +489,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Click outside to close expanded view
     document.addEventListener('click', function(e) {
         // Check if click is outside project items and preview area
-        if (!e.target.closest('.project-item') && !e.target.closest('.preview-area')) {
+        if (!e.target.closest('.project-item') && !e.target.closest('.preview-area') && 
+            !e.target.closest('.mobile-preview-container')) {
             // If in expanded mode, exit it
             if (isFullscreen) {
                 toggleExpanded();
@@ -508,6 +525,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Remove the has-hovered class
                     projectsContainer.classList.remove('has-hovered');
                 }
+            }
+            
+            // Also close mobile preview if open
+            if (isMobileView && mobilePreviewContainer && 
+                mobilePreviewContainer.classList.contains('active')) {
+                closeMobilePreview();
             }
         }
     });
@@ -548,6 +571,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         // If in fullscreen, exit it
                         if (isFullscreen) {
                             toggleExpanded();
+                        }
+                        
+                        // Close mobile preview if open
+                        if (isMobileView && mobilePreviewContainer && 
+                            mobilePreviewContainer.classList.contains('active')) {
+                            closeMobilePreview();
                         }
                         
                         // Remove the has-hovered class
@@ -591,8 +620,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Listen for resize events to update mobile/desktop state
     window.addEventListener('resize', checkViewport);
     
-    // Check initial viewport size
+    // Check initial viewport size and create mobile container if needed
     checkViewport();
+    if (isMobileView && !mobilePreviewContainer) {
+        createMobilePreviewContainer();
+    }
     
     // Keyboard navigation for projects
     document.addEventListener('keydown', function(e) {
@@ -662,7 +694,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Add this CSS to ensure preview area is clean when not active
+    // Add CSS to ensure preview area is clean when not active and implement mobile styles
     const style = document.createElement('style');
     style.textContent = `
         .preview-content:not(.active) {
@@ -684,7 +716,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             .portfolio-container {
-                display: block; /* Change grid to block for mobile */
+                display: block !important; /* Change grid to block for mobile */
+                gap: 0 !important;
+            }
+            
+            .project-list {
+                width: 100% !important;
             }
             
             /* Mobile preview container styles */
@@ -695,12 +732,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 height: 0;
                 background-color: #000;
                 overflow: hidden;
-                transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
                 z-index: 1000;
+                transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             }
             
             .mobile-preview-container.active {
                 height: 56.25vw; /* 16:9 aspect ratio */
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             }
             
             .mobile-vimeo-container {
@@ -724,17 +762,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 justify-content: center;
                 cursor: pointer;
                 z-index: 10;
+                opacity: 0.8;
+            }
+            
+            .mobile-close-button:hover {
+                opacity: 1;
             }
             
             /* Style for the active project item in mobile */
             .project-item.mobile-active {
                 background-color: var(--hover-color);
+                position: relative;
             }
             
             /* Add space after active project to accommodate preview */
             .project-item.mobile-active {
-                margin-bottom: calc(56.25vw + 20px); /* Preview height + extra space */
+                margin-bottom: 56.25vw; /* Preview height */
                 transition: margin-bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            
+            /* Project items appearance on mobile */
+            .project-item {
+                transition: background-color 0.3s ease, margin-bottom 0.4s ease;
+                padding: 20px 15px;
             }
             
             /* Overlay when mobile preview is open */
@@ -745,9 +795,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background-color: rgba(0, 0, 0, 0.5);
+                background-color: rgba(0, 0, 0, 0.3);
                 z-index: 999;
                 pointer-events: none;
+            }
+            
+            /* Animation for project items when preview opens */
+            .project-item {
+                transform: translateY(0);
+                transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                            background-color 0.3s ease,
+                            margin-bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            
+            .project-item.after-active {
+                transform: translateY(56.25vw);
             }
         }
     `;
