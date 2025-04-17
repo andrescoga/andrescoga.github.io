@@ -1,0 +1,127 @@
+/* Information page specific styles */
+
+.information-container {
+    padding: 60px 0 120px;
+}
+
+.information-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.info-text {
+    padding-right: 40px;
+    padding-left: 40px;
+    
+}
+
+.info-text h1 {
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 40px;
+    letter-spacing: -0.02em;
+}
+
+.bio-section {
+    margin-bottom: 60px;
+}
+
+.bio-section p {
+    margin-bottom: 24px;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.bio-section p:last-child {
+    margin-bottom: 0;
+}
+
+.contact-section h2 {
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 0px;
+    letter-spacing: -0.02em;
+}
+
+.email-link {
+    font-size: 1rem;
+    position: relative;
+    display: inline-block;
+}
+
+.email-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--text-color);
+    transition: width var(--transition-medium);
+}
+
+.email-link:hover::after {
+    width: 100%;
+}
+
+/* Photo container and effects */
+.info-photo {
+    position: sticky;
+    top: calc(var(--header-height) + 60px);
+}
+
+.photo-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px; /* Container width limit */
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+/* Static photo styling */
+.static-photo {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 909 / 1280; /* Match the aspect ratio of your image */
+    filter: grayscale(100%); /* Optional: keep the grayscale effect */
+    transition: filter 0.4s ease;
+}
+
+.photo-container:hover .static-photo {
+    filter: grayscale(0%);
+}
+
+/* Hover effect for grid */
+.photo-container:hover .photo-chunk img {
+    filter: grayscale(0%);
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+    .information-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .info-text {
+        padding-right: 0;
+        order: 2;
+    }
+    
+    .info-photo {
+        order: 1;
+        position: relative;
+        top: 0;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .photo-container {
+        max-width: 300px;
+    }
+}
