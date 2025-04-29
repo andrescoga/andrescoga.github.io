@@ -7,7 +7,7 @@
     --hover-color: #f5f5f5;
     --transition-fast: 0.3s ease;
     --transition-medium: 0.5s ease;
-    --transition-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-slow: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     --header-height: 104px;
     --header-height-mobile: 84px;
@@ -141,7 +141,8 @@ nav ul li a.active {
     overflow: hidden;
     background-color: #fff;
     z-index: 901;
-    transition: var(--transition-slow);
+    /* Refined transition for smoother expansion/collapse */
+    transition: top var(--transition-slow), left var(--transition-slow), width var(--transition-slow), height var(--transition-slow), background-color var(--transition-slow);
 }
 
 .preview-content {
@@ -163,8 +164,8 @@ nav ul li a.active {
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
 }
 
-/* Vimeo responsive container */
-.vimeo-responsive {
+/* Video responsive container */
+.video-responsive {
     width: 100%;
     max-width: 100%;
     aspect-ratio: 16 / 9; 
@@ -175,8 +176,18 @@ nav ul li a.active {
     top: 0;
 }
 
-/* Ensure iframe fills the vimeo-responsive container */
-.vimeo-responsive iframe {
+/* Ensure video fills the container */
+.video-responsive video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Ensure iframe fills the container (for fallback) */
+.video-responsive iframe {
     position: absolute;
     top: 0;
     left: 0;
@@ -184,26 +195,9 @@ nav ul li a.active {
     height: 100%;
 }
 
-/* Filter Controls */
-.filter-controls {
-    margin: 0 0 40px;
-    display: flex;
-}
-
-.filter-btn {
-    background: none;
-    border: none;
-    padding: 5px 15px;
-    margin-right: 10px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: var(--transition-fast);
-    font-family: var(--font-family);
-}
-
-.filter-btn:hover,
-.filter-btn.active {
-    background-color: var(--hover-color);
+/* Project List Spacing */
+.projects {
+    margin-top: 40px;
 }
 
 /* Project List */
@@ -289,6 +283,7 @@ nav ul li a.active {
 /* Expanded animation styles */
 .preview-area.transitioning {
     transition: var(--transition-slow);
+    z-index: 1000;
 }
 
 /* Expanded state - full width, positioned below header */
@@ -304,12 +299,15 @@ nav ul li a.active {
 
 .preview-content.expanded,
 .vimeo-responsive.expanded {
+    transition: all var(--transition-slow);
+    opacity: 1;
     width: 100%;
     height: 100%;
 }
 
 /* Add overlay to body when video is in expanded mode */
 body.video-expanded::after {
+    transition: opacity var(--transition-slow);
     content: '';
     position: fixed;
     top: 0;
@@ -408,9 +406,6 @@ footer p {
         padding: 20px var(--side-padding);
     }
     
-    .filter-controls{
-        display: none;
-    }
     .preview-area {
         height: 40vh;
         min-height: 250px;
@@ -427,13 +422,6 @@ footer p {
 }
 
 @media (max-width: 576px) {
-   /* .filter-controls {
-        flex-wrap: wrap;
-    }
-    
-    .filter-btn {
-        margin-bottom: 10px;
-    } */
     
     .preview-area {
         height: 30vh;
@@ -573,3 +561,59 @@ footer p {
         transform: translateY(56.25vw);
     }
 }
+
+/* Loading Placeholder Styles */
+.loading-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2rem;
+    color: #888;
+    z-index: 1; /* Ensure it's above the preview content initially */
+    display: none; /* Hidden by default, shown via JS */
+    transition: opacity var(--transition-fast);
+}
+
+.preview-area.loading .loading-placeholder {
+    display: block;
+    opacity: 1;
+}
+
+.preview-area.loading .preview-content {
+    opacity: 0; /* Hide video content while loading */
+}
+
+.preview-area.expanded .video-responsive,
+.preview-area.expanded .video-responsive video,
+.preview-area.expanded .video-responsive iframe {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    max-height: calc(100vh - var(--header-height));
+}
+
+/* Add this new rule to maintain aspect ratio in expanded mode */
+.video-responsive.expanded {
+    aspect-ratio: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+}
+
+
+
+/* Initial state for cascade animation */
+.project-item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+/* Loaded state for cascade animation */
+body.loaded .project-item {
+    opacity: 1;
+    transform: translateY(0);
+}
+

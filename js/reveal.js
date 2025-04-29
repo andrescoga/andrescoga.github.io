@@ -1,13 +1,18 @@
-// Enhanced hover and click video reveal functionality with mobile optimization
+// Enhanced hover and click video reveal functionality with Bunny.net integration
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", function() {
     // Set body as loaded to trigger fade-in
-    document.body.classList.add('loaded');
+    document.body.classList.add("loaded");
+
+    // Apply cascade animation with delay
+    const allProjectItems = document.querySelectorAll(".project-item"); // Renamed variable
+    allProjectItems.forEach((item, index) => {
+        item.style.transitionDelay = `${index * 0.05}s`; // Stagger delay
+    });
     
     // Elements
     const previewArea = document.getElementById('preview-area');
     const projectItems = document.querySelectorAll('.project-item');
-    const filterButtons = document.querySelectorAll('.filter-btn');
     const projectsContainer = document.querySelector('.projects');
     
     // Create preview content container
@@ -15,42 +20,53 @@ document.addEventListener('DOMContentLoaded', function() {
     previewContent.className = 'preview-content';
     previewArea.appendChild(previewContent);
     
-    // Preload the Vimeo player API
-    const vimeoScript = document.createElement('script');
-    vimeoScript.src = 'https://player.vimeo.com/api/player.js';
-    document.head.appendChild(vimeoScript);
-    
-    // Create iframe container in advance - with improved styling
+    // Create video container with improved styling
     const container = document.createElement('div');
-    container.className = 'vimeo-responsive';
+    container.className = 'video-responsive';
     container.style.position = 'relative';
     container.style.width = '100%';
     container.style.height = '100%';
     previewContent.appendChild(container);
     
-    // Create iframe in advance
-    const iframe = document.createElement('iframe');
-    iframe.frameBorder = '0';
-    iframe.allow = 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media';
-    iframe.style.position = 'absolute';
-    iframe.style.top = '0';
-    iframe.style.left = '0';
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-    iframe.style.visibility = 'hidden'; // Initially hidden until loaded
+    // Video URLs mapping for each project
+    // Use the project href path to identify which video to show
+    const videoURLs = {
+        "projects/new-yorker.html": "https://index-videos.b-cdn.net/why_does_the_grim_reaper_exist-_-_the_new_yorker%20(1080p).mp4",
+        "projects/bob.html": "https://index-videos.b-cdn.net/bob_dylan_-_lay%2C_lady%2C_lay_(alternate_version_-_take_2)_(official_lyric_video)%20(1080p).mp4",
+        "projects/harpers.html": "https://index-videos.b-cdn.net/harper%E2%80%99s_bazaar_-_icons_2018_-_wreck_the_plaza%20(1080p).mp4",
+        "projects/marco.html": "https://index-videos.b-cdn.net/marco_luka_-_big_talk_(lyric_video)%20(1080p).mp4",
+        "projects/shakira.html": "https://index-videos.b-cdn.net/shakira_-_20_years_of_laundry_service%20(1080p).mp4",
+        "projects/loretta.html": "https://index-videos.b-cdn.net/loretta_lynn_-_celebrating_loretta's_history_in_country_music%20(1080p).mp4",
+        "projects/mabiland.html": "https://index-videos.b-cdn.net/mabiland_-_retrato_ft_%40juanpablovega%20(1080p).mp4",
+        "projects/elvis.html": "https://index-videos.b-cdn.net/elvis_presley_-_don't_be_cruel_(official_lyric_video)%20(1080p).mp4",
+        "projects/prince.html": "https://index-videos.b-cdn.net/prince_-_musicology__real_music_by_real_musicians_(20th_anniversary)%20(1080p).mp4",
+        "projects/meb.html": "https://index-videos.b-cdn.net/m.e.b._-_the_making_of__that_you_not_dare_to_forget_%20(1080p).mp4"
+    };
     
-    // Set initial src to empty to speed up later updates
-    iframe.src = 'about:blank';
-    container.appendChild(iframe);
+    // Fallback to Vimeo IDs if Bunny.net URL is not available
+    const vimeoIDs = {
+        "projects/new-yorker.html": "1076262217",
+        "projects/bob.html": "1075895355",
+        "projects/harpers.html": "645409357",
+        "projects/marco.html": "1076259389",
+        "projects/shakira.html": "1075906580",
+        "projects/loretta.html": "1075905492",
+        "projects/mabiland.html": "1075906812",
+        "projects/elvis.html": "1075906057",
+        "projects/prince.html": "1076258770",
+        "projects/meb.html": "1075906302"
+    };
     
     // Variables to track state
     let activeItem = null;
     let hoveredTimeout = null;
     let isLoaded = false;
-    let currentVideoId = null;
+    let currentVideoPath = null;
     let isFullscreen = false;
     let isMobileView = window.innerWidth < 992;
     let mobilePreviewContainer = null;
+    let videoElement = null;
+    let iframeElement = null;
     
     // Create mobile preview container
     function createMobilePreviewContainer() {
@@ -72,12 +88,12 @@ document.addEventListener('DOMContentLoaded', function() {
             closeMobilePreview();
         });
         
-        // Create a container for the Vimeo video
-        const mobileVimeoContainer = document.createElement('div');
-        mobileVimeoContainer.className = 'mobile-vimeo-container';
+        // Create a container for the video
+        const mobileVideoContainer = document.createElement('div');
+        mobileVideoContainer.className = 'mobile-video-container';
         
         mobilePreviewContainer.appendChild(mobileCloseButton);
-        mobilePreviewContainer.appendChild(mobileVimeoContainer);
+        mobilePreviewContainer.appendChild(mobileVideoContainer);
         
         document.body.appendChild(mobilePreviewContainer);
         
@@ -93,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (wasMobile !== isMobileView) {
             // If we have an active project in desktop view, reset it when switching to mobile
             if (!isMobileView && activeItem) {
-                resetVimeoPlayer();
+                resetVideoPlayer();
                 previewContent.classList.remove('active', 'clicked');
                 if (activeItem) {
                     activeItem.classList.remove('clicked', 'hovered');
@@ -127,23 +143,43 @@ document.addEventListener('DOMContentLoaded', function() {
         // Position the preview container right after the clicked item
         mobilePreviewContainer.style.top = `${rect.bottom + scrollTop}px`;
         
-        // Get the project link and its corresponding Vimeo ID
+        // Get the project link
         const projectHref = projectItem.getAttribute('href');
-        const videoId = getVimeoID(projectHref);
         
-        // Find or create the iframe in the mobile container
-        let mobileIframe = mobilePreviewContainer.querySelector('iframe');
-        if (!mobileIframe) {
-            mobileIframe = document.createElement('iframe');
-            mobileIframe.frameBorder = '0';
-            mobileIframe.allow = 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media';
-            mobileIframe.style.width = '100%';
-            mobileIframe.style.height = '100%';
-            mobilePreviewContainer.querySelector('.mobile-vimeo-container').appendChild(mobileIframe);
+        // Get the video container
+        const mobileVideoContainer = mobilePreviewContainer.querySelector('.mobile-video-container');
+        mobileVideoContainer.innerHTML = ''; // Clear previous content
+        
+        // Check if we have a Bunny.net URL for this project
+        if (videoURLs[projectHref] && videoURLs[projectHref].length > 0) {
+            // Create HTML5 video element
+            const videoEl = document.createElement('video');
+            videoEl.controls = true;
+            videoEl.autoplay = true;
+            videoEl.style.width = '100%';
+            videoEl.style.height = '100%';
+            
+            // Add source
+            const source = document.createElement('source');
+            source.src = videoURLs[projectHref];
+            source.type = 'video/mp4';
+            videoEl.appendChild(source);
+            
+            mobileVideoContainer.appendChild(videoEl);
+        } else if (vimeoIDs[projectHref]) {
+            // Fallback to Vimeo if no Bunny.net URL
+            const videoId = vimeoIDs[projectHref];
+            
+            // Create iframe for Vimeo
+            const iframe = document.createElement('iframe');
+            iframe.frameBorder = '0';
+            iframe.allow = 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media';
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.src = `https://player.vimeo.com/video/${videoId}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=0&background=0&controls=1&dnt=1`;
+            
+            mobileVideoContainer.appendChild(iframe);
         }
-        
-        // Set the Vimeo source
-        mobileIframe.src = `https://player.vimeo.com/video/${videoId}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=0&background=0&controls=1&dnt=1`;
         
         // Remove any previously set active classes
         projectItems.forEach(item => {
@@ -193,83 +229,168 @@ document.addEventListener('DOMContentLoaded', function() {
             
             document.body.classList.remove('mobile-preview-open');
             
-            // Reset iframe
-            const mobileIframe = mobilePreviewContainer.querySelector('iframe');
-            if (mobileIframe) {
-                setTimeout(() => {
-                    mobileIframe.src = 'about:blank';
-                }, 300);
-            }
+            // Clear the video container
+            const mobileVideoContainer = mobilePreviewContainer.querySelector('.mobile-video-container');
+            setTimeout(() => {
+                mobileVideoContainer.innerHTML = '';
+            }, 300);
             
             activeItem = null;
         }
     }
     
-    // Video IDs mapping for each project
-    // Use the project href path to identify which video to show
-    const vimeoIDs = {
-        "projects/new-yorker.html": "1076262217",
-        "projects/bob.html": "1075895355", // Bob Dylan video ID
-        "projects/harpers.html": "645409357",
-        "projects/marco.html": "1076259389",
-        "projects/shakira.html": "1075906580",
-        "projects/loretta.html": "1075905492",
-        "projects/mabiland.html": "1075906812",
-        "projects/elvis.html": "1075906057",
-        "projects/prince.html": "1076258770",
-        "projects/meb.html": "1075906302",
-    };
+    // Function to get video URL based on project path
+    function getVideoURL(projectPath) {
+        return videoURLs[projectPath] || "";
+    }
     
-    // Function to get Vimeo ID based on project path
+    // Function to get Vimeo ID based on project path (fallback)
     function getVimeoID(projectPath) {
         return vimeoIDs[projectPath] || "645409357"; // Default if not found
     }
     
-    // Function to quickly update iframe src and show it
-    function activateVimeoPlayer(videoId, unmute = false) {
+    // Function to show loading state
+    function showLoadingState() {
+        // Add loading class to preview area to show the loading placeholder
+        previewArea.classList.add('loading');
+        // Make sure preview content is visible but video is hidden during loading
+        previewContent.classList.add('active');
+    }
+    
+    // Function to hide loading state
+    function hideLoadingState() {
+        // Remove loading class when video is ready
+        previewArea.classList.remove('loading');
+    }
+    
+    // Function to create and activate HTML5 video player
+    function createVideoElement(videoURL, unmute = false) {
+        // Create video element if it doesn't exist
+        if (!videoElement) {
+            videoElement = document.createElement('video');
+            videoElement.style.width = '100%';
+            videoElement.style.height = '100%';
+            videoElement.style.objectFit = isFullscreen ? 'contain' : 'cover';
+            videoElement.playsInline = true;
+            videoElement.loop = true;
+            
+            // Add event listeners
+            videoElement.addEventListener('loadeddata', function() {
+                videoElement.style.visibility = 'visible';
+                hideLoadingState();
+            });
+            
+            videoElement.addEventListener('error', function() {
+                console.error('Video loading error');
+                hideLoadingState();
+            });
+            
+            container.appendChild(videoElement);
+        }
+        
+        // Update video properties
+        videoElement.muted = !unmute;
+        videoElement.controls = unmute;
+        videoElement.src = videoURL;
+        videoElement.style.visibility = 'hidden';
+        videoElement.style.objectFit = isFullscreen ? 'contain' : 'cover';
+        
+        // Play the video
+        const playPromise = videoElement.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.error('Auto-play was prevented:', error);
+                // Show play button or other UI to allow user-initiated play
+                hideLoadingState();
+            });
+        }
+        
+        return videoElement;
+    }
+    
+    // Function to create and activate Vimeo player (fallback)
+    function createIframeElement(videoId, unmute = false) {
+        // Create iframe if it doesn't exist
+        if (!iframeElement) {
+            iframeElement = document.createElement('iframe');
+            iframeElement.frameBorder = '0';
+            iframeElement.allow = 'autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media';
+            iframeElement.style.position = 'absolute';
+            iframeElement.style.top = '0';
+            iframeElement.style.left = '0';
+            iframeElement.style.width = '100%';
+            iframeElement.style.height = '100%';
+            iframeElement.style.visibility = 'hidden';
+            
+            container.appendChild(iframeElement);
+        }
+        
+        // Set muted parameter based on fullscreen state
+        const mutedParam = unmute ? '0' : '1';
+        
+        // Update iframe src
+        iframeElement.src = `https://player.vimeo.com/video/${videoId}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=${mutedParam}&background=1&controls=${unmute ? '1' : '0'}&dnt=1&transparent=1`;
+        
+        // Make iframe visible once loaded
+        iframeElement.onload = function() {
+            iframeElement.style.visibility = 'visible';
+            hideLoadingState();
+        };
+        
+        return iframeElement;
+    }
+    
+    // Function to activate the appropriate video player
+    function activateVideoPlayer(projectPath, unmute = false) {
+        // Show loading state immediately
+        showLoadingState();
+        
         // Only reload if it's a different video
-        if (currentVideoId !== videoId || !isLoaded) {
-            // First make iframe invisible during load
-            iframe.style.visibility = 'hidden';
-            
-            // Set muted parameter based on fullscreen state
-            const mutedParam = unmute ? '0' : '1';
-            
-            // Add these parameters for better filling of the space:
-            iframe.src = `https://player.vimeo.com/video/${videoId}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=${mutedParam}&background=1&controls=${unmute ? '1' : '0'}&dnt=1&transparent=1`;
-            currentVideoId = videoId;
-            isLoaded = true;
-            
-            // Make iframe visible once loaded
-            iframe.onload = function() {
-                iframe.style.visibility = 'visible';
-            };
-        } else {
-            // If already loaded, we need to update the muted state without reloading
-            // This requires accessing the Vimeo player API
-            if (window.Vimeo && window.Vimeo.Player) {
-                try {
-                    const player = new Vimeo.Player(iframe);
-                    if (unmute) {
-                        player.setVolume(1);
-                        player.setMuted(false);
-                    } else {
-                        player.setMuted(true);
-                    }
-                } catch (e) {
-                    console.log('Could not update mute state dynamically, will reload iframe instead');
-                    // If API fails, reload the iframe with the correct muted parameter
-                    iframe.style.visibility = 'hidden';
-                    const mutedParam = unmute ? '0' : '1';
-                    iframe.src = `https://player.vimeo.com/video/${videoId}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=${mutedParam}&background=1&controls=${unmute ? '1' : '0'}&dnt=1&transparent=1`;
-                    iframe.onload = function() {
-                        iframe.style.visibility = 'visible';
-                    };
+        if (currentVideoPath !== projectPath || !isLoaded) {
+            // Reset any existing players
+            if (videoElement) {
+                videoElement.style.visibility = 'hidden';
+                videoElement.pause();
+                if (videoElement.parentNode) {
+                    videoElement.parentNode.removeChild(videoElement);
                 }
+                videoElement = null;
             }
             
-            // Make sure it's visible
-            iframe.style.visibility = 'visible';
+            if (iframeElement) {
+                iframeElement.style.visibility = 'hidden';
+                if (iframeElement.parentNode) {
+                    iframeElement.parentNode.removeChild(iframeElement);
+                }
+                iframeElement = null;
+            }
+            
+            // Check if we have a Bunny.net URL for this project
+            const videoURL = getVideoURL(projectPath);
+            if (videoURL && videoURL.length > 0) {
+                // Use HTML5 video player
+                createVideoElement(videoURL, unmute);
+            } else {
+                // Fallback to Vimeo
+                const videoId = getVimeoID(projectPath);
+                createIframeElement(videoId, unmute);
+            }
+            
+            currentVideoPath = projectPath;
+            isLoaded = true;
+        } else {
+            // If already loaded, just update mute state
+            if (videoElement) {
+                videoElement.muted = !unmute;
+                videoElement.controls = unmute;
+                videoElement.style.visibility = 'visible';
+                videoElement.style.objectFit = isFullscreen ? 'contain' : 'cover';
+                hideLoadingState();
+            } else if (iframeElement) {
+                // For Vimeo, we need to reload with new muted parameter
+                const videoId = getVimeoID(projectPath);
+                createIframeElement(videoId, unmute);
+            }
         }
         
         // Show the preview
@@ -277,59 +398,78 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Function to fully reset the video player
-    function resetVimeoPlayer() {
-        // Hide the iframe
-        iframe.style.visibility = 'hidden';
+    function resetVideoPlayer() {
+        // Hide and reset video elements
+        if (videoElement) {
+            videoElement.style.visibility = 'hidden';
+            videoElement.pause();
+        }
+        
+        if (iframeElement) {
+            iframeElement.style.visibility = 'hidden';
+        }
+        
+        // Remove loading state
+        hideLoadingState();
     }
     
     // Function to preload videos (called at page load)
     function preloadVideos() {
-        // Preload the first few thumbnails for perceived performance
-        Object.values(vimeoIDs).slice(0, 3).forEach(id => {
-            const img = new Image();
-            img.src = `https://vumbnail.com/${id}.jpg`;
+        // Preload the first few videos for perceived performance
+        Object.entries(videoURLs).slice(0, 3).forEach(([path, url]) => {
+            if (url && url.length > 0) {
+                const link = document.createElement('link');
+                link.rel = 'preload';
+                link.as = 'video';
+                link.href = url;
+                document.head.appendChild(link);
+            }
         });
     }
     
     // Function to toggle expanded mode
     function toggleExpanded() {
         if (isFullscreen) {
-            // Exit expanded mode
-            document.body.classList.remove('video-expanded');
-            previewArea.classList.remove('expanded');
-            previewContent.classList.remove('expanded');
-            container.classList.remove('expanded');
+            // First update transitioning state
+            previewArea.classList.add('transitioning');
             
-            // Mute the video when exiting fullscreen
-            if (activeItem && currentVideoId) {
-                const projectHref = activeItem.getAttribute('href');
-                const videoId = getVimeoID(projectHref);
-                activateVimeoPlayer(videoId, false); // muted = true
-            }
+            // Then remove expanded classes with slight delay
+            setTimeout(() => {
+                document.body.classList.remove('video-expanded');
+                previewArea.classList.remove('expanded');
+                previewContent.classList.remove('expanded');
+                container.classList.remove('expanded');
+                
+                // Mute the video when exiting fullscreen
+                if (activeItem && currentVideoPath) {
+                    const projectHref = activeItem.getAttribute('href');
+                    activateVideoPlayer(projectHref, false); // muted = true
+                }
+            }, 50); // Short delay for smoother animation
             
-            // Add a small delay before removing the transition class
+            // Remove the transition class after animation completes
             setTimeout(() => {
                 previewArea.classList.remove('transitioning');
-            }, 600); // Match this to the CSS transition duration
+            }, 900); // Match this to slightly longer than CSS transition duration
             
             isFullscreen = false;
         } else {
-            // Enter expanded mode
-            // Add transitioning class first (for animation)
+            // Enter expanded mode - add transitioning first
             previewArea.classList.add('transitioning');
             
-            // Add expanded classes
-            document.body.classList.add('video-expanded');
-            previewArea.classList.add('expanded');
-            previewContent.classList.add('expanded');
-            container.classList.add('expanded');
-            
-            // Unmute the video when entering fullscreen
-            if (activeItem && currentVideoId) {
-                const projectHref = activeItem.getAttribute('href');
-                const videoId = getVimeoID(projectHref);
-                activateVimeoPlayer(videoId, true); // unmuted = true
-            }
+            // Short delay before adding expanded classes
+            setTimeout(() => {
+                document.body.classList.add("video-expanded");
+                previewArea.classList.add("expanded");
+                previewContent.classList.add("expanded");
+                container.classList.add("expanded");
+                
+                // Unmute the video when entering fullscreen
+                if (activeItem && currentVideoPath) {
+                    const projectHref = activeItem.getAttribute('href');
+                    activateVideoPlayer(projectHref, true); // unmuted = true
+                }
+            }, 50);
             
             isFullscreen = true;
         }
@@ -355,12 +495,11 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add hovered class
             this.classList.add('hovered');
             
-            // Get the project link and its corresponding Vimeo ID
+            // Get the project link
             const projectHref = this.getAttribute('href');
-            const videoId = getVimeoID(projectHref);
             
-            // Activate the Vimeo player immediately with the correct video
-            activateVimeoPlayer(videoId);
+            // Activate the video player immediately with the correct video
+            activateVideoPlayer(projectHref);
         });
         
         // Mouse leave - hide preview if not clicked
@@ -378,7 +517,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         previewContent.classList.remove('active');
                         
                         // Fully reset the player when hiding
-                        resetVimeoPlayer();
+                        resetVideoPlayer();
                         
                         // Remove the has-hovered class
                         projectsContainer.classList.remove('has-hovered');
@@ -410,12 +549,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Update active item
                         activeItem = this;
                         
-                        // Get the project link and its corresponding Vimeo ID
+                        // Get the project link
                         const projectHref = this.getAttribute('href');
-                        const videoId = getVimeoID(projectHref);
                         
                         // Activate new video - keep unmuted since we're in fullscreen
-                        activateVimeoPlayer(videoId, true);
+                        activateVideoPlayer(projectHref, true);
                         
                         // Remove clicked class from all items
                         projectItems.forEach(i => i.classList.remove('clicked', 'hovered'));
@@ -440,12 +578,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Maintain the has-hovered class on projects container
                     projectsContainer.classList.add('has-hovered');
                     
-                    // Get the project link and its corresponding Vimeo ID
+                    // Get the project link
                     const projectHref = this.getAttribute('href');
-                    const videoId = getVimeoID(projectHref);
                     
                     // Make sure video is playing (muted in preview mode)
-                    activateVimeoPlayer(videoId, false);
+                    activateVideoPlayer(projectHref, false);
                     
                     // Immediately toggle to expanded mode with a slight delay for smoother experience
                     setTimeout(() => {
@@ -478,7 +615,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Hide preview and reset player
                 previewContent.classList.remove('active');
-                resetVimeoPlayer();
+                resetVideoPlayer();
                 
                 // Remove the has-hovered class
                 projectsContainer.classList.remove('has-hovered');
@@ -505,7 +642,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Hide preview and reset player
                     previewContent.classList.remove('active');
-                    resetVimeoPlayer();
+                    resetVideoPlayer();
                     
                     // Remove the has-hovered class
                     projectsContainer.classList.remove('has-hovered');
@@ -520,7 +657,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Hide preview if no item is hovered
                 if (!document.querySelector('.project-item.hovered')) {
                     previewContent.classList.remove('active');
-                    resetVimeoPlayer();
+                    resetVideoPlayer();
                     
                     // Remove the has-hovered class
                     projectsContainer.classList.remove('has-hovered');
@@ -535,289 +672,70 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Portfolio filtering functionality
-    filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Close mobile preview if open
-            if (isMobileView && mobilePreviewContainer && mobilePreviewContainer.classList.contains('active')) {
-                closeMobilePreview();
-            }
-            
-            // Remove active class from all buttons
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            
-            // Add active class to clicked button
-            this.classList.add('active');
-            
-            // Get filter value
-            const filterValue = this.getAttribute('data-filter');
-            
-            // Filter portfolio items
-            projectItems.forEach(item => {
-                if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
-                    item.style.display = 'block';
-                    // Add a slight delay for a subtle fade-in effect
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                    }, 50);
-                } else {
-                    item.style.opacity = '0';
-                    
-                    // If this is the active item, hide preview
-                    if (activeItem === item) {
-                        previewContent.classList.remove('active', 'clicked');
-                        resetVimeoPlayer();
-                        
-                        // If in fullscreen, exit it
-                        if (isFullscreen) {
-                            toggleExpanded();
-                        }
-                        
-                        // Close mobile preview if open
-                        if (isMobileView && mobilePreviewContainer && 
-                            mobilePreviewContainer.classList.contains('active')) {
-                            closeMobilePreview();
-                        }
-                        
-                        // Remove the has-hovered class
-                        projectsContainer.classList.remove('has-hovered');
-                        
-                        activeItem = null;
-                    }
-                    
-                    // Add a slight delay before hiding the element
-                    setTimeout(() => {
-                        item.style.display = 'none';
-                    }, 300);
-                }
-            });
-        });
-    });
-    
     // Subtle page transitions
     const links = document.querySelectorAll('a:not([target="_blank"]):not(.project-item)');
     
     links.forEach(link => {
         link.addEventListener('click', function(e) {
-            // Skip if modifier keys are pressed
-            if (e.metaKey || e.ctrlKey) return;
-            
-            // Skip if it's an anchor link
-            if (this.getAttribute('href').charAt(0) === '#') return;
+            // Only handle links to other pages on the site
+            if (this.getAttribute('href').startsWith('#') || 
+                this.getAttribute('href').includes('://') ||
+                e.ctrlKey || e.metaKey) {
+                return; // Let the browser handle these normally
+            }
             
             e.preventDefault();
+            const href = this.getAttribute('href');
             
-            // Subtle fade out
+            // Fade out
             document.body.style.opacity = '0';
             
-            // Navigate after transition
+            // Navigate after fade completes
             setTimeout(() => {
-                window.location.href = this.getAttribute('href');
+                window.location.href = href;
             }, 300);
         });
     });
     
-    // Listen for resize events to update mobile/desktop state
+    // Check viewport size on resize
     window.addEventListener('resize', checkViewport);
     
-    // Check initial viewport size and create mobile container if needed
+    // Initial viewport check
     checkViewport();
-    if (isMobileView && !mobilePreviewContainer) {
-        createMobilePreviewContainer();
-    }
     
-    // Keyboard navigation for projects
-    document.addEventListener('keydown', function(e) {
-        // Only if we have an active item
-        if (activeItem) {
-            const items = Array.from(projectItems).filter(item => 
-                item.style.display !== 'none'
-            );
-            const currentIndex = items.indexOf(activeItem);
-            
-            // Arrow down or right: next project
-            if ((e.key === 'ArrowDown' || e.key === 'ArrowRight') && currentIndex < items.length - 1) {
-                if (isFullscreen) {
-                    // If in expanded mode, just switch videos without closing
-                    items[currentIndex + 1].click();
-                } else {
-                    items[currentIndex + 1].click();
-                }
-            }
-            
-            // Arrow up or left: previous project
-            if ((e.key === 'ArrowUp' || e.key === 'ArrowLeft') && currentIndex > 0) {
-                if (isFullscreen) {
-                    // If in expanded mode, just switch videos without closing
-                    items[currentIndex - 1].click();
-                } else {
-                    items[currentIndex - 1].click();
-                }
-            }
-            
-            // Escape: exit expanded mode or close preview
-            if (e.key === 'Escape') {
-                if (isFullscreen) {
-                    toggleExpanded();
-                    
-                    // Add a small delay before removing other classes
-                    setTimeout(() => {
-                        // Remove clicked state
-                        previewContent.classList.remove('clicked');
-                        
-                        // Remove clicked class from all items
-                        projectItems.forEach(item => item.classList.remove('clicked'));
-                        
-                        // Hide preview and reset player
-                        previewContent.classList.remove('active');
-                        resetVimeoPlayer();
-                        
-                        // Remove the has-hovered class
-                        projectsContainer.classList.remove('has-hovered');
-                    }, 500);
-                } else if (isMobileView && mobilePreviewContainer && mobilePreviewContainer.classList.contains('active')) {
-                    closeMobilePreview();
-                } else {
-                    previewContent.classList.remove('clicked');
-                    projectItems.forEach(item => item.classList.remove('clicked'));
-                    
-                    // Hide preview if no item is hovered
-                    if (!document.querySelector('.project-item.hovered')) {
-                        previewContent.classList.remove('active');
-                        resetVimeoPlayer();
-                        
-                        // Remove the has-hovered class
-                        projectsContainer.classList.remove('has-hovered');
-                    }
-                }
-            }
-        }
-    });
-    
-    // Add CSS to ensure preview area is clean when not active and implement mobile styles
-    const style = document.createElement('style');
-    style.textContent = `
-        .preview-content:not(.active) {
-            box-shadow: none !important;
-            background: transparent !important;
-            pointer-events: none;
-        }
-        
-        .preview-content:not(.active) iframe,
-        .preview-content:not(.active) .vimeo-responsive {
-            opacity: 0 !important;
-            visibility: hidden !important;
-        }
-        
-        /* Mobile-specific styles */
-        @media (max-width: 991px) {
-            .preview-area {
-                display: none !important; /* Hide the desktop preview area on mobile */
-            }
-            
-            .portfolio-container {
-                display: block !important; /* Change grid to block for mobile */
-                gap: 0 !important;
-            }
-            
-            .project-list {
-                width: 100% !important;
-            }
-            
-            /* Mobile preview container styles */
-            .mobile-preview-container {
-                position: absolute;
-                left: 0;
-                width: 100%;
-                height: 0;
-                background-color: #000;
-                overflow: hidden;
-                z-index: 1000;
-                transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            }
-            
-            .mobile-preview-container.active {
-                height: 56.25vw; /* 16:9 aspect ratio */
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            }
-            
-            .mobile-vimeo-container {
-                width: 100%;
-                height: 100%;
-                position: relative;
-            }
-            
-            .mobile-close-button {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                background: rgba(0, 0, 0, 0.5);
-                color: white;
-                border: none;
-                border-radius: 50%;
-                width: 36px;
-                height: 36px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                z-index: 10;
-                opacity: 0.8;
-            }
-            
-            .mobile-close-button:hover {
-                opacity: 1;
-            }
-            
-            /* Style for the active project item in mobile */
-            .project-item.mobile-active {
-                background-color: var(--hover-color);
-                position: relative;
-            }
-            
-            /* Add space after active project to accommodate preview */
-            .project-item.mobile-active {
-                margin-bottom: 56.25vw; /* Preview height */
-                transition: margin-bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            }
-            
-            /* Project items appearance on mobile */
-            .project-item {
-                transition: background-color 0.3s ease, margin-bottom 0.4s ease;
-                padding: 20px 15px;
-            }
-            
-            /* Overlay when mobile preview is open */
-            body.mobile-preview-open::after {
-                content: '';
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.3);
-                z-index: 999;
-                pointer-events: none;
-            }
-            
-            /* Animation for project items when preview opens */
-            .project-item {
-                transform: translateY(0);
-                transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                            background-color 0.3s ease,
-                            margin-bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            }
-            
-            .project-item.after-active {
-                transform: translateY(56.25vw);
-            }
-        }
-    `;
-    document.head.appendChild(style);
-    
-    // Initialize by preloading videos
+    // Preload videos for better performance
     preloadVideos();
     
-    // Console log to help with debugging
-    console.log('Enhanced Vimeo video display script loaded with mobile optimization support');
+    // Add cascade animation for titles and fade-in for other elements
+    function addEntranceAnimations() {
+        // Add animation classes to project items for cascade effect
+        const projectItems = document.querySelectorAll('.project-item');
+        projectItems.forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            item.style.transition = `opacity 0.5s ease, transform 0.5s ease`;
+            item.style.transitionDelay = `${0.05 * index}s`;
+            
+            // Trigger animation after a small delay
+            setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+            }, 100);
+        });
+        
+        // Add fade-in for other elements
+        const fadeElements = document.querySelectorAll('header, footer, .preview-area');
+        fadeElements.forEach((element) => {
+            element.style.opacity = '0';
+            element.style.transition = 'opacity 0.8s ease';
+            
+            // Trigger animation
+            setTimeout(() => {
+                element.style.opacity = '1';
+            }, 200);
+        });
+    }
+    
+    // Call the animation function when page is loaded
+    addEntranceAnimations();
 });

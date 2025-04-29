@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- Preload critical assets -->
     <link rel="preload" href="js/reveal.js" as="script">
-    <link rel="preload" href="https://player.vimeo.com/api/player.js" as="script">
+    <!-- Removed Vimeo API preload -->
 </head>
 <body>
     <header>
@@ -26,20 +26,15 @@
 
     <main>
         <div class="portfolio-container">
-            <!-- Preview area (initially empty) - will be hidden on mobile -->
+            <!-- Preview area with loading placeholder -->
             <div class="preview-area" id="preview-area">
+                <!-- Loading Placeholder -->
+                <div class="loading-placeholder">Loading...</div>
                 <!-- Video will be loaded here on hover (desktop only) -->
             </div>
             
             <!-- Text-only project list -->
             <div class="project-list">
-                <!-- Filter controls -->
-                <div class="filter-controls">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="edit">Editing</button>
-                    <button class="filter-btn" data-filter="motion">Motion</button>
-                </div>
-                
                 <!-- Project items -->
                 <div class="projects">
                     <a href="projects/new-yorker.html" class="project-item" data-category="edit" data-preview="images/new-yorker.jpg" data-color="#4361ee">
