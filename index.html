@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Andrés Escobar - Portfolio showcasing editing and motion graphics work">
     <title>Andrés Escobar</title>
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="Andrés Escobar - Video Editor & Motion Designer">
+    <meta property="og:description" content="Portfolio showcasing editing and motion graphics work">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://andrescoga.com">
+    <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="css/style.css">
-    <!-- Preload critical assets -->
-    <link rel="preload" href="js/reveal.js" as="script">
-    <!-- Removed Vimeo API preload -->
 </head>
 <body>
     <header>
@@ -16,7 +19,7 @@
             <a href="index.html" class="logo">Andrés Escobar</a>
             <nav>
                 <ul>
-                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="index.html" class="active" aria-current="page">Home</a></li>
                     <li><a href="snippets.html">Snippets</a></li>
                     <li><a href="information.html">Info</a></li>
                 </ul>
@@ -37,15 +40,23 @@
             <div class="project-list">
                 <!-- Project items -->
                 <div class="projects">
-                    <a href="projects/new-yorker.html" class="project-item" data-category="edit" data-preview="images/new-yorker.jpg" data-color="#4361ee">
+                    <a href="projects/new-yorker.html" class="project-item" data-category="edit" data-preview="images/new-yorker.jpg" data-color="#4361ee" aria-label="View project: Why Does the Grim Reaper Exist">
                         <div class="project-info">
                             <div class="project-title">Why Does the Grim Reaper Exist</div>
                             <div class="project-subtitle">The New Yorker</div>
                             <div class="project-role">Edit</div>
                         </div>
                     </a>
-                    
-                    <a href="projects/bob.html" class="project-item" data-category="motion" data-preview="images/bob.jpg" data-color="#f72585">
+
+                    <a href="projects/pink-floyd.html" class="project-item" data-category="edit" data-preview="images/pink-floyd.jpg" data-color="#1a1a2e" aria-label="View project: The Making of The Dark Side of The Moon">
+                        <div class="project-info">
+                            <div class="project-title">The Making of The Dark Side of The Moon</div>
+                            <div class="project-subtitle">Pink Floyd</div>
+                            <div class="project-role">Edit</div>
+                        </div>
+                    </a>
+
+                    <a href="projects/bob.html" class="project-item" data-category="motion" data-preview="images/bob.jpg" data-color="#f72585" aria-label="View project: Lay Lady Lay">
                         <div class="project-info">
                             <div class="project-title">Lay Lady Lay</div>
                             <div class="project-subtitle">Bob Dylan</div>
@@ -53,7 +64,7 @@
                         </div>
                     </a>
                     
-                    <a href="projects/harpers.html" class="project-item" data-category="edit" data-preview="images/icons.jpg" data-color="#4cc9f0">
+                    <a href="projects/harpers.html" class="project-item" data-category="edit" data-preview="images/icons.jpg" data-color="#4cc9f0" aria-label="View project: ICONS">
                         <div class="project-info">
                             <div class="project-title"><i>ICONS</i></div>
                             <div class="project-subtitle">Harper's Bazaar</div>
@@ -61,7 +72,15 @@
                         </div>
                     </a>
 
-                    <a href="projects/marco.html" class="project-item" data-category="motion" data-preview="images/marco.jpg" data-color="#560bad">
+                    <a href="projects/bob-dylan-north-country.html" class="project-item" data-category="motion" data-preview="images/bob-dylan-north-country.jpg" data-color="#8b7355" aria-label="View project: Girl From The North Country Explainer">
+                        <div class="project-info">
+                            <div class="project-title">Girl From The North Country Explainer</div>
+                            <div class="project-subtitle">Bob Dylan</div>
+                            <div class="project-role">Motion</div>
+                        </div>
+                    </a>
+
+                    <a href="projects/marco.html" class="project-item" data-category="motion" data-preview="images/marco.jpg" data-color="#560bad" aria-label="View project: Big Talk">
                         <div class="project-info">
                             <div class="project-title">Big Talk</div>
                             <div class="project-subtitle">Marco Luka</div>
@@ -69,7 +88,7 @@
                         </div>
                     </a>
 
-                    <a href="projects/shakira.html" class="project-item" data-category="edit" data-preview="images/shakira.jpg" data-color="#fb5607">
+                    <a href="projects/shakira.html" class="project-item" data-category="edit" data-preview="images/shakira.jpg" data-color="#fb5607" aria-label="View project: 20 Years of Laundry Service">
                         <div class="project-info">
                             <div class="project-title">20 Years of Laundry Service</div>
                             <div class="project-subtitle">Shakira</div>
@@ -77,7 +96,7 @@
                         </div>
                     </a>
 
-                    <a href="projects/loretta.html" class="project-item" data-category="motion" data-preview="images/loretta.jpg" data-color="#f15bb5">
+                    <a href="projects/loretta.html" class="project-item" data-category="motion" data-preview="images/loretta.jpg" data-color="#f15bb5" aria-label="View project: Celebrating Loretta's History">
                         <div class="project-info">
                             <div class="project-title">Celebrating Loretta's History</div>
                             <div class="project-subtitle">Loretta Lynn</div>
@@ -85,7 +104,7 @@
                         </div>
                     </a>
 
-                    <a href="projects/mabiland.html" class="project-item" data-category="edit" data-preview="images/mabiland.jpg" data-color="#fee440">
+                    <a href="projects/mabiland.html" class="project-item" data-category="edit" data-preview="images/mabiland.jpg" data-color="#fee440" aria-label="View project: Retrato">
                         <div class="project-info">
                             <div class="project-title">Retrato</div>
                             <div class="project-subtitle">Mabiland & Juan Pablo Vega</div>
@@ -93,7 +112,7 @@
                         </div>
                     </a>
 
-                    <a href="projects/elvis.html" class="project-item" data-category="motion" data-preview="images/elvis.jpg" data-color="#fee440">
+                    <a href="projects/elvis.html" class="project-item" data-category="motion" data-preview="images/elvis.jpg" data-color="#fee440" aria-label="View project: #1 Hits Visualizers">
                         <div class="project-info">
                             <div class="project-title"><i>#1 Hits</i> Visualizers</div>
                             <div class="project-subtitle">Elvis Presley</div>
@@ -101,7 +120,7 @@
                         </div>
                     </a>
                     
-                    <a href="projects/prince.html" class="project-item" data-category="edit" data-preview="images/prince.jpg" data-color="#00bbf9">
+                    <a href="projects/prince.html" class="project-item" data-category="edit" data-preview="images/prince.jpg" data-color="#00bbf9" aria-label="View project: Musicology 20th Anniversary">
                         <div class="project-info">
                             <div class="project-title">Musicology 20th Anniversary</div>
                             <div class="project-subtitle">Prince</div>
@@ -109,7 +128,7 @@
                         </div>
                     </a>
                     
-                    <a href="projects/meb.html" class="project-item" data-category="edit" data-preview="images/meb.jpg" data-color="#9b5de5">
+                    <a href="projects/meb.html" class="project-item" data-category="edit" data-preview="images/meb.jpg" data-color="#9b5de5" aria-label="View project: Making of That You Not Dare To Forget">
                         <div class="project-info">
                             <div class="project-title">Making of "That You Not Dare To Forget"</div>
                             <div class="project-subtitle">Miles Electric Band</div>
@@ -123,7 +142,7 @@
 
     <footer>
         <div class="container">
-            <p>© 2025</p>
+            <p>© 2026</p>
         </div>
     </footer>
 

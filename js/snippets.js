@@ -1,115 +1,37 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Set body as loaded to trigger fade-in
-    document.body.classList.add('loaded');
+    let lazyLoadObserver = null;
     
-    // Subtle page transitions (reused from main site)
-    const links = document.querySelectorAll('a:not([target="_blank"])');
-    links.forEach(link => {
-        link.addEventListener('click', function(e) {
-            // Skip if modifier keys are pressed
-            if (e.metaKey || e.ctrlKey) return;
-            
-            // Skip if it's an anchor link
-            if (this.getAttribute('href').charAt(0) === '#') return;
-            
-            e.preventDefault();
-            
-            // Subtle fade out
-            document.body.style.opacity = '0';
-            
-            // Navigate after transition
-            setTimeout(() => {
-                window.location.href = this.getAttribute('href');
-            }, 300);
-        });
-    });
-    
-    // Snippets data - Replace with your actual video data
+    // Structure with 13 snippets.
+    // Set posterSrc to null if you want to rely purely on the "First Frame" method.
+    // Featured snippets (4, 5, 7) auto-play on page load
     const snippetsData = [
-        {
-            id: 'snippet-1',
-            videoSrc: 'https://snippetsportfolio.b-cdn.net/tdbq.mp4'
-        },
-        {
-            id: 'snippet-2',
-            videoSrc: 'https://snippetsportfolio.b-cdn.net/miles.mp4'
-        },
-        {
-            id: 'snippet-3',
-            videoSrc: 'https://snippetsportfolio.b-cdn.net/rosalia.mp4',
-            posterSrc: 'images/snippets/motion-03.jpg'
-        },
-        {
-            id: 'snippet-4',
-            videoSrc: 'https://snippetsportfolio.b-cdn.net/luther.mp4',
-            posterSrc: 'images/snippets/motion-04.jpg'
-        },
-        {
-            id: 'snippet-5',
-            videoSrc: 'https://snippetsportfolio.b-cdn.net/shakira.mp4',
-            posterSrc: 'images/snippets/motion-05.jpg'
-        },
-        {
-            id: 'snippet-6',
-            videoSrc: 'https://snippetsportfolio.b-cdn.net/certified.mp4',
-            posterSrc: 'images/snippets/motion-06.jpg'
-        },
-        {
-            id: 'snippet-7',
-            videoSrc: 'https://snippetsportfolio.b-cdn.net/bruce.mp4',
-            posterSrc: 'images/snippets/motion-07.jpg'
-        },
-        {
-            id: 'snippet-8',
-            videoSrc: 'https://snippetsportfolio.b-cdn.net/judas.mp4',
-            posterSrc: 'images/snippets/motion-08.jpg'
-        },
-        {
-            id: 'snippet-9',
-            videoSrc: 'https://snippetsportfolio.b-cdn.net/janis-2.mp4',
-            posterSrc: 'images/snippets/motion-09.jpg'
-        },
-        {
-            id: 'snippet-10',
-            videoSrc: 'https://snippetsportfolio.b-cdn.net/pearl.mp4',
-            posterSrc: 'images/snippets/motion-10.jpg'
-        },
-        {
-            id: 'snippet-11',
-            videoSrc: 'https://snippetsportfolio.b-cdn.net/elvis.mp4',
-            posterSrc: 'images/snippets/motion-11.jpg'
-        },
-        {
-            id: 'snippet-12',
-            videoSrc: 'https://snippetsportfolio.b-cdn.net/acdc.mp4',
-            posterSrc: 'images/snippets/motion-12.jpg'
-        },
-        // Add more snippets as needed
-        {
-            id: 'snippet-13',
-            videoSrc: 'https://snippetsportfolio.b-cdn.net/acdc-2.mp4',
-            posterSrc: 'images/snippets/motion-12.jpg'
-        },
+        { id: 'snippet-1', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/1ce078aa-bfb1-4990-81f5-d6083ecf14f7/playlist.m3u8', posterSrc: null, featured: false },
+        { id: 'snippet-2', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/f7738e9c-e468-436b-9f0e-2a8753fae950/playlist.m3u8', posterSrc: null, featured: false },
+        { id: 'snippet-3', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/7d29d4ec-01d8-4bb5-bbc4-266d6ccfda81/playlist.m3u8', posterSrc: null, featured: false },
+        { id: 'snippet-4', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/fcd3e55e-e9a0-42b5-aff9-6d415e394134/playlist.m3u8', posterSrc: null, featured: true },
+        { id: 'snippet-5', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/fa3e8440-582c-40c1-9590-815bc8d718dc/playlist.m3u8', posterSrc: null, featured: false },
+        { id: 'snippet-6', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/93b0d0ee-4df4-428d-8165-5f27b97f1d1d/playlist.m3u8', posterSrc: null, featured: false },
+        { id: 'snippet-7', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/f94f4825-4027-4ebd-9cb1-8c6ba3f2296b/playlist.m3u8', posterSrc: null, featured: false },
+        { id: 'snippet-8', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/4cd47844-3fbd-41e6-a856-1d907166fdde/playlist.m3u8', posterSrc: null, featured: false },
+        { id: 'snippet-9', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/c9b398f1-c97c-43e7-a38f-848f84f3cc78/playlist.m3u8', posterSrc: null, featured: false },
+        { id: 'snippet-10', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/138fd979-1edb-40df-897c-4fa629329872/playlist.m3u8', posterSrc: null, featured: false },
+        { id: 'snippet-11', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/0513f9ed-cde0-44b0-acc4-eea5ca201d32/playlist.m3u8', posterSrc: null, featured: false },
+        { id: 'snippet-12', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/ebfc5515-047c-4c06-a215-f9cb2246081d/playlist.m3u8', posterSrc: null, featured: false },
+        { id: 'snippet-13', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/e9d4f93f-cf75-475f-93f0-fed7009a0f95/playlist.m3u8', posterSrc: null, featured: false },
+        { id: 'snippet-14', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/72c964d3-c745-44eb-a2b5-865c7bc49f0a/playlist.m3u8', posterSrc: null, featured: false },
+        { id: 'snippet-15', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/3561fcce-d27d-41cf-a785-03387056b44b/playlist.m3u8', posterSrc: null, featured: false }
     ];
     
-    // Get snippets grid
     const snippetsGrid = document.querySelector('.snippets-grid');
     
-    // Create and load snippet items
     function loadSnippets() {
-        snippetsData.forEach(snippet => {
-            createSnippetItem(snippet);
-        });
-        
-        // After all items are created, set up intersection observer for lazy loading
+        snippetsData.forEach(snippet => createSnippetItem(snippet));
         setupLazyLoading();
     }
     
-    // Create a single snippet item
     function createSnippetItem(snippet) {
-        // Create elements
         const snippetItem = document.createElement('div');
-        snippetItem.className = 'snippet-item';
+        snippetItem.className = snippet.featured ? 'snippet-item featured' : 'snippet-item';
         snippetItem.setAttribute('data-id', snippet.id);
         
         const snippetContainer = document.createElement('div');
@@ -120,157 +42,113 @@ document.addEventListener('DOMContentLoaded', function() {
         video.muted = true;
         video.playsInline = true;
         video.loop = true;
-        video.preload = 'metadata'; // Load just enough to get the first frame
-        
-        // Set up source
-        const source = document.createElement('source');
-        source.src = snippet.videoSrc;
-        source.type = 'video/mp4';
-        
-        // Assemble the elements
-        video.appendChild(source);
+        video.preload = "metadata"; // Essential for Method 1
+
+        // Use a manual poster if provided, otherwise the "First Frame" logic takes over
+        if (snippet.posterSrc) {
+            video.poster = snippet.posterSrc;
+        }
+
         snippetContainer.appendChild(video);
         snippetItem.appendChild(snippetContainer);
-        
-        // Add to grid
         snippetsGrid.appendChild(snippetItem);
+
+        // Reveal item once video has dimensions
+        video.addEventListener('loadedmetadata', () => {
+            snippetItem.classList.add('visible');
+        });
+
+        if (Hls.isSupported()) {
+            const hls = new Hls({
+                autoStartLoad: false, // Performance: don't load everything at once
+                capLevelToPlayerSize: true
+            });
+            hls.loadSource(snippet.videoSrc);
+            hls.attachMedia(video);
+
+            // METHOD 1: Fetch the first frame as soon as the video metadata is ready
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                // This triggers a tiny "load" just for the first fragment
+                // so the video displays its first frame instead of a black box.
+                hls.startLoad(0);
+            });
+
+            snippetItem._hls = hls;
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = snippet.videoSrc;
+        }
         
-        // Capture first frame when metadata is loaded
-        video.addEventListener('loadedmetadata', function() {
-            // We need to play and then immediately pause to get the first frame
-            video.currentTime = 1;
-            
-            // After seeking to start
-            video.addEventListener('seeked', function onSeeked() {
-                // Now the video shows the first frame
-                // Add class to indicate we have the first frame
-                snippetItem.classList.add('first-frame-loaded');
-                
-                // Remove this event listener as it's no longer needed
-                video.removeEventListener('seeked', onSeeked);
-            }, { once: true });
-        }, { once: true });
-        
-        // Set up event listeners
         handleSnippetInteractions(snippetItem, video);
     }
     
-    // Handle hover and touch interactions
     function handleSnippetInteractions(snippetItem, video) {
-        // Variables for managing state
-        let isLoaded = false;
-        let isPlaying = false;
-        let hoverTimeout;
-        
-        // Function to start video playback
         function playVideo() {
-            if (!isLoaded) {
-                // Add loading indicator
-                snippetItem.classList.add('loading');
-                
-                // Load video if not loaded yet
-                video.load();
-                
-                // Listen for video to be loaded enough to play
-                video.addEventListener('canplay', function onCanPlay() {
-                    // Remove loading indicator
-                    snippetItem.classList.remove('loading');
-                    // Set as loaded
-                    isLoaded = true;
-                    // Start playing
-                    video.play().then(() => {
-                        isPlaying = true;
-                        snippetItem.classList.add('playing');
-                    }).catch(error => {
-                        console.error('Play error:', error);
-                    });
-                    // Remove event listener
-                    video.removeEventListener('canplay', onCanPlay);
-                }, { once: true });
-            } else {
-                // If already loaded, just play
-                video.play().then(() => {
-                    isPlaying = true;
-                    snippetItem.classList.add('playing');
-                }).catch(error => {
-                    console.error('Play error:', error);
-                });
+            if (snippetItem._hls) {
+                // Start full streaming on hover
+                snippetItem._hls.startLoad();
             }
+            
+            video.play().then(() => {
+                snippetItem.classList.add('playing');
+            }).catch(err => console.debug("Playback pending..."));
         }
         
-        // Function to pause video
         function pauseVideo() {
-            if (isPlaying) {
-                video.pause();
-                isPlaying = false;
-                snippetItem.classList.remove('playing');
+            video.pause();
+            snippetItem.classList.remove('playing');
+            if (snippetItem._hls) {
+                // Pause loading chunks to save user data
+                snippetItem._hls.stopLoad();
             }
         }
         
-        // Mouse enter - start playing after slight delay
-        snippetItem.addEventListener('mouseenter', function() {
-            clearTimeout(hoverTimeout);
-            // Small delay to prevent accidental triggering
-            hoverTimeout = setTimeout(() => {
-                playVideo();
-            }, 150);
-        });
+        snippetItem.addEventListener('mouseenter', playVideo);
+        snippetItem.addEventListener('mouseleave', pauseVideo);
         
-        // Mouse leave - pause video
-        snippetItem.addEventListener('mouseleave', function() {
-            clearTimeout(hoverTimeout);
-            pauseVideo();
-        });
-        
-        // Touch devices - toggle play/pause on tap
         if ('ontouchstart' in window) {
-            snippetItem.addEventListener('click', function(e) {
+            snippetItem.addEventListener('click', (e) => {
                 e.preventDefault();
-                if (isPlaying) {
-                    pauseVideo();
-                } else {
-                    playVideo();
-                }
+                video.paused ? playVideo() : pauseVideo();
             });
         }
     }
-    
-    // Set up lazy loading with Intersection Observer
+
     function setupLazyLoading() {
-        // Only create observer if supported
         if ('IntersectionObserver' in window) {
-            const videoItems = document.querySelectorAll('.snippet-item');
-            
-            const options = {
-                root: null, // viewport
-                rootMargin: '100px', // start loading when within 100px
-                threshold: 0.1 // 10% visible
-            };
-            
-            const observer = new IntersectionObserver((entries) => {
+            const options = { rootMargin: '200px', threshold: 0.1 };
+            lazyLoadObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        const snippetItem = entry.target;
-                        const video = snippetItem.querySelector('video');
-                        
-                        // Make sure we're loading the metadata to get the first frame
-                        if (video.readyState === 0) { // HAVE_NOTHING
-                            video.load(); // This will load the metadata
-                        }
-                        
-                        // Stop observing this item
-                        observer.unobserve(snippetItem);
+                        // The Hls.Events.MANIFEST_PARSED handles the frame load
+                        lazyLoadObserver.unobserve(entry.target);
                     }
                 });
             }, options);
-            
-            // Observe all snippet items
-            videoItems.forEach(item => {
-                observer.observe(item);
+
+            document.querySelectorAll('.snippet-item').forEach(item => {
+                lazyLoadObserver.observe(item);
             });
         }
     }
-    
-    // Initialize
+
+    function autoPlayFeatured() {
+        document.querySelectorAll('.snippet-item.featured').forEach(item => {
+            const video = item.querySelector('video');
+            if (item._hls) {
+                item._hls.startLoad();
+            }
+            video.play().then(() => {
+                item.classList.add('playing');
+            }).catch(err => console.debug("Featured autoplay pending..."));
+        });
+    }
+
+    window.addEventListener('beforeunload', () => {
+        if (lazyLoadObserver) lazyLoadObserver.disconnect();
+    });
+
     loadSnippets();
+
+    // Auto-play featured videos after a short delay to ensure HLS is ready
+    setTimeout(autoPlayFeatured, 500);
 });

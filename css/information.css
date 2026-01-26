@@ -9,6 +9,8 @@
     grid-template-columns: 1fr 1fr;
     gap: 60px;
     align-items: start;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .info-text {

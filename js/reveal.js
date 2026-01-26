@@ -1,15 +1,19 @@
 // Enhanced hover and click video reveal functionality with Bunny.net integration
 
 document.addEventListener("DOMContentLoaded", function() {
-    // Set body as loaded to trigger fade-in
-    document.body.classList.add("loaded");
+    // Utility: debounce function for performance optimization
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
 
-    // Apply cascade animation with delay
-    const allProjectItems = document.querySelectorAll(".project-item"); // Renamed variable
-    allProjectItems.forEach((item, index) => {
-        item.style.transitionDelay = `${index * 0.05}s`; // Stagger delay
-    });
-    
     // Elements
     const previewArea = document.getElementById('preview-area');
     const projectItems = document.querySelectorAll('.project-item');
@@ -32,8 +36,10 @@ document.addEventListener("DOMContentLoaded", function() {
     // Use the project href path to identify which video to show
     const videoURLs = {
         "projects/new-yorker.html": "https://index-videos.b-cdn.net/why_does_the_grim_reaper_exist-_-_the_new_yorker%20(1080p).mp4",
+        "projects/pink-floyd.html": "https://index-videos.b-cdn.net/Pink-Floyd_The-Dark-Side-Of-The-Moon_Trailer_16x9_v04.mp4",
         "projects/bob.html": "https://index-videos.b-cdn.net/bob_dylan_-_lay%2C_lady%2C_lay_(alternate_version_-_take_2)_(official_lyric_video)%20(1080p).mp4",
         "projects/harpers.html": "https://index-videos.b-cdn.net/harper%E2%80%99s_bazaar_-_icons_2018_-_wreck_the_plaza%20(1080p).mp4",
+        "projects/bob-dylan-north-country.html": "https://index-videos.b-cdn.net/Bob-Dylan_Girl-From-The-North-Country_Explainer_16x9_v06.mp4",
         "projects/marco.html": "https://index-videos.b-cdn.net/marco_luka_-_big_talk_(lyric_video)%20(1080p).mp4",
         "projects/shakira.html": "https://index-videos.b-cdn.net/shakira_-_20_years_of_laundry_service%20(1080p).mp4",
         "projects/loretta.html": "https://index-videos.b-cdn.net/loretta_lynn_-_celebrating_loretta's_history_in_country_music%20(1080p).mp4",
@@ -59,7 +65,6 @@ document.addEventListener("DOMContentLoaded", function() {
     
     // Variables to track state
     let activeItem = null;
-    let hoveredTimeout = null;
     let isLoaded = false;
     let currentVideoPath = null;
     let isFullscreen = false;
@@ -209,12 +214,10 @@ document.addEventListener("DOMContentLoaded", function() {
         document.body.classList.add('mobile-preview-open');
         
         // Scroll to ensure the video is visible
-        setTimeout(() => {
-            window.scrollTo({
-                top: rect.top + scrollTop - 20,
-                behavior: 'smooth'
-            });
-        }, 50);
+        window.scrollTo({
+            top: rect.top + scrollTop - 20,
+            behavior: 'smooth'
+        });
     }
     
     // Function to close mobile preview
@@ -228,13 +231,11 @@ document.addEventListener("DOMContentLoaded", function() {
             });
             
             document.body.classList.remove('mobile-preview-open');
-            
-            // Clear the video container
+
+            // Clear the video container immediately
             const mobileVideoContainer = mobilePreviewContainer.querySelector('.mobile-video-container');
-            setTimeout(() => {
-                mobileVideoContainer.innerHTML = '';
-            }, 300);
-            
+            mobileVideoContainer.innerHTML = '';
+
             activeItem = null;
         }
     }
@@ -430,47 +431,32 @@ document.addEventListener("DOMContentLoaded", function() {
     // Function to toggle expanded mode
     function toggleExpanded() {
         if (isFullscreen) {
-            // First update transitioning state
-            previewArea.classList.add('transitioning');
-            
-            // Then remove expanded classes with slight delay
-            setTimeout(() => {
-                document.body.classList.remove('video-expanded');
-                previewArea.classList.remove('expanded');
-                previewContent.classList.remove('expanded');
-                container.classList.remove('expanded');
-                
-                // Mute the video when exiting fullscreen
-                if (activeItem && currentVideoPath) {
-                    const projectHref = activeItem.getAttribute('href');
-                    activateVideoPlayer(projectHref, false); // muted = true
-                }
-            }, 50); // Short delay for smoother animation
-            
-            // Remove the transition class after animation completes
-            setTimeout(() => {
-                previewArea.classList.remove('transitioning');
-            }, 900); // Match this to slightly longer than CSS transition duration
-            
+            // Remove expanded classes immediately
+            document.body.classList.remove('video-expanded');
+            previewArea.classList.remove('expanded');
+            previewContent.classList.remove('expanded');
+            container.classList.remove('expanded');
+
+            // Mute the video when exiting fullscreen
+            if (activeItem && currentVideoPath) {
+                const projectHref = activeItem.getAttribute('href');
+                activateVideoPlayer(projectHref, false);
+            }
+
             isFullscreen = false;
         } else {
-            // Enter expanded mode - add transitioning first
-            previewArea.classList.add('transitioning');
-            
-            // Short delay before adding expanded classes
-            setTimeout(() => {
-                document.body.classList.add("video-expanded");
-                previewArea.classList.add("expanded");
-                previewContent.classList.add("expanded");
-                container.classList.add("expanded");
-                
-                // Unmute the video when entering fullscreen
-                if (activeItem && currentVideoPath) {
-                    const projectHref = activeItem.getAttribute('href');
-                    activateVideoPlayer(projectHref, true); // unmuted = true
-                }
-            }, 50);
-            
+            // Enter expanded mode immediately
+            document.body.classList.add("video-expanded");
+            previewArea.classList.add("expanded");
+            previewContent.classList.add("expanded");
+            container.classList.add("expanded");
+
+            // Unmute the video when entering fullscreen
+            if (activeItem && currentVideoPath) {
+                const projectHref = activeItem.getAttribute('href');
+                activateVideoPlayer(projectHref, true);
+            }
+
             isFullscreen = true;
         }
     }
@@ -480,12 +466,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Mouse enter - show preview (only in desktop)
         item.addEventListener('mouseenter', function() {
             if (isMobileView) return; // Skip hover effects on mobile
-            
-            // Clear any existing timeout
-            if (hoveredTimeout) {
-                clearTimeout(hoveredTimeout);
-            }
-            
+
             // Add class to the projects container to dim other items
             projectsContainer.classList.add('has-hovered');
             
@@ -512,16 +493,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 
                 // Only hide preview if we're not in clicked mode and not in fullscreen
                 if (!previewContent.classList.contains('clicked') && !isFullscreen) {
-                    // Add a slight delay before hiding to prevent flickering during movement
-                    hoveredTimeout = setTimeout(() => {
-                        previewContent.classList.remove('active');
-                        
-                        // Fully reset the player when hiding
-                        resetVideoPlayer();
-                        
-                        // Remove the has-hovered class
-                        projectsContainer.classList.remove('has-hovered');
-                    }, 100);
+                    previewContent.classList.remove('active');
+
+                    // Fully reset the player when hiding
+                    resetVideoPlayer();
+
+                    // Remove the has-hovered class
+                    projectsContainer.classList.remove('has-hovered');
                 }
             }
         });
@@ -583,11 +561,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     
                     // Make sure video is playing (muted in preview mode)
                     activateVideoPlayer(projectHref, false);
-                    
-                    // Immediately toggle to expanded mode with a slight delay for smoother experience
-                    setTimeout(() => {
-                        toggleExpanded();
-                    }, 50);
+
+                    // Toggle to expanded mode immediately
+                    toggleExpanded();
                 }
             }
         });
@@ -604,101 +580,71 @@ document.addEventListener("DOMContentLoaded", function() {
         e.stopPropagation(); // Prevent triggering other click events
         if (isFullscreen) {
             toggleExpanded();
-            
-            // After a delay matching the transition
-            setTimeout(() => {
-                // Remove clicked state
-                previewContent.classList.remove('clicked');
-                
-                // Remove clicked class from all items
-                projectItems.forEach(item => item.classList.remove('clicked'));
-                
-                // Hide preview and reset player
-                previewContent.classList.remove('active');
-                resetVideoPlayer();
-                
-                // Remove the has-hovered class
-                projectsContainer.classList.remove('has-hovered');
-            }, 500);
+
+            // Remove clicked state immediately
+            previewContent.classList.remove('clicked');
+
+            // Remove clicked class from all items
+            projectItems.forEach(item => item.classList.remove('clicked'));
+
+            // Hide preview and reset player
+            previewContent.classList.remove('active');
+            resetVideoPlayer();
+
+            // Remove the has-hovered class
+            projectsContainer.classList.remove('has-hovered');
         }
     });
     
     // Click outside to close expanded view
     document.addEventListener('click', function(e) {
         // Check if click is outside project items and preview area
-        if (!e.target.closest('.project-item') && !e.target.closest('.preview-area') && 
+        if (!e.target.closest('.project-item') && !e.target.closest('.preview-area') &&
             !e.target.closest('.mobile-preview-container')) {
             // If in expanded mode, exit it
             if (isFullscreen) {
                 toggleExpanded();
-                
-                // Add a small delay before removing other classes
-                setTimeout(() => {
-                    // Remove clicked state
-                    previewContent.classList.remove('clicked');
-                    
-                    // Remove clicked class from all items
-                    projectItems.forEach(item => item.classList.remove('clicked'));
-                    
-                    // Hide preview and reset player
-                    previewContent.classList.remove('active');
-                    resetVideoPlayer();
-                    
-                    // Remove the has-hovered class
-                    projectsContainer.classList.remove('has-hovered');
-                }, 500);
+
+                // Remove clicked state immediately
+                previewContent.classList.remove('clicked');
+
+                // Remove clicked class from all items
+                projectItems.forEach(item => item.classList.remove('clicked'));
+
+                // Hide preview and reset player
+                previewContent.classList.remove('active');
+                resetVideoPlayer();
+
+                // Remove the has-hovered class
+                projectsContainer.classList.remove('has-hovered');
             } else {
                 // Remove clicked state
                 previewContent.classList.remove('clicked');
-                
+
                 // Remove clicked class from all items
                 projectItems.forEach(item => item.classList.remove('clicked'));
-                
+
                 // Hide preview if no item is hovered
                 if (!document.querySelector('.project-item.hovered')) {
                     previewContent.classList.remove('active');
                     resetVideoPlayer();
-                    
+
                     // Remove the has-hovered class
                     projectsContainer.classList.remove('has-hovered');
                 }
             }
-            
+
             // Also close mobile preview if open
-            if (isMobileView && mobilePreviewContainer && 
+            if (isMobileView && mobilePreviewContainer &&
                 mobilePreviewContainer.classList.contains('active')) {
                 closeMobilePreview();
             }
         }
     });
     
-    // Subtle page transitions
-    const links = document.querySelectorAll('a:not([target="_blank"]):not(.project-item)');
     
-    links.forEach(link => {
-        link.addEventListener('click', function(e) {
-            // Only handle links to other pages on the site
-            if (this.getAttribute('href').startsWith('#') || 
-                this.getAttribute('href').includes('://') ||
-                e.ctrlKey || e.metaKey) {
-                return; // Let the browser handle these normally
-            }
-            
-            e.preventDefault();
-            const href = this.getAttribute('href');
-            
-            // Fade out
-            document.body.style.opacity = '0';
-            
-            // Navigate after fade completes
-            setTimeout(() => {
-                window.location.href = href;
-            }, 300);
-        });
-    });
-    
-    // Check viewport size on resize
-    window.addEventListener('resize', checkViewport);
+    // Check viewport size on resize (debounced for performance)
+    window.addEventListener('resize', debounce(checkViewport, 150));
     
     // Initial viewport check
     checkViewport();
@@ -706,36 +652,4 @@ document.addEventListener("DOMContentLoaded", function() {
     // Preload videos for better performance
     preloadVideos();
     
-    // Add cascade animation for titles and fade-in for other elements
-    function addEntranceAnimations() {
-        // Add animation classes to project items for cascade effect
-        const projectItems = document.querySelectorAll('.project-item');
-        projectItems.forEach((item, index) => {
-            item.style.opacity = '0';
-            item.style.transform = 'translateY(20px)';
-            item.style.transition = `opacity 0.5s ease, transform 0.5s ease`;
-            item.style.transitionDelay = `${0.05 * index}s`;
-            
-            // Trigger animation after a small delay
-            setTimeout(() => {
-                item.style.opacity = '1';
-                item.style.transform = 'translateY(0)';
-            }, 100);
-        });
-        
-        // Add fade-in for other elements
-        const fadeElements = document.querySelectorAll('header, footer, .preview-area');
-        fadeElements.forEach((element) => {
-            element.style.opacity = '0';
-            element.style.transition = 'opacity 0.8s ease';
-            
-            // Trigger animation
-            setTimeout(() => {
-                element.style.opacity = '1';
-            }, 200);
-        });
-    }
-    
-    // Call the animation function when page is loaded
-    addEntranceAnimations();
 });
