@@ -102,14 +102,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        snippetItem.addEventListener('mouseenter', playVideo);
-        snippetItem.addEventListener('mouseleave', pauseVideo);
-        
-        if ('ontouchstart' in window) {
+        // Use touch events for mobile, mouse events for desktop (not both)
+        if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
             snippetItem.addEventListener('click', (e) => {
                 e.preventDefault();
                 video.paused ? playVideo() : pauseVideo();
             });
+        } else {
+            snippetItem.addEventListener('mouseenter', playVideo);
+            snippetItem.addEventListener('mouseleave', pauseVideo);
         }
     }
 
