@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Featured snippets (4, 5, 7) auto-play on page load
     const snippetsData = [
         { id: 'snippet-1', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/1ce078aa-bfb1-4990-81f5-d6083ecf14f7/playlist.m3u8', posterSrc: null, featured: false },
-        { id: 'snippet-2', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/f7738e9c-e468-436b-9f0e-2a8753fae950/playlist.m3u8', posterSrc: null, featured: false },
+        { id: 'snippet-2', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/72c964d3-c745-44eb-a2b5-865c7bc49f0a/playlist.m3u8', posterSrc: null, featured: false },
         { id: 'snippet-3', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/7d29d4ec-01d8-4bb5-bbc4-266d6ccfda81/playlist.m3u8', posterSrc: null, featured: false },
         { id: 'snippet-4', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/fcd3e55e-e9a0-42b5-aff9-6d415e394134/playlist.m3u8', posterSrc: null, featured: true },
         { id: 'snippet-5', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/fa3e8440-582c-40c1-9590-815bc8d718dc/playlist.m3u8', posterSrc: null, featured: false },
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { id: 'snippet-11', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/0513f9ed-cde0-44b0-acc4-eea5ca201d32/playlist.m3u8', posterSrc: null, featured: false },
         { id: 'snippet-12', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/ebfc5515-047c-4c06-a215-f9cb2246081d/playlist.m3u8', posterSrc: null, featured: false },
         { id: 'snippet-13', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/e9d4f93f-cf75-475f-93f0-fed7009a0f95/playlist.m3u8', posterSrc: null, featured: false },
-        { id: 'snippet-14', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/72c964d3-c745-44eb-a2b5-865c7bc49f0a/playlist.m3u8', posterSrc: null, featured: false },
+        { id: 'snippet-14', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/f7738e9c-e468-436b-9f0e-2a8753fae950/playlist.m3u8', posterSrc: null, featured: false },
         { id: 'snippet-15', videoSrc: 'https://vz-73c5d4bc-396.b-cdn.net/3561fcce-d27d-41cf-a785-03387056b44b/playlist.m3u8', posterSrc: null, featured: false }
     ];
     

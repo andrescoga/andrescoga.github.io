@@ -5,6 +5,11 @@
     --accent-color: #333;
     --border-color: #e0e0e0;
     --hover-color: #f5f5f5;
+    --text-muted: #666;
+    --text-dimmed: #ccc;
+    --header-bg: rgba(255, 255, 255, 0.98);
+    --overlay-bg: rgba(255, 255, 255, 0.96);
+    --snippet-bg: #222;
     --transition-fast: 0.15s ease;
     --transition-medium: 0.25s ease;
     --transition-slow: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -12,6 +17,20 @@
     --header-height: 104px;
     --header-height-mobile: 84px;
     --side-padding: 40px;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+    --text-color: #f0f0f0;
+    --background-color: #121212;
+    --accent-color: #e0e0e0;
+    --border-color: #333;
+    --hover-color: #1a1a1a;
+    --text-muted: #999;
+    --text-dimmed: #555;
+    --header-bg: rgba(18, 18, 18, 0.98);
+    --overlay-bg: rgba(18, 18, 18, 0.96);
+    --snippet-bg: #1a1a1a;
 }
 
 /* Reset */
@@ -66,7 +85,7 @@ h2 {
 h3 {
     font-size: 0.9rem;
     font-weight: 300;
-    color: #666;
+    color: var(--text-muted);
 }
 
 /* Header */
@@ -74,7 +93,7 @@ header {
     padding: 40px var(--side-padding);
     position: sticky;
     top: 0;
-    background-color: rgba(255, 255, 255, 0.98);
+    background-color: var(--header-bg);
     z-index: 1001;
     border-bottom: 1px solid var(--border-color);
 }
@@ -91,6 +110,11 @@ header .container {
 }
 
 /* Navigation */
+nav {
+    display: flex;
+    align-items: center;
+}
+
 nav ul {
     display: flex;
     list-style: none;
@@ -107,6 +131,48 @@ nav ul li a {
 
 nav ul li a.active {
     font-weight: 500;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    margin-right: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    opacity: 0.3;
+    transition: opacity var(--transition-fast);
+    order: -1; /* Position before the nav ul */
+}
+
+.theme-toggle:hover {
+    opacity: 0.5;
+}
+
+.theme-toggle svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Show/hide icons based on theme */
+.theme-toggle .sun-icon {
+    display: none;
+}
+
+.theme-toggle .moon-icon {
+    display: block;
+}
+
+[data-theme="dark"] .theme-toggle .sun-icon {
+    display: block;
+}
+
+[data-theme="dark"] .theme-toggle .moon-icon {
+    display: none;
 }
 
 /* Portfolio Container */
@@ -134,7 +200,7 @@ nav ul li a.active {
     align-items: center; /* Center content horizontally */
     justify-content: center; /* Center content vertically */ 
     overflow: hidden;
-    background-color: #fff;
+    background-color: var(--background-color);
     z-index: 901;
     /* Refined transition for smoother expansion/collapse */
     transition: top var(--transition-slow), left var(--transition-slow), width var(--transition-slow), height var(--transition-slow), background-color var(--transition-slow);
@@ -229,14 +295,14 @@ nav ul li a.active {
 .project-subtitle {
     font-size: 1.1rem;
     font-weight: 300;
-    color: #666;
+    color: var(--text-muted);
     text-align: left;
 }
 
 .project-role {
     font-size: 1.1rem;
     font-weight: 300;
-    color: #666;
+    color: var(--text-muted);
     text-align: left;
 }
 
@@ -244,7 +310,7 @@ nav ul li a.active {
 .projects.has-hovered .project-item:not(.hovered) .project-title,
 .projects.has-hovered .project-item:not(.hovered) .project-role,
 .projects.has-hovered .project-item:not(.hovered) .project-subtitle {
-    color: #ccc;
+    color: var(--text-dimmed);
 }
 
 /* Close button */
@@ -299,7 +365,7 @@ body.video-expanded::after {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.96);
+    background-color: var(--overlay-bg);
     z-index: 900;
     pointer-events: none;
 }
@@ -321,7 +387,7 @@ body.video-expanded::after {
 .project-header h2 {
     font-size: 1.1rem;
     font-weight: 300;
-    color: #666;
+    color: var(--text-muted);
     margin-bottom: 5px;
 }
 
@@ -552,7 +618,7 @@ footer p {
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 1.2rem;
-    color: #888;
+    color: var(--text-muted);
     z-index: 1; /* Ensure it's above the preview content initially */
     display: none; /* Hidden by default, shown via JS */
     transition: opacity var(--transition-fast);
