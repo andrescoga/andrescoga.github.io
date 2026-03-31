@@ -22,125 +22,36 @@
                 <ul>
                     <li><a href="index.html" class="active" aria-current="page">Home</a></li>
                     <li><a href="snippets.html">Snippets</a></li>
-                    <li><a href="information.html">Info</a></li>
                 </ul>
                 <button class="theme-toggle" aria-label="Toggle dark mode">
-                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg class="vertical-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="22"/></svg>
+                    <svg class="horizontal-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="2" y1="12" x2="22" y2="12"/></svg>
                 </button>
             </nav>
         </div>
     </header>
 
     <main>
-        <div class="portfolio-container">
-            <!-- Preview area with loading placeholder -->
-            <div class="preview-area" id="preview-area">
-                <!-- Loading Placeholder -->
-                <div class="loading-placeholder">Loading...</div>
-                <!-- Video will be loaded here on hover (desktop only) -->
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-greeting">Hello!</h1>
+                <p class="hero-text">
+                    I'm a Colombian post-producer and motion designer. I'm currently Associate Director of Content at Sony Music, where I design and run production workflows for campaigns across artists like
+                    <a href="projects/elvis.html" class="hover-trigger" data-video-src="https://index-videos.b-cdn.net/elvis_presley_-_don't_be_cruel_(official_lyric_video)%20(1080p).mp4">Elvis</a>,
+                    <a href="projects/michael-jackson.html" class="hover-trigger" data-video-src="https://index-videos.b-cdn.net/Michael-Jackson_Thriller-Experiential-Event_Sizzle-Selects_16x9_v01.mp4">Michael</a>, and
+                    <a href="projects/mariah.html" class="hover-trigger" data-video-src="https://mariah.b-cdn.net/MariahCarey_AIWFCIY_ClioAwards_RC04_3%20(1).mp4">Mariah</a>.
+                </p>
+                <p class="hero-text">
+                    Previously at
+                    <a href="projects/editorial.html" class="hover-trigger" data-video-src="https://index-videos.b-cdn.net/why_does_the_grim_reaper_exist-_-_the_new_yorker%20(1080p).mp4">Condé Nast</a> —
+                    check some of my
+                    <a href="projects/other.html" class="hover-trigger" data-video-src="https://index-videos.b-cdn.net/bob_dylan_-_lay%2C_lady%2C_lay_(alternate_version_-_take_2)_(official_lyric_video)%20(1080p).mp4">other work</a>!
+                </p>
             </div>
-            
-            <!-- Text-only project list -->
-            <div class="project-list">
-                <!-- Project items -->
-                <div class="projects">
-                    <a href="projects/new-yorker.html" class="project-item" data-category="edit" data-preview="images/new-yorker.jpg" data-color="#4361ee" aria-label="View project: Why Does the Grim Reaper Exist">
-                        <div class="project-info">
-                            <div class="project-title">Why Does the Grim Reaper Exist</div>
-                            <div class="project-subtitle">The New Yorker</div>
-                            <div class="project-role">Edit</div>
-                        </div>
-                    </a>
 
-                    <a href="projects/pink-floyd.html" class="project-item" data-category="edit" data-preview="images/pink-floyd.jpg" data-color="#1a1a2e" aria-label="View project: The Making of The Dark Side of The Moon">
-                        <div class="project-info">
-                            <div class="project-title">The Making of The Dark Side of The Moon</div>
-                            <div class="project-subtitle">Pink Floyd</div>
-                            <div class="project-role">Edit</div>
-                        </div>
-                    </a>
-
-                    <a href="projects/bob.html" class="project-item" data-category="motion" data-preview="images/bob.jpg" data-color="#f72585" aria-label="View project: Lay Lady Lay">
-                        <div class="project-info">
-                            <div class="project-title">Lay Lady Lay</div>
-                            <div class="project-subtitle">Bob Dylan</div>
-                            <div class="project-role">Motion</div>
-                        </div>
-                    </a>
-                    
-                    <a href="projects/harpers.html" class="project-item" data-category="edit" data-preview="images/icons.jpg" data-color="#4cc9f0" aria-label="View project: ICONS">
-                        <div class="project-info">
-                            <div class="project-title"><i>ICONS</i></div>
-                            <div class="project-subtitle">Harper's Bazaar</div>
-                            <div class="project-role">Edit</div>
-                        </div>
-                    </a>
-
-                    <a href="projects/bob-dylan-north-country.html" class="project-item" data-category="motion" data-preview="images/bob-dylan-north-country.jpg" data-color="#8b7355" aria-label="View project: Girl From The North Country Explainer">
-                        <div class="project-info">
-                            <div class="project-title">Girl From The North Country Explainer</div>
-                            <div class="project-subtitle">Bob Dylan</div>
-                            <div class="project-role">Motion</div>
-                        </div>
-                    </a>
-
-                    <a href="projects/marco.html" class="project-item" data-category="motion" data-preview="images/marco.jpg" data-color="#560bad" aria-label="View project: Big Talk">
-                        <div class="project-info">
-                            <div class="project-title">Big Talk</div>
-                            <div class="project-subtitle">Marco Luka</div>
-                            <div class="project-role">Motion</div>
-                        </div>
-                    </a>
-
-                    <a href="projects/shakira.html" class="project-item" data-category="edit" data-preview="images/shakira.jpg" data-color="#fb5607" aria-label="View project: 20 Years of Laundry Service">
-                        <div class="project-info">
-                            <div class="project-title">20 Years of Laundry Service</div>
-                            <div class="project-subtitle">Shakira</div>
-                            <div class="project-role">Edit</div>
-                        </div>
-                    </a>
-
-                    <a href="projects/loretta.html" class="project-item" data-category="motion" data-preview="images/loretta.jpg" data-color="#f15bb5" aria-label="View project: Celebrating Loretta's History">
-                        <div class="project-info">
-                            <div class="project-title">Celebrating Loretta's History</div>
-                            <div class="project-subtitle">Loretta Lynn</div>
-                            <div class="project-role">Motion</div>
-                        </div>
-                    </a>
-
-                    <a href="projects/mabiland.html" class="project-item" data-category="edit" data-preview="images/mabiland.jpg" data-color="#fee440" aria-label="View project: Retrato">
-                        <div class="project-info">
-                            <div class="project-title">Retrato</div>
-                            <div class="project-subtitle">Mabiland & Juan Pablo Vega</div>
-                            <div class="project-role">Edit</div>
-                        </div>
-                    </a>
-
-                    <a href="projects/elvis.html" class="project-item" data-category="motion" data-preview="images/elvis.jpg" data-color="#fee440" aria-label="View project: #1 Hits Visualizers">
-                        <div class="project-info">
-                            <div class="project-title"><i>#1 Hits</i> Visualizers</div>
-                            <div class="project-subtitle">Elvis Presley</div>
-                            <div class="project-role">Motion, Production</div>
-                        </div>
-                    </a>
-                    
-                    <a href="projects/prince.html" class="project-item" data-category="edit" data-preview="images/prince.jpg" data-color="#00bbf9" aria-label="View project: Musicology 20th Anniversary">
-                        <div class="project-info">
-                            <div class="project-title">Musicology 20th Anniversary</div>
-                            <div class="project-subtitle">Prince</div>
-                            <div class="project-role">Edit</div>
-                        </div>
-                    </a>
-                    
-                    <a href="projects/meb.html" class="project-item" data-category="edit" data-preview="images/meb.jpg" data-color="#9b5de5" aria-label="View project: Making of That You Not Dare To Forget">
-                        <div class="project-info">
-                            <div class="project-title">Making of "That You Not Dare To Forget"</div>
-                            <div class="project-subtitle">Miles Electric Band</div>
-                            <div class="project-role">Edit</div>
-                        </div>
-                    </a>
-                </div>
+            <!-- Video preview area -->
+            <div class="preview-area" id="preview-area">
+                <div class="loading-placeholder">Loading...</div>
             </div>
         </div>
     </main>

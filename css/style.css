@@ -93,9 +93,8 @@ header {
     padding: 40px var(--side-padding);
     position: sticky;
     top: 0;
-    background-color: var(--header-bg);
+    background-color: transparent;
     z-index: 1001;
-    border-bottom: 1px solid var(--border-color);
 }
 
 header .container {
@@ -105,8 +104,8 @@ header .container {
 }
 
 .logo {
-    font-size: 1.25rem;
-    font-weight: 450;
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
 /* Navigation */
@@ -126,11 +125,12 @@ nav ul li {
 
 nav ul li a {
     position: relative;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+     font-weight: 400;
 }
 
 nav ul li a.active {
-    font-weight: 500;
+    font-weight: 600;
 }
 
 /* Theme Toggle */
@@ -146,7 +146,7 @@ nav ul li a.active {
     color: var(--text-color);
     opacity: 0.3;
     transition: opacity var(--transition-fast);
-    order: -1; /* Position before the nav ul */
+    order: -1;
 }
 
 .theme-toggle:hover {
@@ -158,24 +158,84 @@ nav ul li a.active {
     height: 20px;
 }
 
-/* Show/hide icons based on theme */
-.theme-toggle .sun-icon {
-    display: none;
-}
-
-.theme-toggle .moon-icon {
+.theme-toggle .vertical-icon {
     display: block;
 }
 
-[data-theme="dark"] .theme-toggle .sun-icon {
-    display: block;
-}
-
-[data-theme="dark"] .theme-toggle .moon-icon {
+.theme-toggle .horizontal-icon {
     display: none;
 }
 
-/* Portfolio Container */
+[data-theme="dark"] .theme-toggle .vertical-icon {
+    display: none;
+}
+
+[data-theme="dark"] .theme-toggle .horizontal-icon {
+    display: block;
+}
+
+/* Hero Container - Homepage */
+.hero-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: calc(100vh - var(--header-height) - 100px);
+    padding: 155px var(--side-padding) 80px;
+}
+
+.hero-content {
+    max-width: 900px;
+    text-align: left;
+}
+
+.hero-text + .hero-text {
+    margin-top: 1em;
+}
+
+.hero-greeting {
+    font-size: 3rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    letter-spacing: -0.03em;
+    text-align: left;
+}
+
+.hero-text {
+    font-size: 1.4rem;
+    line-height: 1.7;
+    font-weight: 300;
+    color: var(--text-color);
+    letter-spacing: -0.01em;
+}
+
+/* Hover triggers - inline links */
+.hover-trigger {
+    color: var(--text-color);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    font-weight: 400;
+    transition: opacity var(--transition-fast);
+}
+
+.hover-trigger:hover,
+.hover-trigger.active {
+    opacity: 0.6;
+}
+
+/* Hero Preview Area */
+.hero-container .preview-area {
+    position: relative;
+    top: auto;
+    width: 100%;
+    max-width: 800px;
+    margin-top: 50px;
+    aspect-ratio: 16 / 9;
+    background-color: transparent;
+}
+
+/* Portfolio Container (legacy - kept for project pages) */
 .portfolio-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -187,42 +247,31 @@ nav ul li a.active {
 /* Preview Area */
 .preview-area {
     position: sticky;
-    /* Keep top value to align start of sticky behavior with top of projects */
-    top: 81px; /* Approx. 40px container padding + 40px filter margin + 1px border */
-    
-    /* Define a max-height for the sticky container */
-    max-height: 75vh; /* Adjust as needed, limits how tall the sticky area can get */
-    width: 100%; /* Ensure it takes the grid column width */
-
-    padding-top: 0; 
-    display: flex; /* Use flexbox to center content */
-    flex-direction: column; 
-    align-items: center; /* Center content horizontally */
-    justify-content: center; /* Center content vertically */ 
+    top: 81px;
+    max-height: 75vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
     background-color: var(--background-color);
     z-index: 901;
-    /* Refined transition for smoother expansion/collapse */
-    transition: top var(--transition-slow), left var(--transition-slow), width var(--transition-slow), height var(--transition-slow), background-color var(--transition-slow);
+    transition: background-color var(--transition-slow);
 }
 
 .preview-content {
     width: 100%;
     opacity: 0;
-    transition: opacity var(--transition-medium);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    transition: var(--transition-slow);
+    transition: opacity var(--transition-medium);
 }
 
 .preview-content.active {
     opacity: 1;
-}
-
-.preview-content.clicked {
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
 }
 
 /* Video responsive container */
@@ -232,13 +281,9 @@ nav ul li a.active {
     aspect-ratio: 16 / 9;
     overflow: hidden;
     position: relative;
-    transition: var(--transition-slow);
-    margin-top: 0;
-    top: 0;
     border-radius: 5px;
 }
 
-/* Ensure video fills the container */
 .video-responsive video {
     position: absolute;
     top: 0;
@@ -248,7 +293,6 @@ nav ul li a.active {
     object-fit: cover;
 }
 
-/* Ensure iframe fills the container (for fallback) */
 .video-responsive iframe {
     position: absolute;
     top: 0;
@@ -264,7 +308,6 @@ nav ul li a.active {
     margin-top: 40px;
 }
 
-/* Project Item Layout */
 .project-item {
     padding: 15px 0;
     border-bottom: 1px solid var(--border-color);
@@ -277,12 +320,11 @@ nav ul li a.active {
     border-top: 1px solid var(--border-color);
 }
 
-/* Project Info Layout - Three Column */
 .project-info {
     display: grid;
     width: 100%;
     padding: 0 10px;
-    grid-template-columns: 5fr 3fr 2fr;
+    grid-template-columns: 5fr 3fr;
     gap: 15px;
 }
 
@@ -313,94 +355,157 @@ nav ul li a.active {
     color: var(--text-dimmed);
 }
 
-/* Close button */
-.close-button {
+/* Loading Placeholder */
+.loading-placeholder {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    background: rgba(0, 0, 0, 0.3);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity var(--transition-fast);
-    z-index: 10;
-}
-
-.preview-area.expanded .close-button {
-    opacity: 1;
-}
-
-/* Expanded state - full width, positioned below header */
-.preview-area.expanded {
-    position: fixed;
-    top: var(--header-height);
-    left: 0;
-    width: 100%;
-    height: calc(100vh - var(--header-height));
-    background-color: #000;
-    z-index: 1000;
-}
-
-.preview-content.expanded,
-.vimeo-responsive.expanded {
-    transition: all var(--transition-slow);
-    opacity: 1;
-    width: 100%;
-    height: 100%;
-}
-
-/* Add overlay to body when video is in expanded mode */
-body.video-expanded::after {
-    transition: opacity var(--transition-slow);
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--overlay-bg);
-    z-index: 900;
-    pointer-events: none;
-}
-
-/* Project Details */
-.project-detail {
-    padding: 20px var(--side-padding) 80px;
-}
-
-.project-header {
-    margin-bottom: 40px;
-}
-
-.project-header h1 {
-    font-size: 1.5rem;
-    margin-bottom: 5px;
-}
-
-.project-header h2 {
-    font-size: 1.1rem;
-    font-weight: 300;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2rem;
     color: var(--text-muted);
-    margin-bottom: 5px;
+    z-index: 1;
+    display: none;
+    transition: opacity var(--transition-fast);
+}
+
+.preview-area.loading .loading-placeholder {
+    display: block;
+    opacity: 1;
+}
+
+.preview-area.loading .preview-content {
+    opacity: 0;
+}
+
+/* Project Pages */
+.project-detail {
+    padding: 40px var(--side-padding) 80px;
+}
+
+.category-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 50px;
+}
+
+.project-section {
+    padding-bottom: 0;
+}
+
+.project-section + .project-section {
+    margin-top: 150px;
 }
 
 .project-video {
-    width: 100%;
-    margin-bottom: 40px;
-    aspect-ratio: 16/9;
+    width: 66.67%;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
     background-color: #000;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
-.project-content {
-    max-width: 800px;
+.project-video video,
+.project-video iframe {
+    width: 100%;
+    display: block;
+}
+
+.project-video .video-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+.project-info-row {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: 60px;
+    padding-top: 60px;
+    width: 66.67%;
     margin: 0 auto;
+}
+
+.project-info-row + .project-video {
+    margin-top: 150px;
+}
+
+.project-info-title h1,
+.project-info-title h2 {
+    font-size: 1.6rem;
+    font-weight: 550;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+}
+
+.project-meta {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--text-muted);
+}
+
+.project-info-desc {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+
+.project-info-desc .project-role {
+    font-weight: 500;
+    color: var(--text-color);
+    margin-top: 1.5em;
+}
+
+.project-info-desc p + p {
+    margin-top: 1em;
+}
+
+/* Snippet grid */
+.project-snippets {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 66.67%;
+    margin: 150px auto 0;
+}
+
+.project-snippets video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 0;
+    display: block;
+}
+
+.snippet-wide {
+    grid-column: 1 / -1;
+}
+
+/* Photo grid */
+.project-photos {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    width: 66.67%;
+    margin: 150px auto 0;
+}
+
+.project-photos img {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: 0;
+    display: block;
+}
+
+.project-photos img:nth-child(-n+3) {
+    grid-column: span 2;
+}
+
+.project-photos img:nth-child(n+4) {
+    grid-column: span 3;
 }
 
 /* Footer */
@@ -418,7 +523,7 @@ footer p {
     .portfolio-container {
         gap: 30px;
     }
-    
+
     :root {
         --side-padding: 30px;
     }
@@ -426,24 +531,53 @@ footer p {
 
 @media (max-width: 992px) {
     .portfolio-container {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr;
+        display: block;
+        gap: 0;
     }
-    
-    .preview-area {
-        position: relative;
-        top: 0;
-        height: 50vh;
-        min-height: 300px;
-        order: 1;
+
+    .portfolio-container .preview-area {
+        display: none !important;
     }
-    
+
     .project-list {
-        order: 2;
+        width: 100%;
     }
-    
+
+    .project-item {
+        padding: 20px 15px;
+    }
+
+    .project-info {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .project-title {
+        font-size: 1.2rem;
+    }
+
     :root {
         --side-padding: 25px;
+    }
+
+    /* Hero responsive */
+    .hero-container {
+        min-height: auto;
+        padding: 60px var(--side-padding) 60px;
+    }
+
+    .hero-greeting {
+        font-size: 2.2rem;
+        margin-bottom: 15px;
+        text-align: left;
+    }
+
+    .hero-text {
+        font-size: 1.15rem;
+    }
+
+    .hero-container .preview-area {
+        display: none;
     }
 }
 
@@ -452,205 +586,55 @@ footer p {
         --header-height: var(--header-height-mobile);
         --side-padding: 20px;
     }
-    
+
     header {
         padding: 20px var(--side-padding);
     }
-    
+
     .preview-area {
         height: 40vh;
         min-height: 250px;
     }
-    
+
     .project-info {
         grid-template-columns: 3fr 2fr 1fr;
     }
-    
-    .preview-area.expanded {
-        top: var(--header-height-mobile);
-        height: calc(100vh - var(--header-height-mobile));
+
+    .project-video {
+        width: 100%;
+    }
+
+    .project-snippets,
+    .project-photos {
+        width: 100%;
+        margin-top: 80px;
+    }
+
+    .project-info-row {
+        width: 100%;
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 }
 
 @media (max-width: 576px) {
-    
     .preview-area {
         height: 30vh;
         min-height: 200px;
     }
-    
+
     .project-info {
         grid-template-columns: 1fr;
         gap: 5px;
     }
-    
-    .project-title, 
+
+    .project-title,
     .project-subtitle,
     .project-role {
         text-align: left;
     }
-    
+
     :root {
         --side-padding: 15px;
     }
 }
-/* Mobile Optimization Styles */
-@media (max-width: 992px) {
-    /* Change layout for mobile - hide desktop preview and adjust portfolio container */
-    .portfolio-container {
-        display: block;
-        gap: 0;
-    }
-    
-    .preview-area {
-        display: none !important; /* Hide the desktop preview area on mobile */
-    }
-    
-    /* Projects list takes full width on mobile */
-    .project-list {
-        width: 100%;
-    }
-    
-    /* Mobile Preview Container */
-    .mobile-preview-container {
-        position: absolute;
-        left: 0;
-        width: 100%;
-        height: 0;
-        background-color: #000;
-        overflow: hidden;
-        z-index: 1000;
-        transition: height var(--transition-slow);
-    }
-    
-    .mobile-preview-container.active {
-        height: 56.25vw; /* 16:9 aspect ratio */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .mobile-vimeo-container {
-        width: 100%;
-        height: 100%;
-        position: relative;
-    }
-    
-    .mobile-close-button {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: rgba(0, 0, 0, 0.5);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 44px;
-        height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 10;
-        opacity: 0.8;
-        transition: opacity var(--transition-fast);
-    }
-    
-    .mobile-close-button:hover {
-        opacity: 1;
-    }
-    
-    /* Style for the active project item in mobile */
-    .project-item.mobile-active {
-        background-color: var(--hover-color);
-        position: relative;
-    }
-    
-    /* Add space after active project to accommodate preview */
-    .project-item.mobile-active {
-        margin-bottom: calc(56.25vw); /* Preview height */
-        transition: margin-bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    
-    /* Project items appearance on mobile */
-    .project-item {
-        transition: background-color var(--transition-fast), margin-bottom var(--transition-slow);
-        padding: 20px 15px;
-    }
-    
-    /* Enhanced tap target size on mobile */
-    .project-info {
-        grid-template-columns: 1fr;
-        gap: 8px;
-    }
-    
-    .project-title {
-        font-size: 1.2rem;
-    }
-    
-    /* Overlay when mobile preview is open */
-    body.mobile-preview-open::after {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.3);
-        z-index: 999;
-        pointer-events: none;
-    }
-    
-    /* Animation for project items when preview opens */
-    .project-item {
-        transform: translateY(0);
-        transition: transform var(--transition-slow),
-                    background-color var(--transition-fast),
-                    margin-bottom var(--transition-slow);
-    }
-    
-    .project-item.after-active {
-        transform: translateY(56.25vw);
-    }
-}
-
-/* Loading Placeholder Styles */
-.loading-placeholder {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.2rem;
-    color: var(--text-muted);
-    z-index: 1; /* Ensure it's above the preview content initially */
-    display: none; /* Hidden by default, shown via JS */
-    transition: opacity var(--transition-fast);
-}
-
-.preview-area.loading .loading-placeholder {
-    display: block;
-    opacity: 1;
-}
-
-.preview-area.loading .preview-content {
-    opacity: 0; /* Hide video content while loading */
-}
-
-.preview-area.expanded .video-responsive,
-.preview-area.expanded .video-responsive video,
-.preview-area.expanded .video-responsive iframe {
-    object-fit: contain;
-    width: 100%;
-    height: 100%;
-    max-height: calc(100vh - var(--header-height));
-}
-
-/* Add this new rule to maintain aspect ratio in expanded mode */
-.video-responsive.expanded {
-    aspect-ratio: unset;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #000;
-}
-
-
-
-
