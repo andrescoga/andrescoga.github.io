@@ -1,6 +1,7 @@
 /* Base styles with optimized variables */
 :root {
     --text-color: #000;
+    --text-color-hover: #ffd000;
     --background-color: #fff;
     --accent-color: #333;
     --border-color: #e0e0e0;
@@ -43,7 +44,7 @@
 /* Base Styles */
 body {
     font-family: var(--font-family);
-    font-weight: 400;
+    font-weight: 500;
     font-size: 16px;
     line-height: 1.5;
     color: var(--text-color);
@@ -123,6 +124,18 @@ nav ul li {
     margin-left: 10px;
 }
 
+/* Temporarily hidden */
+li:has(a[href="snippets.html"]),
+li:has(a[href="../snippets.html"]),
+li:has(a[href="index.html"]),
+li:has(a[href="../index.html"]) {
+    display: none;
+}
+
+.theme-toggle {
+    display: none;
+}
+
 nav ul li a {
     position: relative;
     font-size: 1.2rem;
@@ -194,8 +207,8 @@ nav ul li a.active {
 }
 
 .hero-greeting {
-    font-size: 3rem;
-    font-weight: 600;
+    font-size: 3.5rem;
+    font-weight: 700;
     margin-bottom: 20px;
     letter-spacing: -0.03em;
     text-align: left;
@@ -204,7 +217,7 @@ nav ul li a.active {
 .hero-text {
     font-size: 1.4rem;
     line-height: 1.7;
-    font-weight: 300;
+    font-weight: 400;
     color: var(--text-color);
     letter-spacing: -0.01em;
 }
@@ -212,16 +225,18 @@ nav ul li a.active {
 /* Hover triggers - inline links */
 .hover-trigger {
     color: var(--text-color);
-    text-decoration: underline;
+    /* text-decoration: underline;*/
     text-underline-offset: 3px;
     text-decoration-thickness: 1px;
-    font-weight: 400;
+    font-weight: 650;
     transition: opacity var(--transition-fast);
 }
 
 .hover-trigger:hover,
 .hover-trigger.active {
-    opacity: 0.6;
+    opacity: 1;
+    color: var(--text-color-hover);
+
 }
 
 /* Hero Preview Area */
