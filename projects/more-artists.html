@@ -8,6 +8,24 @@
     <link rel="icon" href="../favicon.ico">
     <link rel="stylesheet" href="../css/style.css">
     <script src="../js/theme.js"></script>
+    <style>
+        .project-video { border-radius: 0; }
+        .project-video-pair--rounded .project-video { border-radius: 5px; }
+
+        .project-video,
+        .project-video-pair { position: relative; }
+
+        .video-caption {
+            position: absolute;
+            bottom: 10px;
+            left: 12px;
+            margin: 0;
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.75);
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -28,22 +46,68 @@
 
     <main>
         <div class="project-detail">
-            
+
+            <!-- Lil Tjay -->
+            <section class="project-section">
+                <div class="project-video-pair">
+                    <div class="project-video">
+                        <video controls preload="metadata" poster="../images/more/moveon.png">
+                            <source src="https://other-work.b-cdn.net/Lil%20Tjay%20-%20Move%20On%20(Trailer).mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="project-video">
+                        <video controls preload="metadata" poster="../images/more/liltjay.png">
+                            <source src="https://other-work.b-cdn.net/LilTjay_Plaques_RC01.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <p class="video-caption">Lil Tjay — Shooter, Editor, Motion</p>
+                </div>
+            </section>
+
             <!-- Marco Luka -->
             <section class="project-section">
                 <div class="project-video">
                     <video controls preload="metadata" poster="../images/more/marco.png">
                         <source src="https://index-videos.b-cdn.net/marco_luka_-_big_talk_(lyric_video)%20(1080p).mp4" type="video/mp4">
                     </video>
+                    <p class="video-caption">Marco Luka — Motion Designer</p>
                 </div>
-                <div class="project-info-row">
-                    <div class="project-info-title">
-                        <h2>Big Talk</h2>
-                        <p class="project-meta">Marco Luka</p>
-                        <p class="project-meta">Motion Designer</p>
+            </section>
+
+            <!-- Hozier + Beam -->
+            <section class="project-section">
+                <div class="project-video-pair">
+                    <div class="project-video">
+                        <video controls preload="metadata" poster="../images/more/hozier.png">
+                            <source src="https://other-work.b-cdn.net/Almost%20(Sweet%20Music)%20%5BProgram%20Only%5D%20%5BBehind%20The%20Scenes%5D.mp4" type="video/mp4">
+                        </video>
                     </div>
-                    <div class="project-info-desc">
-                        <p>Created the official lyric video for Marco Luka's Big Talk. The approach uses a restrained typographic treatment, letting the words carry the piece without competing with the music.</p>
+                    <div class="project-video">
+                        <video controls preload="metadata" poster="../images/more/beam.png">
+                            <source src="https://other-work.b-cdn.net/Beam_Fu_BTS_16x9_v01-1.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <p class="video-caption">Hozier / Beam — Shooter, Editor</p>
+                </div>
+            </section>
+
+            <!-- Vertical trio (Prince) -->
+            <section class="project-section">
+                <div class="project-video-pair project-video-pair--rounded">
+                    <div class="project-video project-video--vertical">
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="https://other-work.b-cdn.net/prince-3d.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="project-video project-video--vertical">
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="https://other-work.b-cdn.net/Prince_Musicology_Spatial-Asset_4x5_v02.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="project-video project-video--vertical">
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="https://other-work.b-cdn.net/prince-3d.mp4" type="video/mp4">
+                        </video>
                     </div>
                 </div>
             </section>
@@ -54,39 +118,40 @@
                     <video controls preload="metadata" poster="../images/more/prince.png">
                         <source src="https://index-videos.b-cdn.net/prince_-_musicology__real_music_by_real_musicians_(20th_anniversary)%20(1080p).mp4" type="video/mp4">
                     </video>
-                </div>
-                <div class="project-info-row">
-                    <div class="project-info-title">
-                        <h2>Musicology 20th Anniversary</h2>
-                        <p class="project-meta">Prince</p>
-                        <p class="project-meta">Editor</p>
-                    </div>
-                    <div class="project-info-desc">
-                        <p>Cut a short retrospective marking the 20th anniversary of Musicology, working with archival footage and press material from the original release era. The piece focuses on what made the record and its rollout unusual — Prince's direct-to-fan distribution and the tour that followed.</p>
-                    </div>
+                    <p class="video-caption">Prince — Editor</p>
                 </div>
             </section>
 
             <!-- Shakira -->
             <section class="project-section">
                 <div class="project-video">
-                    <video controls preload="metadata">
+                    <video controls preload="metadata" poster="../images/more/shakira.png">
                         <source src="https://index-videos.b-cdn.net/shakira_-_20_years_of_laundry_service%20(1080p).mp4" type="video/mp4">
                     </video>
-                </div>
-                <div class="project-info-row">
-                    <div class="project-info-title">
-                        <h2>20 Years of Laundry Service</h2>
-                        <p class="project-meta">Shakira</p>
-                        <p class="project-meta">Editor</p>
-                    </div>
-                    <div class="project-info-desc">
-                        <p>Cut a short anniversary piece tracing the global impact of Laundry Service and its crossover reach, working with material from the original release era.</p>
-                    </div>
+                    <p class="video-caption">Shakira — Editor</p>
                 </div>
             </section>
 
-            
+            <!-- Shakira vertical trio -->
+            <section class="project-section">
+                <div class="project-video-pair">
+                    <div class="project-video project-video--vertical">
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="https://other-work.b-cdn.net/Shakira_Oral-Fixation_Ad_ES_15_4x5_v01.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="project-video project-video--vertical">
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="https://other-work.b-cdn.net/Shakira_Oral_Fixation_Giveaway-Asset_10_%5BES%5D_4x5_v02.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="project-video project-video--vertical">
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="https://other-work.b-cdn.net/Shakira_Pies-Descalzos_Ad_ES_Out-Now_4x5_v01.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </section>
 
             <!-- Miles Electric Band -->
             <section class="project-section">
@@ -94,20 +159,23 @@
                     <video controls preload="metadata">
                         <source src="https://index-videos.b-cdn.net/m.e.b._-_the_making_of__that_you_not_dare_to_forget_%20(1080p).mp4" type="video/mp4">
                     </video>
-                </div>
-                <div class="project-info-row">
-                    <div class="project-info-title">
-                        <h2>Making of "That You Not Dare to Forget"</h2>
-                        <p class="project-meta">Miles Electric Band</p>
-                        <p class="project-meta">Editor</p>
-                    </div>
-                    <div class="project-info-desc">
-                        <p>Edited a behind-the-scenes documentary following the recording process, balancing performance footage and interview material to document the album as it was being made.</p>
-                    </div>
+                    <p class="video-caption">Miles Electric Band — Editor</p>
                 </div>
             </section>
+
         </div>
     </main>
+
+    <script>
+        document.querySelectorAll('video:not([autoplay])').forEach(video => {
+            video.removeAttribute('controls');
+            video.addEventListener('mouseenter', () => video.setAttribute('controls', ''));
+            video.addEventListener('mouseleave', () => {
+                if (!video.paused) return;
+                video.removeAttribute('controls');
+            });
+        });
+    </script>
 
     <footer>
         <div class="container">
