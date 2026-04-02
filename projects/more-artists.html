@@ -16,15 +16,41 @@
         .project-video,
         .project-video-pair { position: relative; }
 
-        .video-caption {
+        .video-role-overlay {
             position: absolute;
-            bottom: 10px;
-            left: 12px;
-            margin: 0;
-            font-size: 0.7rem;
-            font-weight: 400;
-            color: rgba(255, 255, 255, 0.75);
+            inset: 0;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 16px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
             pointer-events: none;
+            z-index: 2;
+        }
+
+        .video-role-overlay span {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+            letter-spacing: -0.01em;
+        }
+
+        .project-video:hover .video-role-overlay {
+            opacity: 1;
+        }
+
+        .project-video:hover video {
+            filter: brightness(0.5);
+        }
+
+        .project-video.is-playing:hover .video-role-overlay {
+            opacity: 0;
+        }
+
+        .project-video.is-playing:hover video {
+            filter: none;
         }
     </style>
 </head>
@@ -55,13 +81,14 @@
                         <video controls preload="metadata" poster="../images/more/moveon.png">
                             <source src="https://other-work.b-cdn.net/Lil%20Tjay%20-%20Move%20On%20(Trailer).mp4" type="video/mp4">
                         </video>
+                        <div class="video-role-overlay"><span>Editor</span></div>
                     </div>
                     <div class="project-video">
                         <video controls preload="metadata" poster="../images/more/liltjay.png">
                             <source src="https://other-work.b-cdn.net/LilTjay_Plaques_RC01.mp4" type="video/mp4">
                         </video>
+                        <div class="video-role-overlay"><span>Shooter & Editor</span></div>
                     </div>
-                    <p class="video-caption">Lil Tjay — Shooter, Editor, Motion</p>
                 </div>
             </section>
 
@@ -71,7 +98,7 @@
                     <video controls preload="metadata" poster="../images/more/marco.png">
                         <source src="https://index-videos.b-cdn.net/marco_luka_-_big_talk_(lyric_video)%20(1080p).mp4" type="video/mp4">
                     </video>
-                    <p class="video-caption">Marco Luka — Motion Designer</p>
+                    <div class="video-role-overlay"><span>Director & Motion</span></div>
                 </div>
             </section>
 
@@ -82,13 +109,14 @@
                         <video controls preload="metadata" poster="../images/more/hozier.png">
                             <source src="https://other-work.b-cdn.net/Almost%20(Sweet%20Music)%20%5BProgram%20Only%5D%20%5BBehind%20The%20Scenes%5D.mp4" type="video/mp4">
                         </video>
+                        <div class="video-role-overlay"><span>Shooter & Editor</span></div>
                     </div>
                     <div class="project-video">
                         <video controls preload="metadata" poster="../images/more/beam.png">
                             <source src="https://other-work.b-cdn.net/Beam_Fu_BTS_16x9_v01-1.mp4" type="video/mp4">
                         </video>
+                        <div class="video-role-overlay"><span>Shooter & Editor</span></div>
                     </div>
-                    <p class="video-caption">Hozier / Beam — Shooter, Editor</p>
                 </div>
             </section>
 
@@ -119,7 +147,6 @@
                     <video controls preload="metadata" poster="../images/more/prince.png">
                         <source src="https://index-videos.b-cdn.net/prince_-_musicology__real_music_by_real_musicians_(20th_anniversary)%20(1080p).mp4" type="video/mp4">
                     </video>
-                    <p class="video-caption">Prince — Editor</p>
                 </div>
             </section>
 
@@ -129,7 +156,6 @@
                     <video controls preload="metadata" poster="../images/more/shakira.png">
                         <source src="https://index-videos.b-cdn.net/shakira_-_20_years_of_laundry_service%20(1080p).mp4" type="video/mp4">
                     </video>
-                    <p class="video-caption">Shakira — Editor</p>
                 </div>
             </section>
 
@@ -160,7 +186,6 @@
                     <video controls preload="metadata">
                         <source src="https://index-videos.b-cdn.net/m.e.b._-_the_making_of__that_you_not_dare_to_forget_%20(1080p).mp4" type="video/mp4">
                     </video>
-                    <p class="video-caption">Miles Electric Band — Editor</p>
                 </div>
             </section>
 
@@ -169,12 +194,16 @@
 
     <script>
         document.querySelectorAll('video:not([autoplay])').forEach(video => {
+            const container = video.closest('.project-video');
             video.removeAttribute('controls');
             video.addEventListener('mouseenter', () => video.setAttribute('controls', ''));
             video.addEventListener('mouseleave', () => {
                 if (!video.paused) return;
                 video.removeAttribute('controls');
             });
+            video.addEventListener('play', () => container && container.classList.add('is-playing'));
+            video.addEventListener('pause', () => container && container.classList.remove('is-playing'));
+            video.addEventListener('ended', () => container && container.classList.remove('is-playing'));
         });
     </script>
 
