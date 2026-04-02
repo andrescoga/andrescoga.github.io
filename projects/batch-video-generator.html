@@ -35,12 +35,16 @@
                     <div class="project-info-title">
                         <h1>Batch Video Generator</h1>
                         <p class="project-meta">Production Tool</p>
+                        <p class="project-meta">Python · ffmpeg</p>
                     </div>
                     <div class="project-info-desc">
-                        <p>For every album release, social platforms require pseudo-videos — a looping visual, typically the album cover animation delivered to DSPs in square format, trimmed to the length of each individual track. For a 12-song album, that means 12 exports, each manually trimmed, rendered, and renamed. It's straightforward work, but at album scale it becomes a significant time drain on producers and motion designers.</p>
-                        <p>I built a Python tool using ffmpeg that reduces this to a single step. The program prompts for the base animation file and a tracklist with song durations, then automatically generates one video per track — each looping the animation and trimmed to the exact length of that song — named and ready for publishing. The interface is simple enough for producers and marketers to run it themselves without any technical setup.</p>
-                        <p>What previously took a designer the better part of a day now runs unattended in a few minutes, freeing the team to focus on work that actually requires creative judgment.</p>
+                        <p>I built a Python tool using ffmpeg that generates pseudo-videos for DSPs — the album cover animation looped and trimmed to the length of each track. It takes the base animation file and a tracklist with durations, then outputs one video per track, looping, trimming to exact length, and naming correctly for publishing. The interface is simple enough for producers and marketers to run without technical setup.</p>
+                        <p>For an album, what usually takes hours of manual export work now runs unattended in under 3 minutes.</p>
                     </div>
+                </div>
+
+                <div class="project-video" style="background-color: var(--hover-color); display: flex; align-items: center; justify-content: center;">
+                    <p style="color: var(--text-muted); font-size: 0.85rem;">[Screenshot: terminal output / generated file set]</p>
                 </div>
             </section>
         </div>

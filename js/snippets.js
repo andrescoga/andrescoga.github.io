@@ -80,6 +80,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show loading state
         snippetItem.classList.add('loading');
 
+        function onVideoLoaded() {
+            snippetItem.classList.remove('loading');
+            snippetItem.classList.add('visible');
+        }
+
         if (Hls.isSupported()) {
             const hls = new Hls({
                 autoStartLoad: false,
@@ -93,12 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 hls.startLoad(0);
             });
 
-            // Remove loading state when first frame is ready
-            video.addEventListener('loadeddata', function onLoaded() {
-                snippetItem.classList.remove('loading');
-                snippetItem.classList.add('visible');
-                video.removeEventListener('loadeddata', onLoaded);
-            }, { once: true });
+            video.addEventListener('loadeddata', onVideoLoaded, { once: true });
 
             // Handle errors
             hls.on(Hls.Events.ERROR, function(event, data) {
@@ -113,11 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
             // Native HLS support (Safari)
             video.src = videoSrc;
-            video.addEventListener('loadeddata', function onLoaded() {
-                snippetItem.classList.remove('loading');
-                snippetItem.classList.add('visible');
-                video.removeEventListener('loadeddata', onLoaded);
-            }, { once: true });
+            video.addEventListener('loadeddata', onVideoLoaded, { once: true });
         }
     }
 

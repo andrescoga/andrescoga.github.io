@@ -35,10 +35,17 @@
                     <div class="project-info-title">
                         <h1>Lyric Sync Pipeline</h1>
                         <p class="project-meta">Production Tool</p>
+                        <p class="project-meta">Python · After Effects (JSX)</p>
                     </div>
                     <div class="project-info-desc">
-                        <p>For the Christmas campaign of 2025 I was tasked to create over 15 lyric videos. One of the most tedious parts of the process is syncing the lyrics to the song — which arguably takes the most time. Frustrated by spending all this time on setup instead of focusing on the creative side, I developed a tool that automates the most labor-intensive step entirely. The interface asks only for the official lyrics and the song, and through a forced-alignment process developed by the Institut de Recherche et Coordination Acoustique/Musique it returns a timed SRT file with the raw data of the timing for each word. From there, a Python script converts that SRT into a JSX file, which is automatically imported into After Effects and generates all the text layers with their exact in and out points already set, adopting any previous formatting automatically.  What would have taken hours of manual scrubbing now takes minutes. But more importantly, the pipeline stops there by design. The timing is handled; everything else remains in the hands of the motion designer. I know use this tool for all the lyric videos i produce, saving time and making the creating process much more flexible and enjoyable.</p>
+                        <p>For the 2025 holiday campaign I produced over 15 lyric videos across multiple artists.</p>
+                        <p>I built a pipeline that eliminates that step. It takes as inputs the official lyrics and the song file and runs a forced-alignment algorithm developed to generate a word-level timed SRT file. A Python script converts that into a JSX file, which After Effects imports automatically, creating all text layers with their exact timing already set and picking up any existing text formatting.</p>
+                        <p>What used to take hours of manual scrubbing per video now takes under 5 minutes. Timing is handled, everything creative stays with the motion designer. I use it on every lyric video I produce.</p>
                     </div>
+                </div>
+
+                <div class="project-video" style="background-color: var(--hover-color); display: flex; align-items: center; justify-content: center;">
+                    <p style="color: var(--text-muted); font-size: 0.85rem;">[Screenshot: pipeline interface]</p>
                 </div>
             </section>
         </div>

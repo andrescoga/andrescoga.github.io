@@ -132,10 +132,6 @@ li:has(a[href="../index.html"]) {
     display: none;
 }
 
-.theme-toggle {
-    display: none;
-}
-
 nav ul li a {
     position: relative;
     font-size: 1.2rem;
@@ -236,9 +232,7 @@ nav ul li a.active {
 .hover-trigger.active {
     opacity: 1;
     color: var(--text-color-hover);
-
 }
-
 /* Hero Preview Area */
 .hero-container .preview-area {
     position: relative;
@@ -425,7 +419,9 @@ nav ul li a.active {
 .project-video video,
 .project-video iframe {
     width: 100%;
+    height: 100%;
     display: block;
+    object-fit: contain;
 }
 
 .project-video .video-label {
@@ -552,10 +548,6 @@ footer p {
 
     .portfolio-container .preview-area {
         display: none !important;
-    }
-
-    .project-list {
-        width: 100%;
     }
 
     .project-item {

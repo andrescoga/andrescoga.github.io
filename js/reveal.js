@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!previewArea) return;
 
     const hoverTriggers = document.querySelectorAll('.hover-trigger');
-    if (!hoverTriggers.length) return;
 
     // Build preview DOM
     const previewContent = document.createElement('div');
@@ -51,11 +50,12 @@ document.addEventListener("DOMContentLoaded", function () {
             videoElement.style.cssText = 'width:100%;height:100%;object-fit:cover;visibility:hidden;position:absolute;top:0;left:0;';
             videoElement.src = url;
 
-            videoElement.addEventListener('loadeddata', () => {
-                videoElement.style.visibility = 'visible';
+            const vid = videoElement;
+            vid.addEventListener('loadeddata', () => {
+                vid.style.visibility = 'visible';
                 previewArea.classList.remove('loading');
-            });
-            videoElement.addEventListener('error', () => previewArea.classList.remove('loading'));
+            }, { once: true });
+            vid.addEventListener('error', () => previewArea.classList.remove('loading'), { once: true });
 
             container.appendChild(videoElement);
             currentVideoSrc = url;
