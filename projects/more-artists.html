@@ -8,6 +8,8 @@
     <link rel="icon" href="../favicon.ico">
     <link rel="stylesheet" href="../css/style.css">
     <script src="../js/theme.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
+    <script src="../js/project-videos.js" defer></script>
     <style>
         .project-section + .project-section { margin-top: 16px; }
         .project-video { border-radius: 0; }
@@ -124,18 +126,18 @@
             <section class="project-section">
                 <div class="project-video-pair project-video-pair--rounded">
                     <div class="project-video project-video--vertical">
-                        <video autoplay loop muted playsinline preload="metadata">
-                            <source src="https://other-work.b-cdn.net/prince-3d.mp4" type="video/mp4">
+                        <video data-autoplay loop muted playsinline preload="none">
+                            <source src="https://vz-73c5d4bc-396.b-cdn.net/bcfd10db-70c1-4509-86a6-2b131ed91c84/playlist.m3u8" type="application/x-mpegURL">
                         </video>
                     </div>
                     <div class="project-video project-video--vertical">
-                        <video autoplay loop muted playsinline preload="metadata">
-                            <source src="https://other-work.b-cdn.net/Prince_Musicology_Spatial-Asset_4x5_v02.mp4" type="video/mp4">
+                        <video data-autoplay loop muted playsinline preload="none">
+                            <source src="https://vz-73c5d4bc-396.b-cdn.net/b5529612-9f63-439e-ae9f-9b9cbb96a044/playlist.m3u8" type="application/x-mpegURL">
                         </video>
                     </div>
                     <div class="project-video project-video--vertical">
-                        <video autoplay loop muted playsinline preload="metadata">
-                            <source src="https://other-work.b-cdn.net/prince-3d.mp4" type="video/mp4">
+                        <video data-autoplay loop muted playsinline preload="none">
+                            <source src="https://vz-73c5d4bc-396.b-cdn.net/bcfd10db-70c1-4509-86a6-2b131ed91c84/playlist.m3u8" type="application/x-mpegURL">
                         </video>
                     </div>
                 </div>
@@ -163,17 +165,17 @@
             <section class="project-section">
                 <div class="project-video-pair">
                     <div class="project-video project-video--vertical">
-                        <video autoplay loop muted playsinline preload="metadata">
-                            <source src="https://other-work.b-cdn.net/Shakira_Oral-Fixation_Ad_ES_15_4x5_v01.mp4" type="video/mp4">
+                        <video data-autoplay loop muted playsinline preload="none">
+                            <source src="https://vz-73c5d4bc-396.b-cdn.net/1d8f924d-9a53-46a8-8d2a-d79957c1fd92/playlist.m3u8" type="application/x-mpegURL">
                         </video>
                     </div>
                     <div class="project-video project-video--vertical">
-                        <video autoplay loop muted playsinline preload="metadata">
-                            <source src="https://other-work.b-cdn.net/Shakira_Oral_Fixation_Giveaway-Asset_10_%5BES%5D_4x5_v02.mp4" type="video/mp4">
+                        <video data-autoplay loop muted playsinline preload="none">
+                            <source src="https://vz-73c5d4bc-396.b-cdn.net/7b852fe1-08b1-46e3-a385-49055c918f3d/playlist.m3u8" type="application/x-mpegURL">
                         </video>
                     </div>
                     <div class="project-video project-video--vertical">
-                        <video autoplay loop muted playsinline preload="metadata">
+                        <video data-autoplay loop muted playsinline preload="none">
                             <source src="https://other-work.b-cdn.net/Shakira_Pies-Descalzos_Ad_ES_Out-Now_4x5_v01.mp4" type="video/mp4">
                         </video>
                     </div>
@@ -193,7 +195,7 @@
     </main>
 
     <script>
-        document.querySelectorAll('video:not([autoplay])').forEach(video => {
+        document.querySelectorAll('video:not([autoplay]):not([data-autoplay])').forEach(video => {
             const container = video.closest('.project-video');
             video.removeAttribute('controls');
             video.addEventListener('mouseenter', () => video.setAttribute('controls', ''));

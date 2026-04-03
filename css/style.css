@@ -673,3 +673,15 @@ footer p {
         --side-padding: 15px;
     }
 }
+
+/* Lazy-loaded video animations */
+video[data-autoplay] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+video[data-autoplay].video-loaded {
+    opacity: 1;
+    transform: translateY(0);
+}
